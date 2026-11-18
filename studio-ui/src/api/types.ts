@@ -43,6 +43,14 @@ export interface DeployResult {
   estimated_speedup: string;
 }
 
+/** An agent saved by the API under Custom Agents. */
+export interface SavedAgent {
+  id: string;
+  name: string;
+  description: string;
+  tool: string;
+}
+
 export interface GeneratedBundle {
   agent_id: string;
   name: string;

@@ -1,6 +1,14 @@
 """Shared fixtures: keep a real GEMINI_API_KEY from leaking into tests and triggering live calls."""
 
+from pathlib import Path
+
 import pytest
+
+
+@pytest.fixture(autouse=True)
+def _custom_agents_in_tmp(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    """Created agents are saved to disk, so tests must never write into the repo."""
+    monkeypatch.setenv("VALKYRIE_CUSTOM_DIR", str(tmp_path / "custom-agents"))
 
 
 @pytest.fixture(autouse=True)

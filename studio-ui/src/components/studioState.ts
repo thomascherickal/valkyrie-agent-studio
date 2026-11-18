@@ -1,5 +1,5 @@
 import { DEFAULT_SETTINGS } from "../api/client";
-import type { ModelSettings } from "../api/types";
+import type { ModelSettings, SavedAgent } from "../api/types";
 import type { AgentBlueprint, RoleCatalog } from "../data/types";
 
 export interface Draft {
@@ -27,6 +27,17 @@ export const findAgent = (roles: RoleCatalog[], roleId: string, agentId: string)
   const role = roles.find((r) => r.id === roleId)!;
   return { role, agent: role.agents.find((a) => a.id === agentId)! };
 };
+
+export const customBlueprint = (a: SavedAgent): AgentBlueprint => ({
+  ...a,
+  inputKey: "task_input",
+  outputKey: "result",
+  sampleInput: a.description,
+});
+
+/** Puts agents saved by the API back into the "Custom Agents" role. */
+export const restoreCustomAgents = (roles: RoleCatalog[], saved: SavedAgent[]) =>
+  saved.reduce((acc, a) => addCustomAgent(acc, customBlueprint(a)), roles);
 
 /** Adds (or replaces, by id) an agent in the "Custom Agents" role, creating the role on first use. */
 export function addCustomAgent(roles: RoleCatalog[], agent: AgentBlueprint): RoleCatalog[] {

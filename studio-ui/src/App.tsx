@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { buildIr, deployRust, getHealth } from "./api/client";
+import { buildIr, deployRust, getHealth, listCustomAgents } from "./api/client";
 import type { GeneratedBundle } from "./api/types";
 import { AgentBrowser } from "./components/AgentBrowser";
 import { AgentSummary } from "./components/AgentSummary";
@@ -9,7 +9,7 @@ import { DeployDialog } from "./components/DeployDialog";
 import { DesignPanel } from "./components/DesignPanel";
 import { MODE_TABS, type ExperienceMode, type TabId } from "./components/modes";
 import { RunPanel } from "./components/RunPanel";
-import { addCustomAgent, draftFor, findAgent, type Draft } from "./components/studioState";
+import { addCustomAgent, customBlueprint, draftFor, findAgent, restoreCustomAgents, type Draft } from "./components/studioState";
 import { Tabs } from "./components/Tabs";
 import { Titlebar } from "./components/Titlebar";
 import { TracePanel } from "./components/TracePanel";
@@ -40,6 +40,13 @@ export function App() {
     return () => clearTimeout(timer);
   }, [health.state.kind, health.run]);
 
+  // Agents created in earlier sessions come back from the API once it is online.
+  const saved = useAsync(listCustomAgents);
+  const online = health.state.kind === "done";
+  useEffect(() => {
+    if (online) saved.run().then((res) => res && setRoles((prev) => restoreCustomAgents(prev, res.agents)));
+  }, [online, saved.run]);
+
   const tabs = MODE_TABS[mode];
   const active = tabs.includes(tab) ? tab : "run";
   const patchDraft = (patch: Partial<Draft>) => setDraft((prev) => ({ ...prev, ...patch }));
@@ -56,15 +63,7 @@ export function App() {
   };
 
   const onCreated = (b: GeneratedBundle) => {
-    const created = {
-      id: b.agent_id,
-      name: b.name,
-      description: b.description,
-      tool: b.tool_name,
-      inputKey: "task_input",
-      outputKey: "result",
-      sampleInput: b.description,
-    };
+    const created = customBlueprint({ id: b.agent_id, name: b.name, description: b.description, tool: b.tool_name });
     setRoles((prev) => addCustomAgent(prev, created));
     setSelection({ roleId: "custom-agents", agentId: created.id });
     setDraft(draftFor(created, b.agent_py));
@@ -93,7 +92,7 @@ export function App() {
           {active === "code" && <CodePanel draft={draft} onChange={patchDraft} />}
         </div>
       </main>
-      <TracePanel agentId={agent.id} online={health.state.kind === "done"} />
+      <TracePanel agentId={agent.id} online={online} />
       <DeployDialog state={deploy.state} onClose={deploy.reset} />
     </div>
   );
