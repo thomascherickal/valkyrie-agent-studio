@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { CodePanel } from "../components/CodePanel";
 import { DesignPanel } from "../components/DesignPanel";
 import { draftFor } from "../components/studioState";
 
@@ -34,18 +33,5 @@ describe("DesignPanel hosted providers", () => {
     rerender(<DesignPanel draft={hosted} onChange={onChange} />);
     fireEvent.change(screen.getByLabelText("Model ID"), { target: { value: "acme/free" } });
     expect(onChange).toHaveBeenLastCalledWith({ settings: { ...hosted.settings, hostedModel: "acme/free" } });
-  });
-});
-
-describe("CodePanel", () => {
-  it("hides editor until enabled, then edits", () => {
-    const onChange = vi.fn();
-    const { rerender } = render(<CodePanel draft={draft} onChange={onChange} />);
-    expect(screen.queryByLabelText("Python Source")).toBeNull();
-    fireEvent.click(screen.getByRole("checkbox"));
-    expect(onChange).toHaveBeenLastCalledWith({ pythonEnabled: true });
-    rerender(<CodePanel draft={{ ...draft, pythonEnabled: true }} onChange={onChange} />);
-    fireEvent.change(screen.getByLabelText("Python Source"), { target: { value: "x=1" } });
-    expect(onChange).toHaveBeenLastCalledWith({ pythonCode: "x=1" });
   });
 });

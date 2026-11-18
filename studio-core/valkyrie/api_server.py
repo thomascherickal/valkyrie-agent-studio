@@ -8,6 +8,7 @@ from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from valkyrie.agent_code_routes import router as agent_code_router
 from valkyrie.agent_generator_routes import router as agent_generator_router
 from valkyrie.command_centre import CommandCentre
 from valkyrie.command_centre_routes import router as command_centre_router
@@ -28,6 +29,7 @@ app.add_middleware(
 )
 app.include_router(command_centre_router)
 app.include_router(agent_generator_router)
+app.include_router(agent_code_router)
 
 
 class RunRequest(BaseModel):

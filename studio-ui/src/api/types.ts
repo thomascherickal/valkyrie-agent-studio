@@ -43,6 +43,15 @@ export interface DeployResult {
   estimated_speedup: string;
 }
 
+/** An agent's Python: the untouched original, and the code to use (the saved edit, or the original). */
+export interface AgentCode {
+  role_id: string;
+  agent_id: string;
+  original: string;
+  code: string;
+  edited: boolean;
+}
+
 /** An agent saved by the API under Custom Agents. */
 export interface SavedAgent {
   id: string;

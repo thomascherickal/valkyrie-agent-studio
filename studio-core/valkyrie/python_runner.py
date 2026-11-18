@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from types import SimpleNamespace
 import time
+import typing
 from typing import Any
 
 
@@ -20,6 +22,18 @@ class SandboxResult:
     error: str | None = None
 
 
+def _sandbox_import(name: str, globals: Any = None, locals: Any = None, fromlist: Any = (), level: int = 0) -> Any:
+    """Allow `import typing` and nothing else.
+
+    Returns a namespace of typing's public names rather than the module itself, so the module's own
+    imports (`typing.sys`, and through it `sys.modules`) stay out of reach.
+    ponytail: this sandbox catches mistakes in your own code; it is not a security boundary.
+    """
+    if name == "typing" and level == 0:
+        return SimpleNamespace(**{n: getattr(typing, n) for n in typing.__all__})
+    raise ImportError(f"Import of {name!r} is not allowed in the sandbox (only typing)")
+
+
 def validate_python_source(source: str) -> None:
     """Reject unsafe constructs before sandboxed execution."""
     for token in FORBIDDEN_TOKENS:
@@ -33,6 +47,7 @@ def run_custom_python(source: str, payload: dict[str, Any]) -> SandboxResult:
     try:
         validate_python_source(source)
         safe_builtins: dict[str, Any] = {
+            "__import__": _sandbox_import,
             "len": len,
             "str": str,
             "int": int,

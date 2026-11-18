@@ -14,7 +14,7 @@ describe("default model requirement", () => {
     render(<ThemeProvider><App /></ThemeProvider>);
     await screen.findByText("gemini-4-hydrogen · low thinking");
     expect(f.mock.calls.some((c) => String(c[0]).endsWith("/health"))).toBe(true);
-    fireEvent.click(screen.getByText("Run agent"));
+    fireEvent.click(screen.getByRole("button", { name: "Run PRD Architect" }));
     await screen.findByText("Eval passed");
     fireEvent.click(screen.getByRole("button", { name: "Deploy to Rust" }));
     await screen.findByText(/Deployed to Rust/);

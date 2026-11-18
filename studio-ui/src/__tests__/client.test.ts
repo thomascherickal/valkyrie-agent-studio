@@ -8,7 +8,7 @@ describe("api client", () => {
   it("returns json on success and POSTs bodies", async () => {
     const f = stubFetch(() => ok({ a: 1 }));
     expect(await api.getHealth()).toEqual({ a: 1 });
-    await api.runAgent("ir", "p", null);
+    await api.runAgent("ir", "p", null, { task_input: "p" });
     await api.deployRust("ir");
     await api.createFromPrompt("p", "");
     await api.createFromPrompt("p", "n");

@@ -66,7 +66,7 @@ export function App() {
     const created = customBlueprint({ id: b.agent_id, name: b.name, description: b.description, tool: b.tool_name });
     setRoles((prev) => addCustomAgent(prev, created));
     setSelection({ roleId: "custom-agents", agentId: created.id });
-    setDraft(draftFor(created, b.agent_py));
+    setDraft(draftFor(created));
   };
 
   return (
@@ -84,12 +84,12 @@ export function App() {
         <AgentSummary roleName={role.name} agent={agent} />
         <Tabs tabs={tabs} active={active} onChange={setTab} />
         <div role="tabpanel" id="panel" aria-labelledby={`tab-${active}`} className="panel">
-          {active === "run" && (
-            <RunPanel key={agent.id} agent={agent} ir={ir} customPython={draft.pythonEnabled ? draft.pythonCode : null} />
-          )}
+          {active === "run" && <RunPanel key={agent.id} agent={agent} ir={ir} draft={draft} onChange={patchDraft} />}
           {active === "create" && <CreatePanel onCreated={onCreated} />}
           {active === "design" && <DesignPanel draft={draft} onChange={patchDraft} />}
-          {active === "code" && <CodePanel draft={draft} onChange={patchDraft} />}
+          {active === "code" && (
+            <CodePanel key={agent.id} roleId={selection.roleId} agentId={agent.id} draft={draft} onChange={patchDraft} />
+          )}
         </div>
       </main>
       <TracePanel agentId={agent.id} online={online} />

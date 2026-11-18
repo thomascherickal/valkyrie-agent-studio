@@ -9,6 +9,7 @@ import pytest
 def _custom_agents_in_tmp(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     """Created agents are saved to disk, so tests must never write into the repo."""
     monkeypatch.setenv("VALKYRIE_CUSTOM_DIR", str(tmp_path / "custom-agents"))
+    monkeypatch.setenv("VALKYRIE_EDITS_DIR", str(tmp_path / "agent-edits"))
 
 
 @pytest.fixture(autouse=True)
