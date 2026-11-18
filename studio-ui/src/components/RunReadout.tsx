@@ -7,7 +7,7 @@ export function RunReadout({ result }: { result: RunResult }) {
     return (
       <section className="readout" aria-label="Result">
         <ul className="chips">
-          <li>Python override</li>
+          <li>{result.impl ? `Python · ${result.impl}` : "Python override"}</li>
           <li>{result.latency_ms} ms</li>
         </ul>
         <pre>{JSON.stringify(result.output, null, 2)}</pre>

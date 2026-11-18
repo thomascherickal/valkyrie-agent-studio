@@ -1,34 +1,61 @@
 import { DEFAULT_SETTINGS } from "../api/client";
-import type { AgentCode, ModelSettings, SavedAgent } from "../api/types";
+import type { FieldSpec, ImplCode, ImplMeta, ModelSettings, SavedAgent } from "../api/types";
 import type { AgentBlueprint, RoleCatalog } from "../data/types";
 
-/** One data box on the Run tab. The agent's own input is fixed; extra fields are named by the user. */
+/**
+ * One data box on the Run tab: the agent's main input, one for each extra piece of data the agent needs
+ * (from its playbook), and any you add yourself (custom, with a name you choose).
+ */
 export interface DataField {
   key: string;
   value: string;
   custom: boolean;
+  label: string;
+  kind: FieldSpec["kind"];
 }
+
+/** An agent's playbook field, as a box that starts with the agent's worked example. */
+export const toField = (f: FieldSpec): DataField => ({ key: f.key, value: f.example, custom: false, label: f.label, kind: f.kind });
+
+export const MODEL = "model";
 
 export interface Draft {
   systemPrompt: string;
   settings: ModelSettings;
-  pythonEnabled: boolean;
-  /** The editor's text. Empty until the agent's code has loaded. */
-  pythonCode: string;
-  /** What the API last returned for this agent, or null before it has loaded. */
-  codeInfo: AgentCode | null;
+  /** What Run executes: MODEL, or the id of one of the agent's Python implementations. */
+  runWith: string;
   fields: DataField[];
+  /** True once the agent's own data fields have been added after its main input. */
+  fieldsLoaded: boolean;
+  /** The agent's implementations, or null until they have loaded. */
+  impls: ImplMeta[] | null;
+  /** Which implementation the Python tab is showing. */
+  editing: string;
+  /** What the API last returned for each implementation opened so far. */
+  codes: Record<string, ImplCode>;
+  /** The editor's text for each implementation opened so far. Unsaved edits live here. */
+  texts: Record<string, string>;
 }
+
+/** A change to the draft: the fields to set, or a function of the latest draft (for replies that arrive later). */
+export type Patch = Partial<Draft> | ((draft: Draft) => Partial<Draft>);
+
+/** Updates one implementation's `edited` flag in the list, after a save or revert. */
+export const withMeta = (impls: ImplMeta[] | null, info: ImplCode) =>
+  impls === null ? null : impls.map((m) => (m.id === info.impl ? { ...m, edited: info.edited } : m));
 
 export const CUSTOM_ROLE = { id: "custom-agents", name: "Custom Agents" };
 
 export const draftFor = (agent: AgentBlueprint): Draft => ({
   systemPrompt: `You are ${agent.name}. ${agent.description}`,
   settings: DEFAULT_SETTINGS,
-  pythonEnabled: false,
-  pythonCode: "",
-  codeInfo: null,
-  fields: [{ key: agent.inputKey, value: agent.sampleInput, custom: false }],
+  runWith: MODEL,
+  fields: [{ key: agent.inputKey, value: agent.sampleInput, custom: false, label: labelFor(agent.inputKey), kind: "longtext" }],
+  fieldsLoaded: false,
+  impls: null,
+  editing: "rules",
+  codes: {},
+  texts: {},
 });
 
 /** "feature_brief" becomes "Feature brief". */

@@ -10,8 +10,8 @@ from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from valkyrie.agent_code_routes import router as agent_code_router
 from valkyrie.agent_generator_routes import router as agent_generator_router
+from valkyrie.agent_impl_routes import resolve_code, router as agent_impl_router
 from valkyrie.command_centre import CommandCentre
 from valkyrie.command_centre_routes import router as command_centre_router
 
@@ -39,7 +39,7 @@ app.add_middleware(
 )
 app.include_router(command_centre_router)
 app.include_router(agent_generator_router)
-app.include_router(agent_code_router)
+app.include_router(agent_impl_router)
 
 
 class RunRequest(BaseModel):
@@ -49,6 +49,10 @@ class RunRequest(BaseModel):
     prompt: str
     custom_python: str | None = None
     payload: dict[str, Any] = {}
+    # To run one of an agent's Python implementations, name it: its saved edit, or its original, is used.
+    role_id: str | None = None
+    agent_id: str | None = None
+    impl: str | None = None
 
 
 class DeployRequest(BaseModel):
@@ -70,6 +74,21 @@ def run_agent_endpoint(req: RunRequest) -> dict[str, Any]:
         ir: AgentIR = load_ir_from_yaml(req.ir_yaml)
     except Exception as exc:  # noqa: BLE001
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    if req.impl:
+        if not (req.role_id and req.agent_id):
+            raise HTTPException(status_code=400, detail="Running an implementation needs role_id and agent_id")
+        code = resolve_code(req.role_id, req.agent_id, req.impl)
+        impl_res = run_custom_python(code, req.payload)
+        if not impl_res.ok:
+            raise HTTPException(status_code=400, detail=f"{req.impl}: {impl_res.error}")
+        return {
+            "mode": "python",
+            "impl": req.impl,
+            "output": impl_res.output,
+            "latency_ms": impl_res.latency_ms,
+            "cost_usd": 0.0,
+        }
 
     if ir.custom_python_enabled and req.custom_python:
         py_res = run_custom_python(req.custom_python, req.payload)

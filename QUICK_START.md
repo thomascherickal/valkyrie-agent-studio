@@ -50,11 +50,16 @@ Restart the API after changing a key. Local Ollama needs no key.
 
 ## 4. Explore the Desktop Studio
 1. **Pick an agent:** Search the left sidebar across all 12 roles, or create your own under **Create agent**: describe it in plain English and it appears under **Custom Agents**. Created agents are saved to `custom-agents/` (set `VALKYRIE_CUSTOM_DIR` to move it) with their Python, YAML and Rust files, and they come back the next time you open the studio.
-2. **Run:** Every agent shows a box for its own input (for example **Feature brief** for the PRD Architect), prefilled with a sample. Click **Add field** for more data boxes: each one is sent to the agent under the name you give it. Click **Run** to see the engine, tokens, cost, and whether the eval gate passed.
-3. **Experience level** (top bar) reveals more tabs:
-   - **Beginner:** Run and Create agent.
-   - **Intermediate:** adds **Design**: system prompt, provider (Gemini 4 Hydrogen, Ollama, OpenRouter, OpenCode), and thinking level.
-   - **Advanced:** adds **Python**: see the agent's own Python, edit it, and **Save changes**. **Revert to original** puts the original back. The original is never changed: edits are saved separately in `agent-edits/` (set `VALKYRIE_EDITS_DIR` to move it), and the original stays visible under the editor. Turn on **Run my Python instead of the model** to run your version with your data fields.
-4. **Command Centre** (right pane): start or stop the selected agent, or stop all, and watch their traces.
-5. **Theme:** System, Light, or Dark in the top bar.
-6. **Deploy to Rust:** Click **Deploy to Rust** for the generated crate and its benchmark.
+2. **Run an agent:** Every agent is a finished product that only needs your data. The **Run** tab shows a box for its main input (for example **Feature brief**) and one box for each extra piece of data it needs (for example **Target users**, **Success metric**). They start with a worked example, so the agent runs straight away. Replace the examples with your real data. Click **Add field** for any extra data of your own: it is sent under the name you give it.
+   - **Run with** chooses how it runs: the Gemini 4 Hydrogen model, or one of the agent's three Python versions: **Rules** (fills the agent's playbook with your data), **Pipeline** (the same, in checked stages, with input coverage and review notes) and **Hybrid** (adds a model hook that you implement, with a review step).
+   - The result is a complete deliverable for that agent: its sections, the figures it calculated, and a **Data still needed** list for any field you left blank. A line that depends on a blank field is left out instead of guessed.
+3. **About this agent:** the **About this agent** tab explains in bullets what the agent does, the data it needs, the figures it calculates, how each Python version works, and what you still have to add (your systems, thresholds and rules).
+4. **Experience level** (top bar) reveals more tabs:
+   - **Beginner:** Run, About this agent and Create agent.
+   - **Intermediate and Advanced:** add **Design** (system prompt, provider, thinking level) and **Python**.
+5. **Python tab:** pick one of the three versions, or one you saved, and edit it. **Check for errors** loads and runs it once and reports problems with the line number. **Save changes** stores your edit (and checks it). **Revert to original** puts a built-in version back. **Save as new implementation** keeps your code as an extra version next to the three built-in ones. The originals are never changed: they are rebuilt from the project files, your edits are saved separately in `agent-edits/` (set `VALKYRIE_EDITS_DIR` to move them), and the original stays visible under the editor. Run uses the **saved** version you pick under **Run with**. Your code may import `typing`, `re`, `json` and `math`.
+6. **Command Centre** (right pane): start or stop the selected agent, or stop all, and watch their traces. Errors from checking, saving and running an agent appear under **Problems**, newest first.
+7. **Theme:** System, Light, or Dark in the top bar.
+8. **Deploy to Rust:** Click **Deploy to Rust** for the generated crate and its benchmark.
+
+**Safety:** your Python runs inside the API on your machine with your permissions. The sandbox blocks obvious mistakes (such as importing `os`, calling `open`, or an endless loop), but it is not a security wall. Read code you did not write before running it, and do not expose port 8000 beyond your own machine.

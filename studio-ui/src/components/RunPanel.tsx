@@ -1,64 +1,86 @@
-import React, { useState } from "react";
+import React from "react";
 import { runAgent } from "../api/client";
 import type { AgentBlueprint } from "../data/types";
+import { useAgentData } from "../hooks/useAgentData";
 import { useAsync } from "../hooks/useAsync";
+import { useReported, type Report } from "../hooks/useReported";
 import { AsyncNotice } from "./AsyncNotice";
 import { RunReadout } from "./RunReadout";
-import { labelFor, payloadOf, promptOf, type DataField, type Draft } from "./studioState";
+import { MODEL, payloadOf, promptOf, type DataField, type Draft, type Patch } from "./studioState";
 
 interface RunPanelProps {
   agent: AgentBlueprint;
+  roleId: string;
   ir: string;
   draft: Draft;
-  onChange: (patch: Partial<Draft>) => void;
+  onChange: (patch: Patch) => void;
+  report: Report;
 }
 
-export function RunPanel({ agent, ir, draft, onChange }: RunPanelProps) {
+export function RunPanel({ agent, roleId, ir, draft, onChange, report }: RunPanelProps) {
   const { state, run } = useAsync(runAgent);
-  const [blocked, setBlocked] = useState("");
-  const { fields } = draft;
+  useAgentData(roleId, agent.id, draft, onChange);
+  useReported(state, report, agent.name, draft.runWith, "run");
+  const { fields, runWith } = draft;
+  const usingImpl = runWith !== MODEL;
+  const opened = draft.codes[runWith];
+  const unsaved = usingImpl && opened !== undefined && draft.texts[runWith] !== opened.code;
 
   const setField = (i: number, patch: Partial<DataField>) =>
-    onChange({ fields: fields.map((f, j) => (j === i ? { ...f, ...patch } : f)) });
+    onChange((d) => ({ fields: d.fields.map((f, j) => (j === i ? { ...f, ...patch } : f)) }));
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (draft.pythonEnabled && draft.pythonCode.trim() === "") {
-      setBlocked("Your Python override is on, but its code has not loaded. Open the Python tab, or turn the override off.");
-      return;
-    }
-    setBlocked("");
-    run(ir, promptOf(fields), draft.pythonEnabled ? draft.pythonCode : null, payloadOf(fields));
+    run(ir, promptOf(fields), payloadOf(fields), usingImpl ? { roleId, agentId: agent.id, impl: runWith } : null);
   };
 
   return (
     <form onSubmit={submit} className="stack">
+      <label>
+        Run with
+        <select aria-label="Run with" value={runWith} onChange={(e) => onChange({ runWith: e.target.value })}>
+          <option value={MODEL}>Gemini 4 Hydrogen (model)</option>
+          {(draft.impls ?? []).map((i) => (
+            <option key={i.id} value={i.id}>
+              Python: {i.label}{i.edited ? " (edited)" : ""}
+            </option>
+          ))}
+        </select>
+      </label>
       {fields.map((f, i) =>
         f.custom ? (
           <div className="row field" key={i}>
             <input aria-label={`Field name ${i + 1}`} placeholder="Field name" value={f.key} onChange={(e) => setField(i, { key: e.target.value })} />
             <textarea aria-label={`Value of field ${i + 1}`} rows={2} value={f.value} onChange={(e) => setField(i, { value: e.target.value })} />
-            <button type="button" onClick={() => onChange({ fields: fields.filter((_, j) => j !== i) })}>
+            <button type="button" onClick={() => onChange((d) => ({ fields: d.fields.filter((_, j) => j !== i) }))}>
               Remove
             </button>
           </div>
         ) : (
           <label key={i}>
-            {labelFor(f.key)}
-            <textarea aria-label={labelFor(f.key)} rows={4} value={f.value} onChange={(e) => setField(i, { value: e.target.value })} />
+            {f.label}
+            {f.kind === "text" || f.kind === "number" ? (
+              <input
+                aria-label={f.label}
+                inputMode={f.kind === "number" ? "decimal" : "text"}
+                value={f.value}
+                onChange={(e) => setField(i, { value: e.target.value })}
+              />
+            ) : (
+              <textarea aria-label={f.label} rows={f.kind === "list" ? 3 : 4} value={f.value} onChange={(e) => setField(i, { value: e.target.value })} />
+            )}
           </label>
         ),
       )}
       <div className="actions">
-        <button type="button" onClick={() => onChange({ fields: [...fields, { key: "", value: "", custom: true }] })}>
+        <button type="button" onClick={() => onChange((d) => ({ fields: [...d.fields, { key: "", value: "", custom: true, label: "", kind: "text" }] }))}>
           Add field
         </button>
         <button type="submit" className="primary" disabled={state.kind === "loading"}>
-          Run {agent.name}
+          Run agent
         </button>
-        {draft.pythonEnabled && <span className="hint">Python override is on. The model is skipped.</span>}
+        {unsaved && <span className="hint">You have unsaved edits to this version. Run uses the saved one.</span>}
       </div>
-      {blocked && <p role="alert" className="notice notice-error">{blocked}</p>}
       <AsyncNotice state={state} working="Running…" />
       {state.kind === "done" && <RunReadout result={state.data} />}
     </form>

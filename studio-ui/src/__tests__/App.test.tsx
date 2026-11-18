@@ -14,22 +14,20 @@ describe("App modes and tabs", () => {
   it("gates tabs by mode and falls back to Run", () => {
     stubFetch(appRoutes);
     mount();
-    expect(tabs()).toEqual(["Run", "Create agent"]);
+    expect(tabs()).toEqual(["Run", "About this agent", "Create agent"]);
     mode("intermediate");
-    expect(tabs()).toEqual(["Run", "Create agent", "Design"]);
-    mode("advanced");
-    expect(tabs()).toEqual(["Run", "Create agent", "Design", "Python"]);
+    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python"]);
     fireEvent.click(screen.getByText("Python"));
-    fireEvent.click(screen.getByRole("checkbox"));
     expect(screen.getByLabelText("Python Source")).toBeTruthy();
     mode("beginner");
-    expect(screen.getByRole("button", { name: "Run PRD Architect" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Run agent" })).toBeTruthy();
     mode("advanced");
+    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python"]);
     fireEvent.click(screen.getByText("Design"));
     fireEvent.change(screen.getByLabelText("System Prompt"), { target: { value: "custom" } });
     expect((screen.getByLabelText("System Prompt") as HTMLTextAreaElement).value).toBe("custom");
     fireEvent.click(screen.getByText("Run", { selector: "[role=tab]" }));
-    expect(screen.getByText(/Python override is on/)).toBeTruthy();
+    expect(screen.getByLabelText("Run with")).toBeTruthy();
   });
   it("shows API offline, then recovers when the API starts", async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });

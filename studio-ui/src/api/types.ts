@@ -23,7 +23,7 @@ export interface Health {
 }
 
 export type RunResult =
-  | { mode: "python"; output: Record<string, unknown>; latency_ms: number; cost_usd: number }
+  | { mode: "python"; impl?: string; output: Record<string, unknown>; latency_ms: number; cost_usd: number }
   | {
       mode: "llm";
       model: string;
@@ -43,13 +43,63 @@ export interface DeployResult {
   estimated_speedup: string;
 }
 
-/** An agent's Python: the untouched original, and the code to use (the saved edit, or the original). */
-export interface AgentCode {
+/** One of an agent's Python implementations: a built-in (rules, pipeline, hybrid) or one you saved. */
+export interface ImplMeta {
+  id: string;
+  label: string;
+  kind: "builtin" | "saved";
+  edited: boolean;
+}
+
+/** An implementation's code: the untouched original (empty for saved ones) and the code in use. */
+export interface ImplCode {
   role_id: string;
   agent_id: string;
+  impl: string;
+  label: string;
+  kind: ImplMeta["kind"];
+  edited: boolean;
   original: string;
   code: string;
-  edited: boolean;
+}
+
+/** The outcome of loading and running code once with the agent's own sample. */
+export interface CheckResult {
+  ok: boolean;
+  error: string | null;
+  line: number | null;
+  warnings: string[];
+}
+
+/** One extra piece of data an agent needs, with a worked example to start from. */
+export interface FieldSpec {
+  key: string;
+  label: string;
+  kind: "text" | "longtext" | "number" | "list";
+  example: string;
+}
+
+export interface Explanation {
+  title: string;
+  sections: { heading: string; bullets: string[] }[];
+  words: number;
+}
+
+/** Something that went wrong, shown in the trace pane. */
+export interface Problem {
+  id: number;
+  at: string;
+  agent: string;
+  impl: string;
+  stage: "check" | "save" | "run";
+  message: string;
+}
+
+/** Which implementation Run should execute. */
+export interface RunTarget {
+  roleId: string;
+  agentId: string;
+  impl: string;
 }
 
 /** An agent saved by the API under Custom Agents. */

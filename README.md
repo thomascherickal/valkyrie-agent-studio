@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/valkyrie-studio-icon.png" alt="Valkyrie AI Agent Studio icon" width="120" /></p>
+
 # Valkyrie AI Agent Studio
 
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)

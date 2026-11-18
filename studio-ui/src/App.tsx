@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { buildIr, deployRust, getHealth, listCustomAgents } from "./api/client";
-import type { GeneratedBundle } from "./api/types";
+import type { GeneratedBundle, Problem } from "./api/types";
+import { AboutPanel } from "./components/AboutPanel";
 import { AgentBrowser } from "./components/AgentBrowser";
 import { AgentSummary } from "./components/AgentSummary";
 import { CodePanel } from "./components/CodePanel";
@@ -9,12 +10,13 @@ import { DeployDialog } from "./components/DeployDialog";
 import { DesignPanel } from "./components/DesignPanel";
 import { MODE_TABS, type ExperienceMode, type TabId } from "./components/modes";
 import { RunPanel } from "./components/RunPanel";
-import { addCustomAgent, customBlueprint, draftFor, findAgent, restoreCustomAgents, type Draft } from "./components/studioState";
+import { addCustomAgent, customBlueprint, draftFor, findAgent, MODEL, restoreCustomAgents, type Draft, type Patch } from "./components/studioState";
 import { Tabs } from "./components/Tabs";
 import { Titlebar } from "./components/Titlebar";
 import { TracePanel } from "./components/TracePanel";
 import { AGENT_CATALOG } from "./data/agentCatalog";
 import { useAsync } from "./hooks/useAsync";
+import type { Report } from "./hooks/useReported";
 import { useTheme } from "./theme/ThemeProvider";
 
 export type { ExperienceMode } from "./components/modes";
@@ -49,12 +51,17 @@ export function App() {
 
   const tabs = MODE_TABS[mode];
   const active = tabs.includes(tab) ? tab : "run";
-  const patchDraft = (patch: Partial<Draft>) => setDraft((prev) => ({ ...prev, ...patch }));
+  const patchDraft = (patch: Patch) => setDraft((prev) => ({ ...prev, ...(typeof patch === "function" ? patch(prev) : patch) }));
+
+  // Errors from checking, saving and running show in the trace pane. Newest first, at most 50.
+  const [problems, setProblems] = useState<Problem[]>([]);
+  const report: Report = (p) =>
+    setProblems((prev) => [{ ...p, id: (prev[0]?.id ?? 0) + 1, at: new Date().toLocaleTimeString() }, ...prev].slice(0, 50));
 
   const ir = buildIr(
     { id: agent.id, name: agent.name, role: role.name, description: agent.description, systemPrompt: draft.systemPrompt },
     draft.settings,
-    draft.pythonEnabled,
+    draft.runWith !== MODEL,
   );
 
   const select = (roleId: string, agentId: string) => {
@@ -84,15 +91,26 @@ export function App() {
         <AgentSummary roleName={role.name} agent={agent} />
         <Tabs tabs={tabs} active={active} onChange={setTab} />
         <div role="tabpanel" id="panel" aria-labelledby={`tab-${active}`} className="panel">
-          {active === "run" && <RunPanel key={agent.id} agent={agent} ir={ir} draft={draft} onChange={patchDraft} />}
+          {active === "run" && (
+            <RunPanel key={agent.id} agent={agent} roleId={selection.roleId} ir={ir} draft={draft} onChange={patchDraft} report={report} />
+          )}
+          {active === "about" && <AboutPanel key={agent.id} roleId={selection.roleId} agentId={agent.id} />}
           {active === "create" && <CreatePanel onCreated={onCreated} />}
           {active === "design" && <DesignPanel draft={draft} onChange={patchDraft} />}
           {active === "code" && (
-            <CodePanel key={agent.id} roleId={selection.roleId} agentId={agent.id} draft={draft} onChange={patchDraft} />
+            <CodePanel
+              key={agent.id}
+              roleId={selection.roleId}
+              agentId={agent.id}
+              agentName={agent.name}
+              draft={draft}
+              onChange={patchDraft}
+              report={report}
+            />
           )}
         </div>
       </main>
-      <TracePanel agentId={agent.id} online={online} />
+      <TracePanel agentId={agent.id} online={online} problems={problems} onClearProblems={() => setProblems([])} />
       <DeployDialog state={deploy.state} onClose={deploy.reset} />
     </div>
   );
