@@ -9,11 +9,12 @@ const refresh = async (action?: () => Promise<unknown>) => {
   return (await listTraces()).traces;
 };
 
-export function TracePanel({ agentId }: { agentId: string }) {
+/** `online` flips true when the API starts answering, which reloads the list after an early failure. */
+export function TracePanel({ agentId, online }: { agentId: string; online: boolean }) {
   const { state, run } = useAsync(refresh);
   useEffect(() => {
     run();
-  }, [run]);
+  }, [run, online]);
 
   return (
     <aside className="traces" aria-label="Command Centre">

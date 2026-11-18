@@ -23,16 +23,27 @@ cd studio-ui
 npm run desktop:build   # Compiles TypeScript + Vite (dist/) and Tauri Rust shell (src-tauri/)
 npm run desktop:start   # Launches the native Tauri Rust desktop window
 ```
-If you also want the FastAPI backend running for live REST/WebSocket calls:
+The studio needs its Python API (FastAPI, `localhost:8000`) for everything: running agents, creating them, deploying, and the Command Centre.
+- **Desktop app:** `desktop:start` starts the API for you with `studio-core/.venv`, reuses one that is already running on port 8000, and stops the one it started when you close the window. Set `VALKYRIE_PYTHON` to use a different Python.
+- **Browser or manual start:** `make run-gui`, or `cd studio-core && .venv/bin/uvicorn valkyrie.api_server:app --port 8000`.
+- The top bar shows **API offline** until the API answers, then the engine, `gemini-4-hydrogen · low thinking`. It keeps retrying, so a slow start is fine.
+
+### Live model keys
+Export a key before starting the API. Without one, runs are simulated and nothing is sent anywhere.
 ```bash
-cd studio-core && .venv/bin/uvicorn valkyrie.api_server:app --reload --port 8000
+export GEMINI_API_KEY=...        # Gemini 4 Hydrogen, the default for every request
+export OPENROUTER_API_KEY=...    # optional: OpenRouter (pick a Model ID under Design)
+export OPENCODE_API_KEY=...      # optional: OpenCode (pick a Model ID under Design)
 ```
+Local Ollama needs no key.
 
 ## 4. Explore the Desktop Studio
-1. **Search 120 Agents:** Use the left sidebar to filter across all 12 tech company roles (`01-product-management` through `12-cxos`).
-2. **Theme Mode:** Switch between **System**, **Light**, and **Dark** in the top bar (persisted cleanly without flash-of-unthemed-content).
-3. **Experience Modes:**
-   - **Beginner Mode:** Visual Agent Builder, focused tool/schema preview, Subscription Switcher, and Sandbox Console.
-   - **Intermediate Mode:** Unlocks the Custom Python Override editor (`agent.py`).
-   - **Advanced Mode:** Unlocks the **Command Centre** to start, stop, admin-stop-all, and inspect visual agent traces.
-4. **Deploy to Rust:** Click **Deploy to Rust** to inspect the native `<dialog>` deployment summary and crate target.
+1. **Pick an agent:** Search the left sidebar across all 12 roles, or create your own under **Create agent**: describe it in plain English and it appears under **Custom Agents**.
+2. **Run:** Type a task and click **Run agent**. The result shows the engine, tokens, cost, and whether the eval gate passed.
+3. **Experience level** (top bar) reveals more tabs:
+   - **Beginner:** Run and Create agent.
+   - **Intermediate:** adds **Design**: system prompt, provider (Gemini 4 Hydrogen, Ollama, OpenRouter, OpenCode), and thinking level.
+   - **Advanced:** adds **Python**: run your own `run_agent(payload)` instead of the model.
+4. **Command Centre** (right pane): start or stop the selected agent, or stop all, and watch their traces.
+5. **Theme:** System, Light, or Dark in the top bar.
+6. **Deploy to Rust:** Click **Deploy to Rust** for the generated crate and its benchmark.

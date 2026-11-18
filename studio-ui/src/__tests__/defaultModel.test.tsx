@@ -12,8 +12,8 @@ describe("default model requirement", () => {
   it("every request asks for gemini-4-hydrogen / gemini / low", async () => {
     const f = stubFetch(appRoutes);
     render(<ThemeProvider><App /></ThemeProvider>);
-    expect(f.mock.calls.some((c) => String(c[0]).endsWith("/health"))).toBe(true);
     await screen.findByText("gemini-4-hydrogen · low thinking");
+    expect(f.mock.calls.some((c) => String(c[0]).endsWith("/health"))).toBe(true);
     fireEvent.click(screen.getByText("Run agent"));
     await screen.findByText("Eval passed");
     fireEvent.click(screen.getByRole("button", { name: "Deploy to Rust" }));
