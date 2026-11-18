@@ -1,13 +1,18 @@
 import { BASE_URL, DEFAULT_MODEL, DEFAULT_THINKING } from "./config";
 import type {
-  AgentCode,
   AgentSpec,
+  CheckResult,
   DeployResult,
+  Explanation,
+  FieldSpec,
   GeneratedBundle,
   Health,
+  ImplCode,
+  ImplMeta,
   ModelSettings,
   Provider,
   RunResult,
+  RunTarget,
   SavedAgent,
   Trace,
 } from "./types";
@@ -55,24 +60,38 @@ export function buildIr(spec: AgentSpec, settings: ModelSettings, customPython: 
 
 export const getHealth = () => get<Health>("/health");
 
-/** `payload` is keyed by the agent's own input fields, which is what its run_agent(payload) reads. */
-export const runAgent = (
-  irYaml: string,
-  prompt: string,
-  customPython: string | null,
-  payload: Record<string, string>,
-) => post<RunResult>("/api/agents/run", { ir_yaml: irYaml, prompt, custom_python: customPython, payload });
-
-const codePath = (roleId: string, agentId: string) => `/api/agents/${roleId}/${agentId}/code`;
-export const getAgentCode = (roleId: string, agentId: string) => get<AgentCode>(codePath(roleId, agentId));
-export const saveAgentCode = (roleId: string, agentId: string, code: string) =>
-  send<AgentCode>(codePath(roleId, agentId), {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ code }),
+/**
+ * Runs the model, or, when `target` names one of the agent's Python implementations, that implementation.
+ * `payload` is keyed by the agent's own input fields, which is what its run_agent(payload) reads.
+ */
+export const runAgent = (irYaml: string, prompt: string, payload: Record<string, string>, target: RunTarget | null) =>
+  post<RunResult>("/api/agents/run", {
+    ir_yaml: irYaml,
+    prompt,
+    payload,
+    ...(target && { role_id: target.roleId, agent_id: target.agentId, impl: target.impl }),
   });
-export const revertAgentCode = (roleId: string, agentId: string) =>
-  send<AgentCode>(codePath(roleId, agentId), { method: "DELETE" });
+
+const agentPath = (roleId: string, agentId: string) => `/api/agents/${roleId}/${agentId}`;
+const implPath = (roleId: string, agentId: string, impl: string) => `${agentPath(roleId, agentId)}/implementations/${impl}`;
+const putJson = { method: "PUT", headers: { "Content-Type": "application/json" } };
+
+export const listImpls = (roleId: string, agentId: string) =>
+  get<{ implementations: ImplMeta[] }>(`${agentPath(roleId, agentId)}/implementations`);
+export const getImpl = (roleId: string, agentId: string, impl: string) => get<ImplCode>(implPath(roleId, agentId, impl));
+export const saveImpl = (roleId: string, agentId: string, impl: string, code: string) =>
+  send<ImplCode>(implPath(roleId, agentId, impl), { ...putJson, body: JSON.stringify({ code }) });
+/** Reverts a built-in implementation to its original (returns it), or deletes a saved one (returns its id). */
+export const removeImpl = (roleId: string, agentId: string, impl: string) =>
+  send<ImplCode | { deleted: string }>(implPath(roleId, agentId, impl), { method: "DELETE" });
+export const createImpl = (roleId: string, agentId: string, name: string, code: string) =>
+  post<ImplCode>(`${agentPath(roleId, agentId)}/implementations`, { name, code });
+export const checkCode = (roleId: string, agentId: string, code: string) =>
+  post<CheckResult>(`${agentPath(roleId, agentId)}/check`, { code });
+export const getFields = (roleId: string, agentId: string) =>
+  get<{ fields: FieldSpec[] }>(`${agentPath(roleId, agentId)}/fields`);
+export const getExplanation =(roleId: string, agentId: string) =>
+  get<Explanation>(`${agentPath(roleId, agentId)}/explanation`);
 
 export const deployRust = (irYaml: string) => post<DeployResult>("/api/agents/deploy-rust", { ir_yaml: irYaml });
 

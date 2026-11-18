@@ -6,6 +6,8 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
+    // Full-app tests take a few seconds under coverage; leave room for a slower machine.
+    testTimeout: 20_000,
     coverage: {
       provider: "v8",
       include: ["src/components/**", "src/theme/**", "src/api/**", "src/hooks/**", "src/App.tsx"],

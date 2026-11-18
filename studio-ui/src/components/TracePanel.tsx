@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { listTraces, startAgent, stopAgent, stopAll } from "../api/client";
+import type { Problem } from "../api/types";
 import { useAsync } from "../hooks/useAsync";
 import { AsyncNotice } from "./AsyncNotice";
 
@@ -9,8 +10,16 @@ const refresh = async (action?: () => Promise<unknown>) => {
   return (await listTraces()).traces;
 };
 
-/** `online` flips true when the API starts answering, which reloads the list after an early failure. */
-export function TracePanel({ agentId, online }: { agentId: string; online: boolean }) {
+interface TracePanelProps {
+  agentId: string;
+  /** Flips true when the API starts answering, which reloads the list after an early failure. */
+  online: boolean;
+  /** Errors from checking, saving and running agents, newest first. */
+  problems: Problem[];
+  onClearProblems: () => void;
+}
+
+export function TracePanel({ agentId, online, problems, onClearProblems }: TracePanelProps) {
   const { state, run } = useAsync(refresh);
   useEffect(() => {
     run();
@@ -24,6 +33,26 @@ export function TracePanel({ agentId, online }: { agentId: string; online: boole
         <button type="button" onClick={() => run(() => stopAgent(agentId))}>Stop agent</button>
         <button type="button" className="danger" onClick={() => run(stopAll)}>Stop all</button>
       </div>
+      <section aria-label="Problems" className="problems">
+        <h3>
+          Problems <span className="count">{problems.length}</span>
+        </h3>
+        {problems.length === 0 ? (
+          <p className="empty">No errors from checking, saving or running.</p>
+        ) : (
+          <>
+            <ul>
+              {problems.map((p) => (
+                <li key={p.id} role="alert">
+                  <strong>{p.stage}</strong> · {p.agent} · {p.impl} <span className="steps">{p.at}</span>
+                  <span className="notice-error">{p.message}</span>
+                </li>
+              ))}
+            </ul>
+            <button type="button" onClick={onClearProblems}>Clear problems</button>
+          </>
+        )}
+      </section>
       <AsyncNotice state={state} working="Loading traces…" />
       {state.kind === "done" && state.data.length === 0 && <p className="empty">No agents have run yet.</p>}
       {state.kind === "done" && (

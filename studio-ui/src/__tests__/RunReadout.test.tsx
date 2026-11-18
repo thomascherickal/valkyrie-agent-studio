@@ -5,11 +5,15 @@ import { RunReadout } from "../components/RunReadout";
 import { llmRun } from "./helpers";
 
 describe("RunReadout", () => {
-  it("python mode", () => {
-    render(<RunReadout result={{ mode: "python", output: { result: "X" }, latency_ms: 7, cost_usd: 0 }} />);
-    expect(screen.getByText("Python override")).toBeTruthy();
+  it("python mode names the implementation that ran", () => {
+    render(<RunReadout result={{ mode: "python", impl: "pipeline", output: { result: "X" }, latency_ms: 7, cost_usd: 0 }} />);
+    expect(screen.getByText("Python · pipeline")).toBeTruthy();
     expect(screen.getByText("7 ms")).toBeTruthy();
     expect(screen.getByText(/"result": "X"/)).toBeTruthy();
+  });
+  it("python mode without an implementation says override", () => {
+    render(<RunReadout result={{ mode: "python", output: {}, latency_ms: 1, cost_usd: 0 }} />);
+    expect(screen.getByText("Python override")).toBeTruthy();
   });
   it("llm passed", () => {
     render(<RunReadout result={llmRun as RunResult} />);

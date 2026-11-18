@@ -1,36 +1,12 @@
 import { vi } from "vitest";
+import { implRoute, resetApi, runRoute } from "./fakeApi";
+import { ok } from "./http";
 
-export const ok = (data: unknown) => ({ ok: true, json: async () => data });
-export const fail = (status = 500, detail?: string) => ({
-  ok: false,
-  status,
-  json: detail === undefined ? async () => { throw new Error("no body"); } : async () => ({ detail }),
-});
-
-/** Saved edits by "role/agent". Cleared by every stubFetch, so each test starts pristine. */
-const edits = new Map<string, string>();
-
-export const originalOf = (roleId: string, agentId: string) => `# original ${roleId}/${agentId}`;
-
-/** A stateful stand-in for the /code endpoints. A PUT of the text "FAIL" answers 400. */
-export function codeRoute(path: string, init?: RequestInit) {
-  const m = path.match(/^\/api\/agents\/([^/]+)\/([^/]+)\/code$/);
-  if (!m) return undefined;
-  const [, role, agent] = m;
-  const key = `${role}/${agent}`;
-  const original = originalOf(role, agent);
-  if (init?.method === "PUT") {
-    const { code } = JSON.parse(init.body as string);
-    if (code === "FAIL") return fail(400, "Code is not allowed");
-    if (code === original) edits.delete(key);
-    else edits.set(key, code);
-  } else if (init?.method === "DELETE") edits.delete(key);
-  const code = edits.get(key) ?? original;
-  return ok({ role_id: role, agent_id: agent, original, code, edited: edits.has(key) });
-}
+export { fail, ok } from "./http";
+export { originalOf, seedSaved } from "./fakeApi";
 
 export function stubFetch(handler: (path: string, init?: RequestInit) => unknown) {
-  edits.clear();
+  resetApi();
   const f = vi.fn(async (url: string, init?: RequestInit) => handler(url.replace("http://localhost:8000", ""), init));
   vi.stubGlobal("fetch", f);
   return f;
@@ -39,6 +15,13 @@ export function stubFetch(handler: (path: string, init?: RequestInit) => unknown
 export function polyfillDialog() {
   HTMLDialogElement.prototype.showModal = function () { this.setAttribute("open", ""); };
   HTMLDialogElement.prototype.close = function () { this.removeAttribute("open"); };
+}
+
+/** A promise you resolve by hand, to land a reply after the screen has gone. */
+export function deferred<T>() {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((r) => { resolve = r; });
+  return { promise, resolve };
 }
 
 export const bundle = {
@@ -53,8 +36,8 @@ export const deployed = { crate_name: "crate-x", cargo_toml: "", main_rs: "fn ma
 export const health = { status: "ok", default_model: "gemini-4-hydrogen", thinking_level: "low" };
 
 export function appRoutes(path: string, init?: RequestInit) {
-  const code = codeRoute(path, init);
-  if (code) return code;
+  const found = implRoute(path, init) ?? runRoute(path, init);
+  if (found) return found;
   if (path === "/health") return ok(health);
   if (path === "/api/command-centre/traces") return ok({ traces: [] });
   if (path === "/api/agents/run") return ok(llmRun);

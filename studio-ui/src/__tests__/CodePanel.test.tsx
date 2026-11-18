@@ -1,106 +1,84 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CodePanel } from "../components/CodePanel";
-import { draftFor } from "../components/studioState";
-import { agent, Held } from "./Harness";
-import { appRoutes, fail, ok, originalOf, stubFetch } from "./helpers";
+import { calls, mountCode, status } from "./Harness";
+import { appRoutes, fail, ok, originalOf } from "./helpers";
 
 afterEach(() => vi.unstubAllGlobals());
-const ORIGINAL = originalOf("r", "a1");
-const mount = (initial = {}) =>
-  render(<Held initial={initial} render={(d, c) => <CodePanel roleId="r" agentId="a1" draft={d} onChange={c} />} />);
+
 const source = () => screen.getByLabelText("Python Source") as HTMLTextAreaElement;
-const type = (v: string) => fireEvent.change(source(), { target: { value: v } });
 const button = (name: string) => screen.getByRole("button", { name }) as HTMLButtonElement;
-const status = () => screen.getByRole("status").textContent;
-const methods = (f: ReturnType<typeof stubFetch>) => f.mock.calls.map((c) => c[1]?.method ?? "GET");
-const loaded = () => waitFor(() => expect(source().value).toBe(ORIGINAL));
+const edit = (v: string) => fireEvent.change(source(), { target: { value: v } });
+const ORIGINAL = originalOf("r1", "a1");
 
 describe("CodePanel loading", () => {
-  it("is read-only until the code loads, then shows it and the original", async () => {
-    stubFetch(appRoutes);
-    mount();
+  it("loads the list, then the selected implementation's code", async () => {
+    const { f } = mountCode();
+    expect(source().readOnly).toBe(true);
+    expect(button("Check for errors").disabled).toBe(true);
+    await waitFor(() => expect(source().value).toBe(ORIGINAL));
+    expect(source().readOnly).toBe(false);
+    expect(["Rules", "Pipeline", "Hybrid"].map((n) => button(n).getAttribute("aria-pressed"))).toEqual(["true", "false", "false"]);
+    expect(calls(f, "GET", "/implementations")).toHaveLength(1);
+    expect(calls(f, "GET", "/implementations/rules")).toHaveLength(1);
+    expect(screen.getByLabelText("Original code").textContent).toBe(ORIGINAL);
+    expect(status()).toBe("Original");
+  });
+  it("picking another implementation loads it, and going back does not reload", async () => {
+    const { f } = mountCode();
+    await waitFor(() => expect(source().value).toBe(ORIGINAL));
+    fireEvent.click(button("Pipeline"));
+    await waitFor(() => expect(source().value).toBe(originalOf("r1", "a1", "pipeline")));
+    expect(button("Pipeline").getAttribute("aria-pressed")).toBe("true");
+    fireEvent.click(button("Rules"));
+    expect(source().value).toBe(ORIGINAL);
+    expect(calls(f, "GET", "/implementations/rules")).toHaveLength(1);
+    expect(calls(f, "GET", "/implementations/pipeline")).toHaveLength(1);
+  });
+  it("shows the error and stays read-only when the code cannot be loaded", async () => {
+    mountCode(undefined, (p, i) => (p.endsWith("/implementations/rules") ? fail(500, "no code") : appRoutes(p, i)));
+    await screen.findByText("no code");
     expect(source().readOnly).toBe(true);
     expect(source().value).toBe("");
-    await loaded();
-    expect(source().readOnly).toBe(false);
-    expect(screen.getByLabelText("Original code").textContent).toBe(ORIGINAL);
-    expect(screen.getByLabelText("Original code").closest("details")).toBeTruthy();
-    expect(status()).toBe("Original");
-    expect(button("Revert to original").disabled).toBe(true);
-    expect(button("Save changes").disabled).toBe(true);
+    expect(screen.queryByLabelText("Original code")).toBeNull();
   });
-  it("does not reload when the draft already has its code", () => {
-    const f = stubFetch(appRoutes);
-    const codeInfo = { role_id: "r", agent_id: "a1", original: "o", code: "c", edited: false };
-    mount({ codeInfo, pythonCode: "c" });
-    expect(f).not.toHaveBeenCalled();
-    expect(source().value).toBe("c");
-  });
-  it("shows an alert when loading fails", async () => {
-    stubFetch(() => fail(500));
-    mount();
-    await waitFor(() => expect(screen.getByRole("alert").textContent).toBe("The API returned 500."));
-    expect(status()).toBe("");
-  });
-  it("ignores a reply that arrives after unmount", async () => {
-    let release!: (v: unknown) => void;
-    stubFetch(() => new Promise((r) => (release = r)));
-    const onChange = vi.fn();
-    const { unmount } = render(<CodePanel roleId="r" agentId="a1" draft={draftFor(agent)} onChange={onChange} />);
-    unmount();
-    release(ok({ role_id: "r", agent_id: "a1", original: "o", code: "c", edited: false }));
-    await new Promise((r) => setTimeout(r, 10));
-    expect(onChange).not.toHaveBeenCalled();
-  });
-  it("toggles the override", async () => {
-    stubFetch(appRoutes);
-    mount();
-    await loaded();
-    fireEvent.click(screen.getByRole("checkbox"));
-    expect((screen.getByRole("checkbox") as HTMLInputElement).checked).toBe(true);
+  it("shows no implementations until the list arrives, and none when it fails", async () => {
+    const { f } = mountCode(undefined, (p, i) => (p.endsWith("/implementations") ? fail(500, "no list") : appRoutes(p, i)));
+    await waitFor(() => expect(calls(f, "GET", "/implementations")).toHaveLength(1));
+    expect(screen.queryByRole("button", { name: "Rules" })).toBeNull();
+    expect(calls(f, "GET", "/implementations/rules")).toHaveLength(0);
   });
 });
 
 describe("CodePanel editing", () => {
-  it("saves an edit with a PUT and reverts it with a DELETE", async () => {
-    const f = stubFetch(appRoutes);
-    mount();
-    await loaded();
-    type("x = 1");
+  it("an edit shows Unsaved changes and enables Save", async () => {
+    mountCode();
+    await waitFor(() => expect(source().value).toBe(ORIGINAL));
+    expect(button("Save changes").disabled).toBe(true);
+    edit("x = 1");
     expect(status()).toBe("Unsaved changes");
     expect(button("Save changes").disabled).toBe(false);
-    expect(button("Revert to original").disabled).toBe(false);
-    fireEvent.click(button("Save changes"));
-    await waitFor(() => expect(status()).toBe("Edited and saved"));
-    expect(methods(f)).toEqual(["GET", "PUT"]);
-    expect(JSON.parse(f.mock.calls[1][1]!.body as string)).toEqual({ code: "x = 1" });
-    expect(button("Save changes").disabled).toBe(true);
-    expect(screen.getByLabelText("Original code").textContent).toBe(ORIGINAL);
-    fireEvent.click(button("Revert to original"));
-    await waitFor(() => expect(status()).toBe("Original"));
-    expect(methods(f)).toEqual(["GET", "PUT", "DELETE"]);
-    expect(source().value).toBe(ORIGINAL);
-    expect(button("Revert to original").disabled).toBe(true);
   });
-  it("reverts an unsaved buffer that differs from the original", async () => {
-    const f = stubFetch(appRoutes);
-    mount();
-    await loaded();
-    type("scratch");
-    fireEvent.click(button("Revert to original"));
+  it("Save PUTs the code, then checks it, and marks the implementation edited", async () => {
+    const { f } = mountCode();
     await waitFor(() => expect(source().value).toBe(ORIGINAL));
-    expect(methods(f)).toEqual(["GET", "DELETE"]);
-    expect(status()).toBe("Original");
-  });
-  it("shows the API's reason when a save is rejected", async () => {
-    stubFetch(appRoutes);
-    mount();
-    await loaded();
-    type("FAIL");
+    edit("x = 1");
     fireEvent.click(button("Save changes"));
-    await waitFor(() => expect(screen.getByRole("alert").textContent).toBe("Code is not allowed"));
-    expect(status()).toBe("Unsaved changes");
+    await screen.findByText(/No errors/);
+    expect(JSON.parse(calls(f, "PUT", "/implementations/rules")[0][1]!.body as string)).toEqual({ code: "x = 1" });
+    expect(JSON.parse(calls(f, "POST", "/check")[0][1]!.body as string)).toEqual({ code: "x = 1" });
+    expect(status()).toBe("Edited and saved");
+    expect(button("Rules (edited)")).toBeTruthy();
+    expect(button("Save changes").disabled).toBe(true);
+  });
+  it("a failed save is reported, not checked, and keeps the edit", async () => {
+    const { f, report } = mountCode();
+    await waitFor(() => expect(source().value).toBe(ORIGINAL));
+    edit("FAIL");
+    fireEvent.click(button("Save changes"));
+    await screen.findByText("Code is not allowed");
+    expect(report).toHaveBeenCalledWith({ agent: "Agent A", impl: "rules", stage: "save", message: "Code is not allowed" });
+    expect(calls(f, "POST", "/check")).toHaveLength(0);
     expect(source().value).toBe("FAIL");
+    expect(status()).toBe("Unsaved changes");
   });
 });

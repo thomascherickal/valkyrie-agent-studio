@@ -1,29 +1,43 @@
 import { describe, expect, it } from "vitest";
+import type { ImplCode, ImplMeta } from "../api/types";
 import {
-  addCustomAgent, CUSTOM_ROLE, customBlueprint, draftFor, findAgent, labelFor, payloadOf, promptOf, restoreCustomAgents,
+  addCustomAgent, CUSTOM_ROLE, customBlueprint, draftFor, findAgent, labelFor, MODEL, payloadOf, promptOf, restoreCustomAgents, toField,
+  withMeta, type DataField,
 } from "../components/studioState";
 
 const a = (id: string) => ({ id, name: id, description: "d", tool: "t", inputKey: "i", outputKey: "o", sampleInput: "s" });
 const roles = [{ id: "r", name: "R", agents: [a("x")] }];
 
-describe("studioState", () => {
-  it("draftFor builds fields from the agent and starts without code", () => {
+describe("studioState drafts and fields", () => {
+  it("draftFor builds the main field from the agent and starts empty", () => {
     const d = draftFor(a("x"));
-    expect(d.pythonCode).toBe("");
-    expect(d.codeInfo).toBeNull();
-    expect(d.fields).toEqual([{ key: "i", value: "s", custom: false }]);
-    expect(d.systemPrompt).toBe("You are x. d");
+    expect(d.fields).toEqual([{ key: "i", value: "s", custom: false, label: "I", kind: "longtext" }]);
+    expect(d).toMatchObject({ systemPrompt: "You are x. d", runWith: MODEL, editing: "rules", impls: null, fieldsLoaded: false, codes: {}, texts: {} });
+  });
+  it("toField starts a box from the playbook example", () => {
+    expect(toField({ key: "budget", label: "Budget", kind: "number", example: "100" })).toEqual({
+      key: "budget", value: "100", custom: false, label: "Budget", kind: "number",
+    });
+  });
+  it("withMeta keeps null, and updates only the matching implementation", () => {
+    const info: ImplCode = { role_id: "r", agent_id: "x", impl: "pipeline", label: "Pipeline", kind: "builtin", edited: true, original: "o", code: "c" };
+    expect(withMeta(null, info)).toBeNull();
+    const list: ImplMeta[] = [
+      { id: "rules", label: "Rules", kind: "builtin", edited: false },
+      { id: "pipeline", label: "Pipeline", kind: "builtin", edited: false },
+    ];
+    expect(withMeta(list, info)).toEqual([list[0], { ...list[1], edited: true }]);
   });
   it("labelFor, payloadOf and promptOf skip blank names and trim", () => {
     expect(labelFor("feature_brief")).toBe("Feature brief");
-    const fields = [
-      { key: "feature_brief", value: "a", custom: false },
-      { key: "  extra_note ", value: "b", custom: true },
-      { key: "  ", value: "dropped", custom: true },
-    ];
+    const f = (key: string, value: string, custom: boolean): DataField => ({ key, value, custom, label: "", kind: "text" });
+    const fields = [f("feature_brief", "a", false), f("  extra_note ", "b", true), f("  ", "dropped", true)];
     expect(payloadOf(fields)).toEqual({ feature_brief: "a", extra_note: "b" });
     expect(promptOf(fields)).toBe("Feature brief: a\nExtra note: b");
   });
+});
+
+describe("studioState catalog helpers", () => {
   it("findAgent", () => {
     expect(findAgent(roles, "r", "x").agent.id).toBe("x");
   });
