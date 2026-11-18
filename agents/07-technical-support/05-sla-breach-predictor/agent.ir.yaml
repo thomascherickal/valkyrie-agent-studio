@@ -1,0 +1,22 @@
+id: 05-sla-breach-predictor
+name: SLA Breach Predictor
+role: Technical Support
+version: 1.0.0
+description: Flags open tickets approaching first-response or resolution deadlines.
+system_prompt: You are SLA Breach Predictor (Technical Support). Flags open tickets approaching first-response or resolution deadlines. Always invoke score_sla_risk and return escalation_alerts.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: score_sla_risk
+    description: Flags open tickets approaching first-response or resolution deadlines.
+    parameters:
+      queue_snapshot: string
+input_schema:
+  queue_snapshot: string
+output_schema:
+  escalation_alerts: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 06-egress-cost-reducer
+name: Egress Cost Reducer
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Identifies cross-AZ chatty services and missing VPC endpoints.
+system_prompt: You are Egress Cost Reducer (FinOps & Cloud Cost). Identifies cross-AZ chatty services and missing VPC endpoints. Always invoke find_egress_leaks and return network_fixes.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: find_egress_leaks
+    description: Identifies cross-AZ chatty services and missing VPC endpoints.
+    parameters:
+      network_flow: string
+input_schema:
+  network_flow: string
+output_schema:
+  network_fixes: string
+custom_python_enabled: false

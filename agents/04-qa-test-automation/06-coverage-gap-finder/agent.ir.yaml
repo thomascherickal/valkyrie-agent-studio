@@ -1,0 +1,22 @@
+id: 06-coverage-gap-finder
+name: Coverage Gap Finder
+role: QA & Test Automation
+version: 1.0.0
+description: Parses uncovered branch lines and drafts targeted unit tests.
+system_prompt: You are Coverage Gap Finder (QA & Test Automation). Parses uncovered branch lines and drafts targeted unit tests. Always invoke propose_branch_tests and return missing_tests.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: propose_branch_tests
+    description: Parses uncovered branch lines and drafts targeted unit tests.
+    parameters:
+      coverage_report: string
+input_schema:
+  coverage_report: string
+output_schema:
+  missing_tests: string
+custom_python_enabled: false

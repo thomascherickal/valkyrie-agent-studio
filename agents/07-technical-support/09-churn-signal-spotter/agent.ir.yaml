@@ -1,0 +1,22 @@
+id: 09-churn-signal-spotter
+name: Churn Signal Spotter
+role: Technical Support
+version: 1.0.0
+description: Detects repeat escalations and sentiment drops across account history.
+system_prompt: You are Churn Signal Spotter (Technical Support). Detects repeat escalations and sentiment drops across account history. Always invoke compute_churn_risk and return csm_alert.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compute_churn_risk
+    description: Detects repeat escalations and sentiment drops across account history.
+    parameters:
+      thread_history: string
+input_schema:
+  thread_history: string
+output_schema:
+  csm_alert: string
+custom_python_enabled: false

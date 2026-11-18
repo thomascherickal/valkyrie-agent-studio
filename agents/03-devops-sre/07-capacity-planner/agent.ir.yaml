@@ -1,0 +1,22 @@
+id: 07-capacity-planner
+name: Capacity Planner
+role: DevOps & SRE
+version: 1.0.0
+description: Projects compute and memory headroom from peak QPS growth curves.
+system_prompt: You are Capacity Planner (DevOps & SRE). Projects compute and memory headroom from peak QPS growth curves. Always invoke model_headroom and return scaling_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: model_headroom
+    description: Projects compute and memory headroom from peak QPS growth curves.
+    parameters:
+      traffic_forecast: string
+input_schema:
+  traffic_forecast: string
+output_schema:
+  scaling_plan: string
+custom_python_enabled: false

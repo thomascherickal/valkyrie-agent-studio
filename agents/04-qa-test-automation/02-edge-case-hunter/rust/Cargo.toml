@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_02_edge_case_hunter"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,22 @@
+id: 04-competitive-intel
+name: Competitive Intel Analyst
+role: Product Management
+version: 1.0.0
+description: Builds feature parity and differentiation matrices against competitor release notes.
+system_prompt: You are Competitive Intel Analyst (Product Management). Builds feature parity and differentiation matrices against competitor release notes. Always invoke diff_feature_matrix and return matrix_summary.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: diff_feature_matrix
+    description: Builds feature parity and differentiation matrices against competitor release notes.
+    parameters:
+      competitor_notes: string
+input_schema:
+  competitor_notes: string
+output_schema:
+  matrix_summary: string
+custom_python_enabled: false

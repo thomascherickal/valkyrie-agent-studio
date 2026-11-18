@@ -1,0 +1,3 @@
+{
+  "target_sla": "Target 1,200 RPS, p95 < 120ms, error rate < 0.1%"
+}

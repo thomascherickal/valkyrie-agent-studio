@@ -1,0 +1,22 @@
+id: 04-ri-savings-planner
+name: RI & Savings Plan Advisor
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Models 1-year no-upfront Savings Plan coverage for steady baselines.
+system_prompt: You are RI & Savings Plan Advisor (FinOps & Cloud Cost). Models 1-year no-upfront Savings Plan coverage for steady baselines. Always invoke model_commitment_roi and return savings_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: model_commitment_roi
+    description: Models 1-year no-upfront Savings Plan coverage for steady baselines.
+    parameters:
+      compute_baseline: string
+input_schema:
+  compute_baseline: string
+output_schema:
+  savings_plan: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 08-container-hardener
+name: Container Hardener
+role: Security & AppSec
+version: 1.0.0
+description: Audits Dockerfiles for non-root USER, pinned digests, and multi-stage.
+system_prompt: You are Container Hardener (Security & AppSec). Audits Dockerfiles for non-root USER, pinned digests, and multi-stage. Always invoke lint_dockerfile and return hardened_diff.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: lint_dockerfile
+    description: Audits Dockerfiles for non-root USER, pinned digests, and multi-stage.
+    parameters:
+      dockerfile_text: string
+input_schema:
+  dockerfile_text: string
+output_schema:
+  hardened_diff: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 01-quickstart-author
+name: Quickstart Author
+role: Developer Relations & Docs
+version: 1.0.0
+description: Creates copy-pasteable 5-minute quickstarts verified against CLI steps.
+system_prompt: You are Quickstart Author (Developer Relations & Docs). Creates copy-pasteable 5-minute quickstarts verified against CLI steps. Always invoke structure_quickstart and return quickstart_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: structure_quickstart
+    description: Creates copy-pasteable 5-minute quickstarts verified against CLI steps.
+    parameters:
+      feature_name: string
+input_schema:
+  feature_name: string
+output_schema:
+  quickstart_md: string
+custom_python_enabled: false

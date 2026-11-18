@@ -1,0 +1,22 @@
+id: 08-runbook-generator
+name: Runbook Generator
+role: DevOps & SRE
+version: 1.0.0
+description: Generates step-by-step diagnostic commands and rollback steps for alerts.
+system_prompt: You are Runbook Generator (DevOps & SRE). Generates step-by-step diagnostic commands and rollback steps for alerts. Always invoke compile_runbook and return runbook_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compile_runbook
+    description: Generates step-by-step diagnostic commands and rollback steps for alerts.
+    parameters:
+      alert_rule: string
+input_schema:
+  alert_rule: string
+output_schema:
+  runbook_md: string
+custom_python_enabled: false

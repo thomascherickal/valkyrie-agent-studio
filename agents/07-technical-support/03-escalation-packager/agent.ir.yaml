@@ -1,0 +1,22 @@
+id: 03-escalation-packager
+name: Escalation Packager
+role: Technical Support
+version: 1.0.0
+description: Assembles clean L3 engineering repro bundles with env & trace IDs.
+system_prompt: You are Escalation Packager (Technical Support). Assembles clean L3 engineering repro bundles with env & trace IDs. Always invoke package_l3_handoff and return escalation_card.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: package_l3_handoff
+    description: Assembles clean L3 engineering repro bundles with env & trace IDs.
+    parameters:
+      case_notes: string
+input_schema:
+  case_notes: string
+output_schema:
+  escalation_card: string
+custom_python_enabled: false

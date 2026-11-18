@@ -1,0 +1,22 @@
+id: 10-quarterly-roadmap-brief
+name: Quarterly Roadmap Brief
+role: Engineering & Product Management
+version: 1.0.0
+description: Prepares QBR slides with delivery confidence ratings and risks.
+system_prompt: You are Quarterly Roadmap Brief (Engineering & Product Management). Prepares QBR slides with delivery confidence ratings and risks. Always invoke format_qbr_brief and return qbr_summary.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: format_qbr_brief
+    description: Prepares QBR slides with delivery confidence ratings and risks.
+    parameters:
+      qbr_inputs: string
+input_schema:
+  qbr_inputs: string
+output_schema:
+  qbr_summary: string
+custom_python_enabled: false

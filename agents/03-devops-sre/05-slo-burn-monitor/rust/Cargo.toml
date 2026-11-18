@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_05_slo_burn_monitor"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,3 @@
+{
+  "sast_finding": "CWE-78 in dev_script.py vs parameterized SQL in prod"
+}

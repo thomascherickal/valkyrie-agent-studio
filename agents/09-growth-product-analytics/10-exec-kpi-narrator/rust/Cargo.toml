@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_10_exec_kpi_narrator"
+version = "1.0.0"
+edition = "2021"

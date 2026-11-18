@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_06_soc2_evidence_collector"
+version = "1.0.0"
+edition = "2021"

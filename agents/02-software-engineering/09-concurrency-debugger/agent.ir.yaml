@@ -1,0 +1,22 @@
+id: 09-concurrency-debugger
+name: Concurrency Debugger
+role: Software Engineering
+version: 1.0.0
+description: Identifies lock ordering inversions, unawaited futures, and race windows.
+system_prompt: You are Concurrency Debugger (Software Engineering). Identifies lock ordering inversions, unawaited futures, and race windows. Always invoke analyze_lock_graph and return deadlock_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_lock_graph
+    description: Identifies lock ordering inversions, unawaited futures, and race windows.
+    parameters:
+      async_trace: string
+input_schema:
+  async_trace: string
+output_schema:
+  deadlock_report: string
+custom_python_enabled: false

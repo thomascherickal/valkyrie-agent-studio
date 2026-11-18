@@ -1,0 +1,3 @@
+{
+  "incident_log": "Redis OOM caused by unbounded session keys during promo spike"
+}

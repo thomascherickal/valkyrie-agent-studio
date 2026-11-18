@@ -1,0 +1,22 @@
+id: 09-team-health-pulse
+name: Team Health Pulse
+role: Engineering & Product Management
+version: 1.0.0
+description: Tracks DORA metrics alongside qualitative team morale indicators.
+system_prompt: You are Team Health Pulse (Engineering & Product Management). Tracks DORA metrics alongside qualitative team morale indicators. Always invoke evaluate_dora_tier and return health_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: evaluate_dora_tier
+    description: Tracks DORA metrics alongside qualitative team morale indicators.
+    parameters:
+      dora_snapshot: string
+input_schema:
+  dora_snapshot: string
+output_schema:
+  health_report: string
+custom_python_enabled: false

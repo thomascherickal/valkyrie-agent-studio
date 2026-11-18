@@ -1,0 +1,22 @@
+id: 01-board-deck-synthesizer
+name: Board Deck Synthesizer
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Compiles ARR, net burn, NRR, and key product milestones for board slides.
+system_prompt: You are Board Deck Synthesizer (C-Suite & Executives (CxOs)). Compiles ARR, net burn, NRR, and key product milestones for board slides. Always invoke build_board_narrative and return board_slides_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_board_narrative
+    description: Compiles ARR, net burn, NRR, and key product milestones for board slides.
+    parameters:
+      quarter_metrics: string
+input_schema:
+  quarter_metrics: string
+output_schema:
+  board_slides_md: string
+custom_python_enabled: false

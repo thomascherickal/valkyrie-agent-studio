@@ -1,0 +1,22 @@
+id: 06-investor-update-writer
+name: Investor Update Writer
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Drafts crisp monthly investor updates covering wins, metrics, and asks.
+system_prompt: You are Investor Update Writer (C-Suite & Executives (CxOs)). Drafts crisp monthly investor updates covering wins, metrics, and asks. Always invoke format_investor_email and return investor_update.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: format_investor_email
+    description: Drafts crisp monthly investor updates covering wins, metrics, and asks.
+    parameters:
+      monthly_highlights: string
+input_schema:
+  monthly_highlights: string
+output_schema:
+  investor_update: string
+custom_python_enabled: false

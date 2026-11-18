@@ -1,0 +1,22 @@
+id: 06-dependency-auditor
+name: Dependency Auditor
+role: Software Engineering
+version: 1.0.0
+description: Checks lockfiles for unmaintained packages, license conflicts, and bloat.
+system_prompt: You are Dependency Auditor (Software Engineering). Checks lockfiles for unmaintained packages, license conflicts, and bloat. Always invoke scan_licenses and return audit_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: scan_licenses
+    description: Checks lockfiles for unmaintained packages, license conflicts, and bloat.
+    parameters:
+      dependencies: string
+input_schema:
+  dependencies: string
+output_schema:
+  audit_report: string
+custom_python_enabled: false

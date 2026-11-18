@@ -1,0 +1,22 @@
+id: 07-storage-tiering-planner
+name: Storage Tiering Planner
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Recommends S3 Intelligent-Tiering and Glacier lifecycle rules.
+system_prompt: You are Storage Tiering Planner (FinOps & Cloud Cost). Recommends S3 Intelligent-Tiering and Glacier lifecycle rules. Always invoke design_lifecycle_rule and return storage_savings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: design_lifecycle_rule
+    description: Recommends S3 Intelligent-Tiering and Glacier lifecycle rules.
+    parameters:
+      bucket_stats: string
+input_schema:
+  bucket_stats: string
+output_schema:
+  storage_savings: string
+custom_python_enabled: false

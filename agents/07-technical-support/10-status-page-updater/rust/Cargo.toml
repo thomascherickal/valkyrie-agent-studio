@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_10_status_page_updater"
+version = "1.0.0"
+edition = "2021"

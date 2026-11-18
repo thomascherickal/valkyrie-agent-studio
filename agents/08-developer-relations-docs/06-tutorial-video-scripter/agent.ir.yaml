@@ -1,0 +1,22 @@
+id: 06-tutorial-video-scripter
+name: Tutorial Video Scripter
+role: Developer Relations & Docs
+version: 1.0.0
+description: Outlines 3-minute screencast scripts with live terminal commands.
+system_prompt: You are Tutorial Video Scripter (Developer Relations & Docs). Outlines 3-minute screencast scripts with live terminal commands. Always invoke script_video_beats and return video_script.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: script_video_beats
+    description: Outlines 3-minute screencast scripts with live terminal commands.
+    parameters:
+      topic: string
+input_schema:
+  topic: string
+output_schema:
+  video_script: string
+custom_python_enabled: false

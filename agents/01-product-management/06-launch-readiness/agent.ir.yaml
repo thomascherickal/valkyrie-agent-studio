@@ -1,0 +1,22 @@
+id: 06-launch-readiness
+name: Launch Readiness Coordinator
+role: Product Management
+version: 1.0.0
+description: Audits GTM gates across engineering, docs, legal, and support sign-offs.
+system_prompt: You are Launch Readiness Coordinator (Product Management). Audits GTM gates across engineering, docs, legal, and support sign-offs. Always invoke audit_launch_gates and return readiness_status.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: audit_launch_gates
+    description: Audits GTM gates across engineering, docs, legal, and support sign-offs.
+    parameters:
+      checklist_state: string
+input_schema:
+  checklist_state: string
+output_schema:
+  readiness_status: string
+custom_python_enabled: false

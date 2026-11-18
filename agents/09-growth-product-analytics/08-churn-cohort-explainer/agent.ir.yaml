@@ -1,0 +1,22 @@
+id: 08-churn-cohort-explainer
+name: Churn Cohort Explainer
+role: Growth & Product Analytics
+version: 1.0.0
+description: Correlates seat contraction with unused features and latency spikes.
+system_prompt: You are Churn Cohort Explainer (Growth & Product Analytics). Correlates seat contraction with unused features and latency spikes. Always invoke explain_churn_drivers and return retention_actions.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: explain_churn_drivers
+    description: Correlates seat contraction with unused features and latency spikes.
+    parameters:
+      churned_accounts: string
+input_schema:
+  churned_accounts: string
+output_schema:
+  retention_actions: string
+custom_python_enabled: false

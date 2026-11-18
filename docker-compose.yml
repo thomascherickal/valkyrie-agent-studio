@@ -1,0 +1,21 @@
+services:
+  studio-core:
+    build: ./studio-core
+    ports:
+      - "8000:8000"
+    environment:
+      - VALKYRIE_DEFAULT_MODEL=gemini-4-hydrogen
+      - VALKYRIE_THINKING_LEVEL=low
+  studio-ui:
+    build: ./studio-ui
+    ports:
+      - "5173:5173"
+    depends_on:
+      - studio-core
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    profiles:
+      - offline
+

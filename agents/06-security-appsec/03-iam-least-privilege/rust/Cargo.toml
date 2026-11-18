@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_03_iam_least_privilege"
+version = "1.0.0"
+edition = "2021"

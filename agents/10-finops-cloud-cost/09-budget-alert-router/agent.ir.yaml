@@ -1,0 +1,22 @@
+id: 09-budget-alert-router
+name: Budget Alert Router
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Routes forecasted monthly overruns to squad Slack/email owners.
+system_prompt: You are Budget Alert Router (FinOps & Cloud Cost). Routes forecasted monthly overruns to squad Slack/email owners. Always invoke route_budget_warning and return alert_payload.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: route_budget_warning
+    description: Routes forecasted monthly overruns to squad Slack/email owners.
+    parameters:
+      budget_status: string
+input_schema:
+  budget_status: string
+output_schema:
+  alert_payload: string
+custom_python_enabled: false

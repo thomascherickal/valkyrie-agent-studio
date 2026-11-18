@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_07_docs_freshness_checker"
+version = "1.0.0"
+edition = "2021"

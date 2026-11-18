@@ -1,0 +1,22 @@
+id: 06-ci-pipeline-optimizer
+name: CI Pipeline Optimizer
+role: DevOps & SRE
+version: 1.0.0
+description: Pinpoints serial bottlenecks and cache misses in GitHub Actions workflows.
+system_prompt: You are CI Pipeline Optimizer (DevOps & SRE). Pinpoints serial bottlenecks and cache misses in GitHub Actions workflows. Always invoke optimize_dag and return pipeline_savings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: optimize_dag
+    description: Pinpoints serial bottlenecks and cache misses in GitHub Actions workflows.
+    parameters:
+      ci_timings: string
+input_schema:
+  ci_timings: string
+output_schema:
+  pipeline_savings: string
+custom_python_enabled: false

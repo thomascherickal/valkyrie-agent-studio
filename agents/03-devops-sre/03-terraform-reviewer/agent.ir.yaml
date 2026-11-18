@@ -1,0 +1,22 @@
+id: 03-terraform-reviewer
+name: Terraform Reviewer
+role: DevOps & SRE
+version: 1.0.0
+description: Flags destructive resource replacements and wildcard IAM policies in plans.
+system_prompt: You are Terraform Reviewer (DevOps & SRE). Flags destructive resource replacements and wildcard IAM policies in plans. Always invoke inspect_tf_blast and return tf_verdict.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: inspect_tf_blast
+    description: Flags destructive resource replacements and wildcard IAM policies in plans.
+    parameters:
+      tf_plan_diff: string
+input_schema:
+  tf_plan_diff: string
+output_schema:
+  tf_verdict: string
+custom_python_enabled: false

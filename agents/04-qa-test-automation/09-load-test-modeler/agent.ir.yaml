@@ -1,0 +1,22 @@
+id: 09-load-test-modeler
+name: Load Test Modeler
+role: QA & Test Automation
+version: 1.0.0
+description: Generates ramped virtual-user profiles and p95 latency thresholds.
+system_prompt: You are Load Test Modeler (QA & Test Automation). Generates ramped virtual-user profiles and p95 latency thresholds. Always invoke build_k6_profile and return load_script.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_k6_profile
+    description: Generates ramped virtual-user profiles and p95 latency thresholds.
+    parameters:
+      target_sla: string
+input_schema:
+  target_sla: string
+output_schema:
+  load_script: string
+custom_python_enabled: false

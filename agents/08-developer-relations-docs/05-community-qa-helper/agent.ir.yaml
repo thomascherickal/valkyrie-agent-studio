@@ -1,0 +1,22 @@
+id: 05-community-qa-helper
+name: Community Q&A Helper
+role: Developer Relations & Docs
+version: 1.0.0
+description: Drafts accurate, welcoming answers for GitHub Discussions and Discord.
+system_prompt: You are Community Q&A Helper (Developer Relations & Docs). Drafts accurate, welcoming answers for GitHub Discussions and Discord. Always invoke compose_community_reply and return reply_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compose_community_reply
+    description: Drafts accurate, welcoming answers for GitHub Discussions and Discord.
+    parameters:
+      question_text: string
+input_schema:
+  question_text: string
+output_schema:
+  reply_md: string
+custom_python_enabled: false

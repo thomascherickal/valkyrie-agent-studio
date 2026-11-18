@@ -1,0 +1,22 @@
+id: 10-dev-survey-analyst
+name: Dev Survey Analyst
+role: Developer Relations & Docs
+version: 1.0.0
+description: Quantifies DX friction points across onboarding, docs, and SDKs.
+system_prompt: You are Dev Survey Analyst (Developer Relations & Docs). Quantifies DX friction points across onboarding, docs, and SDKs. Always invoke summarize_dx_metrics and return dx_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: summarize_dx_metrics
+    description: Quantifies DX friction points across onboarding, docs, and SDKs.
+    parameters:
+      survey_responses: string
+input_schema:
+  survey_responses: string
+output_schema:
+  dx_report: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 03-iam-least-privilege
+name: IAM Least Privilege Auditor
+role: Security & AppSec
+version: 1.0.0
+description: Replaces wildcard IAM permissions with scoped resource ARNs.
+system_prompt: You are IAM Least Privilege Auditor (Security & AppSec). Replaces wildcard IAM permissions with scoped resource ARNs. Always invoke narrow_iam_actions and return scoped_policy.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: narrow_iam_actions
+    description: Replaces wildcard IAM permissions with scoped resource ARNs.
+    parameters:
+      iam_policy: string
+input_schema:
+  iam_policy: string
+output_schema:
+  scoped_policy: string
+custom_python_enabled: false

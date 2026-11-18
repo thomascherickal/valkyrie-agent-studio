@@ -1,0 +1,28 @@
+# Rust
+target/
+**/target/
+**/*.rs.bk
+
+# Python
+.venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+**/.pytest_cache/
+.coverage
+**/.coverage
+*.egg-info/
+
+# Node / TypeScript / Vite / Tauri
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+coverage/
+**/coverage/
+studio-ui/src-tauri/gen/
+
+# OS & Editors
+.DS_Store
+*.swp

@@ -1,0 +1,3 @@
+{
+  "schema_diff": "Removed column: user_tier; Added: plan_code (nullable)"
+}

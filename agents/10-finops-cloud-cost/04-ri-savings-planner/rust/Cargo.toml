@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_04_ri_savings_planner"
+version = "1.0.0"
+edition = "2021"

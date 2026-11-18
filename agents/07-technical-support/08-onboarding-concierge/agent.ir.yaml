@@ -1,0 +1,22 @@
+id: 08-onboarding-concierge
+name: Onboarding Concierge
+role: Technical Support
+version: 1.0.0
+description: Builds tailored 7-day setup checklists for new enterprise teams.
+system_prompt: You are Onboarding Concierge (Technical Support). Builds tailored 7-day setup checklists for new enterprise teams. Always invoke generate_setup_plan and return onboarding_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: generate_setup_plan
+    description: Builds tailored 7-day setup checklists for new enterprise teams.
+    parameters:
+      customer_profile: string
+input_schema:
+  customer_profile: string
+output_schema:
+  onboarding_plan: string
+custom_python_enabled: false

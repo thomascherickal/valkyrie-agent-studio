@@ -1,0 +1,22 @@
+id: 03-okr-alignment-checker
+name: OKR Alignment Checker
+role: Engineering & Product Management
+version: 1.0.0
+description: Maps sprint epics against quarterly OKRs and flags orphan work.
+system_prompt: You are OKR Alignment Checker (Engineering & Product Management). Maps sprint epics against quarterly OKRs and flags orphan work. Always invoke score_okr_fit and return alignment_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: score_okr_fit
+    description: Maps sprint epics against quarterly OKRs and flags orphan work.
+    parameters:
+      epics_vs_okrs: string
+input_schema:
+  epics_vs_okrs: string
+output_schema:
+  alignment_report: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 02-ma-diligence-reviewer
+name: M&A Diligence Reviewer
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Flags IP, OSS license, security, and customer-concentration risks.
+system_prompt: You are M&A Diligence Reviewer (C-Suite & Executives (CxOs)). Flags IP, OSS license, security, and customer-concentration risks. Always invoke score_diligence_risks and return risk_memo.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: score_diligence_risks
+    description: Flags IP, OSS license, security, and customer-concentration risks.
+    parameters:
+      diligence_docs: string
+input_schema:
+  diligence_docs: string
+output_schema:
+  risk_memo: string
+custom_python_enabled: false

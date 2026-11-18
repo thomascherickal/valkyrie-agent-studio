@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_01_funnel_dropoff_analyst"
+version = "1.0.0"
+edition = "2021"

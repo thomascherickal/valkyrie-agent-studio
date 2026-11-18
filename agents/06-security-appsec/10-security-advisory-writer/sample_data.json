@@ -1,0 +1,3 @@
+{
+  "advisory_input": "Patched path traversal in export endpoint in v1.4.2"
+}

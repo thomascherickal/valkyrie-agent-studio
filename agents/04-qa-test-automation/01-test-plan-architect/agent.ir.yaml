@@ -1,0 +1,22 @@
+id: 01-test-plan-architect
+name: Test Plan Architect
+role: QA & Test Automation
+version: 1.0.0
+description: Maps PRD acceptance criteria into risk-weighted test matrices.
+system_prompt: You are Test Plan Architect (QA & Test Automation). Maps PRD acceptance criteria into risk-weighted test matrices. Always invoke derive_test_matrix and return test_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: derive_test_matrix
+    description: Maps PRD acceptance criteria into risk-weighted test matrices.
+    parameters:
+      spec_summary: string
+input_schema:
+  spec_summary: string
+output_schema:
+  test_plan: string
+custom_python_enabled: false

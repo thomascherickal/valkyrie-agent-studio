@@ -1,0 +1,22 @@
+id: 08-unit-economics-tracker
+name: Unit Economics Tracker
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Calculates COGS per active tenant and per 1,000 agent invocations.
+system_prompt: You are Unit Economics Tracker (FinOps & Cloud Cost). Calculates COGS per active tenant and per 1,000 agent invocations. Always invoke calc_unit_cogs and return unit_economics.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: calc_unit_cogs
+    description: Calculates COGS per active tenant and per 1,000 agent invocations.
+    parameters:
+      cogs_inputs: string
+input_schema:
+  cogs_inputs: string
+output_schema:
+  unit_economics: string
+custom_python_enabled: false

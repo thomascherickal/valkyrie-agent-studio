@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_06_tutorial_video_scripter"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,22 @@
+id: 10-bug-repro-distiller
+name: Bug Repro Distiller
+role: QA & Test Automation
+version: 1.0.0
+description: Condenses verbose customer bug threads into minimal deterministic repros.
+system_prompt: You are Bug Repro Distiller (QA & Test Automation). Condenses verbose customer bug threads into minimal deterministic repros. Always invoke distill_min_repro and return repro_steps.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: distill_min_repro
+    description: Condenses verbose customer bug threads into minimal deterministic repros.
+    parameters:
+      bug_thread: string
+input_schema:
+  bug_thread: string
+output_schema:
+  repro_steps: string
+custom_python_enabled: false

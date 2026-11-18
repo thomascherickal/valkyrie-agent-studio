@@ -1,0 +1,22 @@
+id: 08-tech-debt-triager
+name: Tech Debt Triager
+role: Software Engineering
+version: 1.0.0
+description: Ranks tech debt hotspots by churn frequency multiplied by complexity.
+system_prompt: You are Tech Debt Triager (Software Engineering). Ranks tech debt hotspots by churn frequency multiplied by complexity. Always invoke score_debt_roi and return prioritized_debt.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: score_debt_roi
+    description: Ranks tech debt hotspots by churn frequency multiplied by complexity.
+    parameters:
+      debt_items: string
+input_schema:
+  debt_items: string
+output_schema:
+  prioritized_debt: string
+custom_python_enabled: false

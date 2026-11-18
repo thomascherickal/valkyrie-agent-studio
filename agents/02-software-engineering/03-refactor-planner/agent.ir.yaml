@@ -1,0 +1,22 @@
+id: 03-refactor-planner
+name: Refactor Planner
+role: Software Engineering
+version: 1.0.0
+description: Plans incremental strangler-fig extractions without breaking public callers.
+system_prompt: You are Refactor Planner (Software Engineering). Plans incremental strangler-fig extractions without breaking public callers. Always invoke plan_strangler_steps and return refactor_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_strangler_steps
+    description: Plans incremental strangler-fig extractions without breaking public callers.
+    parameters:
+      module_metrics: string
+input_schema:
+  module_metrics: string
+output_schema:
+  refactor_plan: string
+custom_python_enabled: false

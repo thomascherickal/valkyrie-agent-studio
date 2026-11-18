@@ -1,0 +1,22 @@
+id: 04-crisis-comms-strategist
+name: Crisis Comms Strategist
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Coordinates customer, press, and internal messaging during incidents.
+system_prompt: You are Crisis Comms Strategist (C-Suite & Executives (CxOs)). Coordinates customer, press, and internal messaging during incidents. Always invoke draft_comms_matrix and return comms_playbook.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: draft_comms_matrix
+    description: Coordinates customer, press, and internal messaging during incidents.
+    parameters:
+      crisis_brief: string
+input_schema:
+  crisis_brief: string
+output_schema:
+  comms_playbook: string
+custom_python_enabled: false

@@ -1,0 +1,3 @@
+{
+  "diff_snippet": "for item in items: db.query(item.id) # N+1 inside loop"
+}

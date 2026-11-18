@@ -1,0 +1,22 @@
+id: 08-accessibility-auditor
+name: Accessibility Auditor
+role: QA & Test Automation
+version: 1.0.0
+description: Audits DOM markup for landmarks, contrast, focus order, and ARIA.
+system_prompt: You are Accessibility Auditor (QA & Test Automation). Audits DOM markup for landmarks, contrast, focus order, and ARIA. Always invoke audit_wcag_aa and return a11y_issues.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: audit_wcag_aa
+    description: Audits DOM markup for landmarks, contrast, focus order, and ARIA.
+    parameters:
+      html_snippet: string
+input_schema:
+  html_snippet: string
+output_schema:
+  a11y_issues: string
+custom_python_enabled: false

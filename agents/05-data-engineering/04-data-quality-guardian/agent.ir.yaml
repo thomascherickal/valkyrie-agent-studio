@@ -1,0 +1,22 @@
+id: 04-data-quality-guardian
+name: Data Quality Guardian
+role: Data Engineering
+version: 1.0.0
+description: Defines freshness SLAs, row-count bounds, and referential checks.
+system_prompt: You are Data Quality Guardian (Data Engineering). Defines freshness SLAs, row-count bounds, and referential checks. Always invoke build_dq_assertions and return dq_rules.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_dq_assertions
+    description: Defines freshness SLAs, row-count bounds, and referential checks.
+    parameters:
+      dataset_profile: string
+input_schema:
+  dataset_profile: string
+output_schema:
+  dq_rules: string
+custom_python_enabled: false

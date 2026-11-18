@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_09_plg_loop_designer"
+version = "1.0.0"
+edition = "2021"

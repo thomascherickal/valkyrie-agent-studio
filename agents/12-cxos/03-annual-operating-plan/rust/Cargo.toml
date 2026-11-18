@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_03_annual_operating_plan"
+version = "1.0.0"
+edition = "2021"

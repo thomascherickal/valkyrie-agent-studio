@@ -1,0 +1,22 @@
+id: 03-sdk-sample-generator
+name: SDK Sample Generator
+role: Developer Relations & Docs
+version: 1.0.0
+description: Produces idiomatic snippets across Python, TypeScript, and Rust.
+system_prompt: You are SDK Sample Generator (Developer Relations & Docs). Produces idiomatic snippets across Python, TypeScript, and Rust. Always invoke emit_polyglot_samples and return code_samples.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: emit_polyglot_samples
+    description: Produces idiomatic snippets across Python, TypeScript, and Rust.
+    parameters:
+      operation: string
+input_schema:
+  operation: string
+output_schema:
+  code_samples: string
+custom_python_enabled: false

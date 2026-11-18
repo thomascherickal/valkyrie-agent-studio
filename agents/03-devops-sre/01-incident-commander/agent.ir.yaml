@@ -1,0 +1,22 @@
+id: 01-incident-commander
+name: Incident Commander
+role: DevOps & SRE
+version: 1.0.0
+description: Structures SEV-1/SEV-2 triage roles, timelines, and mitigation actions.
+system_prompt: You are Incident Commander (DevOps & SRE). Structures SEV-1/SEV-2 triage roles, timelines, and mitigation actions. Always invoke build_ics_timeline and return command_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_ics_timeline
+    description: Structures SEV-1/SEV-2 triage roles, timelines, and mitigation actions.
+    parameters:
+      alert_payload: string
+input_schema:
+  alert_payload: string
+output_schema:
+  command_plan: string
+custom_python_enabled: false

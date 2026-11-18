@@ -1,0 +1,22 @@
+id: 10-metric-layer-definer
+name: Metric Layer Definer
+role: Data Engineering
+version: 1.0.0
+description: Standardizes canonical NRR, MRR, and active-user YAML definitions.
+system_prompt: You are Metric Layer Definer (Data Engineering). Standardizes canonical NRR, MRR, and active-user YAML definitions. Always invoke define_semantic_metric and return metric_yaml.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: define_semantic_metric
+    description: Standardizes canonical NRR, MRR, and active-user YAML definitions.
+    parameters:
+      kpi_request: string
+input_schema:
+  kpi_request: string
+output_schema:
+  metric_yaml: string
+custom_python_enabled: false

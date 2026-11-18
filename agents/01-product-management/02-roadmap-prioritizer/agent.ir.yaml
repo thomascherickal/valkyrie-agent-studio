@@ -1,0 +1,22 @@
+id: 02-roadmap-prioritizer
+name: Roadmap Prioritizer
+role: Product Management
+version: 1.0.0
+description: Scores backlog items using RICE (Reach, Impact, Confidence, Effort) and outputs ranked tiers.
+system_prompt: You are Roadmap Prioritizer (Product Management). Scores backlog items using RICE (Reach, Impact, Confidence, Effort) and outputs ranked tiers. Always invoke compute_rice_score and return ranked_roadmap.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compute_rice_score
+    description: Scores backlog items using RICE (Reach, Impact, Confidence, Effort) and outputs ranked tiers.
+    parameters:
+      initiatives: string
+input_schema:
+  initiatives: string
+output_schema:
+  ranked_roadmap: string
+custom_python_enabled: false

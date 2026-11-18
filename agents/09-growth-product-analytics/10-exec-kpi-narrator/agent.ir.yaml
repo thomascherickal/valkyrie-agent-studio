@@ -1,0 +1,22 @@
+id: 10-exec-kpi-narrator
+name: Exec KPI Narrator
+role: Growth & Product Analytics
+version: 1.0.0
+description: Turns weekly product telemetry tables into crisp narrative memos.
+system_prompt: You are Exec KPI Narrator (Growth & Product Analytics). Turns weekly product telemetry tables into crisp narrative memos. Always invoke narrate_weekly_kpis and return kpi_memo.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: narrate_weekly_kpis
+    description: Turns weekly product telemetry tables into crisp narrative memos.
+    parameters:
+      kpi_table: string
+input_schema:
+  kpi_table: string
+output_schema:
+  kpi_memo: string
+custom_python_enabled: false

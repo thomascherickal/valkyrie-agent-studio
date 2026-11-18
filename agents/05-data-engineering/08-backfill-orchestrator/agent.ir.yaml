@@ -1,0 +1,22 @@
+id: 08-backfill-orchestrator
+name: Backfill Orchestrator
+role: Data Engineering
+version: 1.0.0
+description: Splits multi-year backfills into safe rate-limited date chunks.
+system_prompt: You are Backfill Orchestrator (Data Engineering). Splits multi-year backfills into safe rate-limited date chunks. Always invoke chunk_date_windows and return backfill_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: chunk_date_windows
+    description: Splits multi-year backfills into safe rate-limited date chunks.
+    parameters:
+      backfill_window: string
+input_schema:
+  backfill_window: string
+output_schema:
+  backfill_plan: string
+custom_python_enabled: false

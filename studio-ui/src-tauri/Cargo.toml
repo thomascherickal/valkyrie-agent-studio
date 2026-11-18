@@ -1,0 +1,19 @@
+[package]
+name = "valkyrie-studio-tauri"
+version = "0.2.0"
+edition = "2021"
+description = "Valkyrie AI Agent Studio — Tauri Rust Desktop Shell"
+
+[lib]
+name = "valkyrie_studio_tauri_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+valkyrie-rust-runtime = { path = "../../rust-runtime-template" }
+

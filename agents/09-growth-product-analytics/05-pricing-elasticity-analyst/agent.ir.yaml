@@ -1,0 +1,22 @@
+id: 05-pricing-elasticity-analyst
+name: Pricing Elasticity Analyst
+role: Growth & Product Analytics
+version: 1.0.0
+description: Models upgrade conversion and revenue impact of paywall shifts.
+system_prompt: You are Pricing Elasticity Analyst (Growth & Product Analytics). Models upgrade conversion and revenue impact of paywall shifts. Always invoke simulate_paywall and return elasticity_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: simulate_paywall
+    description: Models upgrade conversion and revenue impact of paywall shifts.
+    parameters:
+      upgrade_data: string
+input_schema:
+  upgrade_data: string
+output_schema:
+  elasticity_report: string
+custom_python_enabled: false

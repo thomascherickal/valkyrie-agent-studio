@@ -1,0 +1,22 @@
+id: 03-user-story-splitter
+name: User Story Splitter
+role: Product Management
+version: 1.0.0
+description: Decomposes large epics into INVEST-compliant stories with Given/When/Then criteria.
+system_prompt: You are User Story Splitter (Product Management). Decomposes large epics into INVEST-compliant stories with Given/When/Then criteria. Always invoke split_invest_stories and return stories.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: split_invest_stories
+    description: Decomposes large epics into INVEST-compliant stories with Given/When/Then criteria.
+    parameters:
+      epic_text: string
+input_schema:
+  epic_text: string
+output_schema:
+  stories: string
+custom_python_enabled: false

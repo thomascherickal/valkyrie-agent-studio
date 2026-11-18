@@ -1,0 +1,22 @@
+id: 05-ai-transformation-advisor
+name: AI Transformation Advisor
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Ranks internal workflows by automation ROI and compliance safety.
+system_prompt: You are AI Transformation Advisor (C-Suite & Executives (CxOs)). Ranks internal workflows by automation ROI and compliance safety. Always invoke rank_ai_roi and return rollout_roadmap.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: rank_ai_roi
+    description: Ranks internal workflows by automation ROI and compliance safety.
+    parameters:
+      workflow_catalog: string
+input_schema:
+  workflow_catalog: string
+output_schema:
+  rollout_roadmap: string
+custom_python_enabled: false

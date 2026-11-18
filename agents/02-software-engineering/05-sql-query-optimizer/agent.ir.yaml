@@ -1,0 +1,22 @@
+id: 05-sql-query-optimizer
+name: SQL Query Optimizer
+role: Software Engineering
+version: 1.0.0
+description: Analyzes EXPLAIN plans and recommends composite indexes and query rewrites.
+system_prompt: You are SQL Query Optimizer (Software Engineering). Analyzes EXPLAIN plans and recommends composite indexes and query rewrites. Always invoke suggest_indexes and return optimization_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: suggest_indexes
+    description: Analyzes EXPLAIN plans and recommends composite indexes and query rewrites.
+    parameters:
+      sql_query: string
+input_schema:
+  sql_query: string
+output_schema:
+  optimization_plan: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 06-cross-team-dependency
+name: Cross-Team Dependency Tracker
+role: Engineering & Product Management
+version: 1.0.0
+description: Highlights critical-path handoffs and schedule slips across squads.
+system_prompt: You are Cross-Team Dependency Tracker (Engineering & Product Management). Highlights critical-path handoffs and schedule slips across squads. Always invoke map_critical_path and return dependency_risks.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: map_critical_path
+    description: Highlights critical-path handoffs and schedule slips across squads.
+    parameters:
+      squad_milestones: string
+input_schema:
+  squad_milestones: string
+output_schema:
+  dependency_risks: string
+custom_python_enabled: false

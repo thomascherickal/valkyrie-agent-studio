@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_04_flaky_test_triager"
+version = "1.0.0"
+edition = "2021"

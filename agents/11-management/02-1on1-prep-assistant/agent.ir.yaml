@@ -1,0 +1,22 @@
+id: 02-1on1-prep-assistant
+name: 1:1 Prep Assistant
+role: Engineering & Product Management
+version: 1.0.0
+description: Organizes shipped PRs, blockers, and career growth notes for 1:1s.
+system_prompt: You are 1:1 Prep Assistant (Engineering & Product Management). Organizes shipped PRs, blockers, and career growth notes for 1:1s. Always invoke structure_1on1_agenda and return agenda_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: structure_1on1_agenda
+    description: Organizes shipped PRs, blockers, and career growth notes for 1:1s.
+    parameters:
+      engineer_context: string
+input_schema:
+  engineer_context: string
+output_schema:
+  agenda_md: string
+custom_python_enabled: false

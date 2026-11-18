@@ -1,0 +1,22 @@
+id: 04-kb-article-drafter
+name: KB Article Drafter
+role: Technical Support
+version: 1.0.0
+description: Converts resolved support threads into searchable troubleshooting guides.
+system_prompt: You are KB Article Drafter (Technical Support). Converts resolved support threads into searchable troubleshooting guides. Always invoke format_kb_markdown and return kb_article.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: format_kb_markdown
+    description: Converts resolved support threads into searchable troubleshooting guides.
+    parameters:
+      resolution_notes: string
+input_schema:
+  resolution_notes: string
+output_schema:
+  kb_article: string
+custom_python_enabled: false

@@ -1,0 +1,3 @@
+{
+  "release_diff": "Moved from web-only UI to standalone Electron + Vite GUI"
+}

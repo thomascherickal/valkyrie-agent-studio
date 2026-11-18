@@ -1,0 +1,3 @@
+{
+  "alert_rule": "HighPostgresConnections > 85% for 5m"
+}

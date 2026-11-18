@@ -1,0 +1,22 @@
+id: 07-pricing-modeler
+name: Pricing & Packaging Modeler
+role: Product Management
+version: 1.0.0
+description: Models gross margin and ARPA across seat-based and usage-based pricing tiers.
+system_prompt: You are Pricing & Packaging Modeler (Product Management). Models gross margin and ARPA across seat-based and usage-based pricing tiers. Always invoke simulate_unit_margin and return margin_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: simulate_unit_margin
+    description: Models gross margin and ARPA across seat-based and usage-based pricing tiers.
+    parameters:
+      tier_assumptions: string
+input_schema:
+  tier_assumptions: string
+output_schema:
+  margin_report: string
+custom_python_enabled: false

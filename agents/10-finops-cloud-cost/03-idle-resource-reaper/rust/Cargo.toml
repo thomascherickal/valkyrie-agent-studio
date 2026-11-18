@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_03_idle_resource_reaper"
+version = "1.0.0"
+edition = "2021"

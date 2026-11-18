@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_05_sql_query_optimizer"
+version = "1.0.0"
+edition = "2021"

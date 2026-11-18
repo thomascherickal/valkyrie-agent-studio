@@ -1,0 +1,22 @@
+id: 10-stakeholder-brief
+name: Stakeholder Brief Generator
+role: Product Management
+version: 1.0.0
+description: Distills sprint demos, risks, and KPIs into a concise executive digest.
+system_prompt: You are Stakeholder Brief Generator (Product Management). Distills sprint demos, risks, and KPIs into a concise executive digest. Always invoke summarize_exec_digest and return brief_text.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: summarize_exec_digest
+    description: Distills sprint demos, risks, and KPIs into a concise executive digest.
+    parameters:
+      weekly_updates: string
+input_schema:
+  weekly_updates: string
+output_schema:
+  brief_text: string
+custom_python_enabled: false

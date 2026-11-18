@@ -1,0 +1,22 @@
+id: 01-etl-pipeline-designer
+name: ETL Pipeline Designer
+role: Data Engineering
+version: 1.0.0
+description: Designs idempotent partition-aware ingestion DAGs with dead-letter queues.
+system_prompt: You are ETL Pipeline Designer (Data Engineering). Designs idempotent partition-aware ingestion DAGs with dead-letter queues. Always invoke design_idempotent_dag and return dag_spec.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: design_idempotent_dag
+    description: Designs idempotent partition-aware ingestion DAGs with dead-letter queues.
+    parameters:
+      source_spec: string
+input_schema:
+  source_spec: string
+output_schema:
+  dag_spec: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 01-prd-architect
+name: PRD Architect
+role: Product Management
+version: 1.0.0
+description: Converts feature briefs into structured PRDs with goals, non-goals, and acceptance criteria.
+system_prompt: You are PRD Architect (Product Management). Converts feature briefs into structured PRDs with goals, non-goals, and acceptance criteria. Always invoke extract_requirements and return prd_markdown.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: extract_requirements
+    description: Converts feature briefs into structured PRDs with goals, non-goals, and acceptance criteria.
+    parameters:
+      feature_brief: string
+input_schema:
+  feature_brief: string
+output_schema:
+  prd_markdown: string
+custom_python_enabled: false

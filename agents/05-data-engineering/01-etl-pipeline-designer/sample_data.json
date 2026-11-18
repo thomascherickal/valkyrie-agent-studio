@@ -1,0 +1,3 @@
+{
+  "source_spec": "Hourly Stripe webhook events -> BigQuery raw_events"
+}

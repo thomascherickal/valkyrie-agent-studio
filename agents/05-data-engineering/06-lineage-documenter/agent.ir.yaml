@@ -1,0 +1,22 @@
+id: 06-lineage-documenter
+name: Lineage Documenter
+role: Data Engineering
+version: 1.0.0
+description: Traces column-level provenance from raw ingestion to BI metrics.
+system_prompt: You are Lineage Documenter (Data Engineering). Traces column-level provenance from raw ingestion to BI metrics. Always invoke trace_column_lineage and return lineage_map.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: trace_column_lineage
+    description: Traces column-level provenance from raw ingestion to BI metrics.
+    parameters:
+      sql_graph: string
+input_schema:
+  sql_graph: string
+output_schema:
+  lineage_map: string
+custom_python_enabled: false

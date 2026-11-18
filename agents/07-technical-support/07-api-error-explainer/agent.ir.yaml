@@ -1,0 +1,22 @@
+id: 07-api-error-explainer
+name: API Error Explainer
+role: Technical Support
+version: 1.0.0
+description: Translates raw HTTP 4xx/5xx error payloads into plain-English fixes.
+system_prompt: You are API Error Explainer (Technical Support). Translates raw HTTP 4xx/5xx error payloads into plain-English fixes. Always invoke explain_api_error and return fix_guidance.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: explain_api_error
+    description: Translates raw HTTP 4xx/5xx error payloads into plain-English fixes.
+    parameters:
+      error_payload: string
+input_schema:
+  error_payload: string
+output_schema:
+  fix_guidance: string
+custom_python_enabled: false

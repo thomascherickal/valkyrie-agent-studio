@@ -1,0 +1,22 @@
+id: 01-architecture-reviewer
+name: Architecture Reviewer
+role: Software Engineering
+version: 1.0.0
+description: Audits RFCs for single points of failure, coupling, and backpressure gaps.
+system_prompt: You are Architecture Reviewer (Software Engineering). Audits RFCs for single points of failure, coupling, and backpressure gaps. Always invoke check_failure_modes and return review_findings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: check_failure_modes
+    description: Audits RFCs for single points of failure, coupling, and backpressure gaps.
+    parameters:
+      rfc_summary: string
+input_schema:
+  rfc_summary: string
+output_schema:
+  review_findings: string
+custom_python_enabled: false

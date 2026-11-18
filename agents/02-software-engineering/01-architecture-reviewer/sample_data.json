@@ -1,0 +1,3 @@
+{
+  "rfc_summary": "Event-driven billing worker consuming Kafka with Postgres outbox"
+}

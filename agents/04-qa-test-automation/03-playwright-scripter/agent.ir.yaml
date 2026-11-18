@@ -1,0 +1,22 @@
+id: 03-playwright-scripter
+name: Playwright E2E Scripter
+role: QA & Test Automation
+version: 1.0.0
+description: Writes resilient locator-first Playwright tests avoiding flaky sleeps.
+system_prompt: You are Playwright E2E Scripter (QA & Test Automation). Writes resilient locator-first Playwright tests avoiding flaky sleeps. Always invoke emit_playwright_spec and return test_code.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: emit_playwright_spec
+    description: Writes resilient locator-first Playwright tests avoiding flaky sleeps.
+    parameters:
+      user_flow: string
+input_schema:
+  user_flow: string
+output_schema:
+  test_code: string
+custom_python_enabled: false

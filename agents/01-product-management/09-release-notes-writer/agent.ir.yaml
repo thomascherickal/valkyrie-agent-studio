@@ -1,0 +1,22 @@
+id: 09-release-notes-writer
+name: Release Notes Writer
+role: Product Management
+version: 1.0.0
+description: Transforms git commit logs and PR summaries into customer-facing changelogs.
+system_prompt: You are Release Notes Writer (Product Management). Transforms git commit logs and PR summaries into customer-facing changelogs. Always invoke format_changelog and return release_notes.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: format_changelog
+    description: Transforms git commit logs and PR summaries into customer-facing changelogs.
+    parameters:
+      pr_log: string
+input_schema:
+  pr_log: string
+output_schema:
+  release_notes: string
+custom_python_enabled: false

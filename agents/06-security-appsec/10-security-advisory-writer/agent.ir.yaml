@@ -1,0 +1,22 @@
+id: 10-security-advisory-writer
+name: Security Advisory Writer
+role: Security & AppSec
+version: 1.0.0
+description: Drafts transparent CVE advisories with affected versions and mitigations.
+system_prompt: You are Security Advisory Writer (Security & AppSec). Drafts transparent CVE advisories with affected versions and mitigations. Always invoke format_advisory_md and return advisory_doc.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: format_advisory_md
+    description: Drafts transparent CVE advisories with affected versions and mitigations.
+    parameters:
+      advisory_input: string
+input_schema:
+  advisory_input: string
+output_schema:
+  advisory_doc: string
+custom_python_enabled: false

@@ -1,0 +1,3 @@
+{
+  "schema_change": "Rename users.full_name to display_name without downtime"
+}

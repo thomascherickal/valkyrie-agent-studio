@@ -1,0 +1,3 @@
+{
+  "ci_timings": "npm install: 4m, cargo build: 9m (no sccache), pytest: 1m"
+}

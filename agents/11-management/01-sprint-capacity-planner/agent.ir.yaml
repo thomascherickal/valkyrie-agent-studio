@@ -1,0 +1,22 @@
+id: 01-sprint-capacity-planner
+name: Sprint Capacity Planner
+role: Engineering & Product Management
+version: 1.0.0
+description: Adjusts story-point targets for PTO, on-call rotation, and holidays.
+system_prompt: You are Sprint Capacity Planner (Engineering & Product Management). Adjusts story-point targets for PTO, on-call rotation, and holidays. Always invoke calc_net_capacity and return sprint_target.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: calc_net_capacity
+    description: Adjusts story-point targets for PTO, on-call rotation, and holidays.
+    parameters:
+      team_roster: string
+input_schema:
+  team_roster: string
+output_schema:
+  sprint_target: string
+custom_python_enabled: false

@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_10_rollback_verifier"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,22 @@
+id: 05-perf-review-synthesizer
+name: Perf Review Synthesizer
+role: Engineering & Product Management
+version: 1.0.0
+description: Synthesizes peer feedback and shipped artifacts into balanced reviews.
+system_prompt: You are Perf Review Synthesizer (Engineering & Product Management). Synthesizes peer feedback and shipped artifacts into balanced reviews. Always invoke synthesize_feedback and return review_draft.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: synthesize_feedback
+    description: Synthesizes peer feedback and shipped artifacts into balanced reviews.
+    parameters:
+      feedback_notes: string
+input_schema:
+  feedback_notes: string
+output_schema:
+  review_draft: string
+custom_python_enabled: false

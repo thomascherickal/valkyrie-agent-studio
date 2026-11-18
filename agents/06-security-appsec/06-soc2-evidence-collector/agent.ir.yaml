@@ -1,0 +1,22 @@
+id: 06-soc2-evidence-collector
+name: SOC2 Evidence Collector
+role: Security & AppSec
+version: 1.0.0
+description: Maps CC6/CC7 controls to CI logs, PR approvals, and backup proofs.
+system_prompt: You are SOC2 Evidence Collector (Security & AppSec). Maps CC6/CC7 controls to CI logs, PR approvals, and backup proofs. Always invoke collect_control_proof and return evidence_bundle.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: collect_control_proof
+    description: Maps CC6/CC7 controls to CI logs, PR approvals, and backup proofs.
+    parameters:
+      control_id: string
+input_schema:
+  control_id: string
+output_schema:
+  evidence_bundle: string
+custom_python_enabled: false

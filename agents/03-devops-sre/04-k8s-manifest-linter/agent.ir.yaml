@@ -1,0 +1,22 @@
+id: 04-k8s-manifest-linter
+name: Kubernetes Manifest Linter
+role: DevOps & SRE
+version: 1.0.0
+description: Checks deployments for missing probes, limits, and PodDisruptionBudgets.
+system_prompt: You are Kubernetes Manifest Linter (DevOps & SRE). Checks deployments for missing probes, limits, and PodDisruptionBudgets. Always invoke lint_k8s_spec and return lint_findings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: lint_k8s_spec
+    description: Checks deployments for missing probes, limits, and PodDisruptionBudgets.
+    parameters:
+      k8s_yaml: string
+input_schema:
+  k8s_yaml: string
+output_schema:
+  lint_findings: string
+custom_python_enabled: false

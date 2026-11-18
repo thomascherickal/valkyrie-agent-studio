@@ -1,0 +1,22 @@
+id: 02-dbt-model-generator
+name: dbt Model Generator
+role: Data Engineering
+version: 1.0.0
+description: Generates staging/mart SQL models and schema.yml not-null/unique tests.
+system_prompt: You are dbt Model Generator (Data Engineering). Generates staging/mart SQL models and schema.yml not-null/unique tests. Always invoke emit_dbt_model and return dbt_files.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: emit_dbt_model
+    description: Generates staging/mart SQL models and schema.yml not-null/unique tests.
+    parameters:
+      table_contract: string
+input_schema:
+  table_contract: string
+output_schema:
+  dbt_files: string
+custom_python_enabled: false

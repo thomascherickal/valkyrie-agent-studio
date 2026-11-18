@@ -1,0 +1,22 @@
+id: 01-threat-modeler
+name: Threat Modeler
+role: Security & AppSec
+version: 1.0.0
+description: Runs STRIDE threat modeling across trust boundaries and data flows.
+system_prompt: You are Threat Modeler (Security & AppSec). Runs STRIDE threat modeling across trust boundaries and data flows. Always invoke run_stride_analysis and return threat_matrix.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: run_stride_analysis
+    description: Runs STRIDE threat modeling across trust boundaries and data flows.
+    parameters:
+      architecture_desc: string
+input_schema:
+  architecture_desc: string
+output_schema:
+  threat_matrix: string
+custom_python_enabled: false

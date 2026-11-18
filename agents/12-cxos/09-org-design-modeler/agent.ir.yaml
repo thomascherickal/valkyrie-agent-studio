@@ -1,0 +1,22 @@
+id: 09-org-design-modeler
+name: Org Design Modeler
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Evaluates manager span-of-control and platform vs stream-aligned pods.
+system_prompt: You are Org Design Modeler (C-Suite & Executives (CxOs)). Evaluates manager span-of-control and platform vs stream-aligned pods. Always invoke analyze_org_topology and return org_recommendations.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_org_topology
+    description: Evaluates manager span-of-control and platform vs stream-aligned pods.
+    parameters:
+      org_chart: string
+input_schema:
+  org_chart: string
+output_schema:
+  org_recommendations: string
+custom_python_enabled: false

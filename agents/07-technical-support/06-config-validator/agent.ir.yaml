@@ -1,0 +1,22 @@
+id: 06-config-validator
+name: Config Validator
+role: Technical Support
+version: 1.0.0
+description: Validates customer agent.ir.yaml snippets and pinpoints syntax errors.
+system_prompt: You are Config Validator (Technical Support). Validates customer agent.ir.yaml snippets and pinpoints syntax errors. Always invoke validate_customer_yaml and return validation_hints.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: validate_customer_yaml
+    description: Validates customer agent.ir.yaml snippets and pinpoints syntax errors.
+    parameters:
+      yaml_snippet: string
+input_schema:
+  yaml_snippet: string
+output_schema:
+  validation_hints: string
+custom_python_enabled: false

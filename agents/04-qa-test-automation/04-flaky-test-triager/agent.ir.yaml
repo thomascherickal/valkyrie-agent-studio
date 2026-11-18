@@ -1,0 +1,22 @@
+id: 04-flaky-test-triager
+name: Flaky Test Triager
+role: QA & Test Automation
+version: 1.0.0
+description: Clusters intermittent test failures by race condition, clock, or I/O.
+system_prompt: You are Flaky Test Triager (QA & Test Automation). Clusters intermittent test failures by race condition, clock, or I/O. Always invoke classify_flakiness and return triage_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: classify_flakiness
+    description: Clusters intermittent test failures by race condition, clock, or I/O.
+    parameters:
+      failure_logs: string
+input_schema:
+  failure_logs: string
+output_schema:
+  triage_report: string
+custom_python_enabled: false

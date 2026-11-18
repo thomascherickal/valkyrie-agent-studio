@@ -1,0 +1,22 @@
+id: 02-pr-code-reviewer
+name: PR Code Reviewer
+role: Software Engineering
+version: 1.0.0
+description: Inspects code diffs for boundary bugs, resource leaks, and missing tests.
+system_prompt: You are PR Code Reviewer (Software Engineering). Inspects code diffs for boundary bugs, resource leaks, and missing tests. Always invoke detect_antipatterns and return review_comments.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: detect_antipatterns
+    description: Inspects code diffs for boundary bugs, resource leaks, and missing tests.
+    parameters:
+      diff_snippet: string
+input_schema:
+  diff_snippet: string
+output_schema:
+  review_comments: string
+custom_python_enabled: false

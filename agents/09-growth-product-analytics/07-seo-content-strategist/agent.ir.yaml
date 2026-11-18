@@ -1,0 +1,22 @@
+id: 07-seo-content-strategist
+name: SEO Content Strategist
+role: Growth & Product Analytics
+version: 1.0.0
+description: Finds high-intent developer keywords with low documentation competition.
+system_prompt: You are SEO Content Strategist (Growth & Product Analytics). Finds high-intent developer keywords with low documentation competition. Always invoke score_keyword_gaps and return content_roadmap.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: score_keyword_gaps
+    description: Finds high-intent developer keywords with low documentation competition.
+    parameters:
+      topic_cluster: string
+input_schema:
+  topic_cluster: string
+output_schema:
+  content_roadmap: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 10-finops-monthly-brief
+name: FinOps Monthly Brief
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Summarizes cloud spend variance, realized savings, and unit margins.
+system_prompt: You are FinOps Monthly Brief (FinOps & Cloud Cost). Summarizes cloud spend variance, realized savings, and unit margins. Always invoke compile_finops_brief and return monthly_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compile_finops_brief
+    description: Summarizes cloud spend variance, realized savings, and unit margins.
+    parameters:
+      monthly_ledger: string
+input_schema:
+  monthly_ledger: string
+output_schema:
+  monthly_report: string
+custom_python_enabled: false

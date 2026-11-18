@@ -1,0 +1,22 @@
+id: 09-hackathon-kit-builder
+name: Hackathon Kit Builder
+role: Developer Relations & Docs
+version: 1.0.0
+description: Packages starter prompts, sample datasets, and judging rubrics.
+system_prompt: You are Hackathon Kit Builder (Developer Relations & Docs). Packages starter prompts, sample datasets, and judging rubrics. Always invoke assemble_kit_manifest and return hackathon_kit.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: assemble_kit_manifest
+    description: Packages starter prompts, sample datasets, and judging rubrics.
+    parameters:
+      theme: string
+input_schema:
+  theme: string
+output_schema:
+  hackathon_kit: string
+custom_python_enabled: false

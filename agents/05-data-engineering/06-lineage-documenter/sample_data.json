@@ -1,0 +1,3 @@
+{
+  "sql_graph": "mart_arr derives from dim_subs + fct_payments"
+}

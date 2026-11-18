@@ -1,0 +1,22 @@
+id: 05-llm-token-optimizer
+name: LLM Token Optimizer
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Routes simple tasks to gemini-4-hydrogen (low) and trims prompt bloat.
+system_prompt: You are LLM Token Optimizer (FinOps & Cloud Cost). Routes simple tasks to gemini-4-hydrogen (low) and trims prompt bloat. Always invoke recommend_model_tier and return token_savings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: recommend_model_tier
+    description: Routes simple tasks to gemini-4-hydrogen (low) and trims prompt bloat.
+    parameters:
+      llm_usage: string
+input_schema:
+  llm_usage: string
+output_schema:
+  token_savings: string
+custom_python_enabled: false

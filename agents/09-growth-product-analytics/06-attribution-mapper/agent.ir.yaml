@@ -1,0 +1,22 @@
+id: 06-attribution-mapper
+name: Attribution Mapper
+role: Growth & Product Analytics
+version: 1.0.0
+description: Compares first-touch vs linear multi-touch CAC across channels.
+system_prompt: You are Attribution Mapper (Growth & Product Analytics). Compares first-touch vs linear multi-touch CAC across channels. Always invoke compute_channel_roi and return attribution_table.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compute_channel_roi
+    description: Compares first-touch vs linear multi-touch CAC across channels.
+    parameters:
+      channel_spend: string
+input_schema:
+  channel_spend: string
+output_schema:
+  attribution_table: string
+custom_python_enabled: false

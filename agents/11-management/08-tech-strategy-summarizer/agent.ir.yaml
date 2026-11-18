@@ -1,0 +1,22 @@
+id: 08-tech-strategy-summarizer
+name: Tech Strategy Summarizer
+role: Engineering & Product Management
+version: 1.0.0
+description: Condenses 15-page architecture RFCs into 1-page decision memos.
+system_prompt: You are Tech Strategy Summarizer (Engineering & Product Management). Condenses 15-page architecture RFCs into 1-page decision memos. Always invoke distill_decision_memo and return memo_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: distill_decision_memo
+    description: Condenses 15-page architecture RFCs into 1-page decision memos.
+    parameters:
+      rfc_outline: string
+input_schema:
+  rfc_outline: string
+output_schema:
+  memo_md: string
+custom_python_enabled: false

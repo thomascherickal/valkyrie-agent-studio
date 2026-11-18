@@ -1,0 +1,22 @@
+id: 09-plg-loop-designer
+name: PLG Loop Designer
+role: Growth & Product Analytics
+version: 1.0.0
+description: Designs shareable agent blueprint links that drive organic signups.
+system_prompt: You are PLG Loop Designer (Growth & Product Analytics). Designs shareable agent blueprint links that drive organic signups. Always invoke model_viral_k_factor and return loop_spec.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: model_viral_k_factor
+    description: Designs shareable agent blueprint links that drive organic signups.
+    parameters:
+      product_surface: string
+input_schema:
+  product_surface: string
+output_schema:
+  loop_spec: string
+custom_python_enabled: false

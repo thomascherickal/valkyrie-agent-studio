@@ -1,0 +1,22 @@
+id: 07-regression-selector
+name: Regression Selector
+role: QA & Test Automation
+version: 1.0.0
+description: Selects the minimal impacted test subset from changed file paths.
+system_prompt: You are Regression Selector (QA & Test Automation). Selects the minimal impacted test subset from changed file paths. Always invoke map_impacted_tests and return selected_tests.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: map_impacted_tests
+    description: Selects the minimal impacted test subset from changed file paths.
+    parameters:
+      changed_files: string
+input_schema:
+  changed_files: string
+output_schema:
+  selected_tests: string
+custom_python_enabled: false

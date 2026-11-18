@@ -1,0 +1,22 @@
+id: 10-ceo-weekly-brief
+name: CEO Weekly Brief
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Synthesizes GTM, Eng, Finance, and People signals into a 3-min read.
+system_prompt: You are CEO Weekly Brief (C-Suite & Executives (CxOs)). Synthesizes GTM, Eng, Finance, and People signals into a 3-min read. Always invoke compile_ceo_brief and return weekly_brief_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compile_ceo_brief
+    description: Synthesizes GTM, Eng, Finance, and People signals into a 3-min read.
+    parameters:
+      exec_inputs: string
+input_schema:
+  exec_inputs: string
+output_schema:
+  weekly_brief_md: string
+custom_python_enabled: false

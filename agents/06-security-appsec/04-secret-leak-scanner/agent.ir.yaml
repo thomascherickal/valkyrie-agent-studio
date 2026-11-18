@@ -1,0 +1,22 @@
+id: 04-secret-leak-scanner
+name: Secret Leak Scanner
+role: Security & AppSec
+version: 1.0.0
+description: Identifies high-entropy API tokens and outputs rotation runbooks.
+system_prompt: You are Secret Leak Scanner (Security & AppSec). Identifies high-entropy API tokens and outputs rotation runbooks. Always invoke scan_secret_patterns and return leak_alert.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: scan_secret_patterns
+    description: Identifies high-entropy API tokens and outputs rotation runbooks.
+    parameters:
+      diff_text: string
+input_schema:
+  diff_text: string
+output_schema:
+  leak_alert: string
+custom_python_enabled: false

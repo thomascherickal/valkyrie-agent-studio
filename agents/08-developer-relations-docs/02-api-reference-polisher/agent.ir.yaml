@@ -1,0 +1,22 @@
+id: 02-api-reference-polisher
+name: API Reference Polisher
+role: Developer Relations & Docs
+version: 1.0.0
+description: Adds realistic curl, Python, and TypeScript examples to OpenAPI specs.
+system_prompt: You are API Reference Polisher (Developer Relations & Docs). Adds realistic curl, Python, and TypeScript examples to OpenAPI specs. Always invoke enrich_api_examples and return reference_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: enrich_api_examples
+    description: Adds realistic curl, Python, and TypeScript examples to OpenAPI specs.
+    parameters:
+      endpoint_def: string
+input_schema:
+  endpoint_def: string
+output_schema:
+  reference_md: string
+custom_python_enabled: false

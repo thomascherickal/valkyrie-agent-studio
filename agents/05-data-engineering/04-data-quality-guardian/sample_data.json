@@ -1,0 +1,3 @@
+{
+  "dataset_profile": "fact_invoices: ~120k rows/day, 0% null invoice_id"
+}

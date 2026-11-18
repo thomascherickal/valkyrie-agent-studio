@@ -1,0 +1,22 @@
+id: 10-status-page-updater
+name: Status Page Updater
+role: Technical Support
+version: 1.0.0
+description: Writes clear, accurate incident updates without internal jargon.
+system_prompt: You are Status Page Updater (Technical Support). Writes clear, accurate incident updates without internal jargon. Always invoke draft_status_update and return status_message.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: draft_status_update
+    description: Writes clear, accurate incident updates without internal jargon.
+    parameters:
+      incident_state: string
+input_schema:
+  incident_state: string
+output_schema:
+  status_message: string
+custom_python_enabled: false

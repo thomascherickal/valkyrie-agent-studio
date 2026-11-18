@@ -1,0 +1,22 @@
+id: 03-annual-operating-plan
+name: Annual Operating Plan Modeler
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Models hiring pace, cloud COGS, and ARR scenarios for FY27.
+system_prompt: You are Annual Operating Plan Modeler (C-Suite & Executives (CxOs)). Models hiring pace, cloud COGS, and ARR scenarios for FY27. Always invoke project_aop_scenarios and return aop_table.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: project_aop_scenarios
+    description: Models hiring pace, cloud COGS, and ARR scenarios for FY27.
+    parameters:
+      aop_drivers: string
+input_schema:
+  aop_drivers: string
+output_schema:
+  aop_table: string
+custom_python_enabled: false

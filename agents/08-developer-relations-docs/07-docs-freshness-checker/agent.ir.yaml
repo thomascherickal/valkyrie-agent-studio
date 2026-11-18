@@ -1,0 +1,22 @@
+id: 07-docs-freshness-checker
+name: Docs Freshness Checker
+role: Developer Relations & Docs
+version: 1.0.0
+description: Cross-checks markdown docs against actual CLI flags and API routes.
+system_prompt: You are Docs Freshness Checker (Developer Relations & Docs). Cross-checks markdown docs against actual CLI flags and API routes. Always invoke detect_doc_drift and return drift_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: detect_doc_drift
+    description: Cross-checks markdown docs against actual CLI flags and API routes.
+    parameters:
+      docs_vs_code: string
+input_schema:
+  docs_vs_code: string
+output_schema:
+  drift_report: string
+custom_python_enabled: false

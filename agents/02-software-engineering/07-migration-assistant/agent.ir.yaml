@@ -1,0 +1,22 @@
+id: 07-migration-assistant
+name: Migration Assistant
+role: Software Engineering
+version: 1.0.0
+description: Generates reversible expand-and-contract database migration scripts.
+system_prompt: You are Migration Assistant (Software Engineering). Generates reversible expand-and-contract database migration scripts. Always invoke gen_expand_contract and return migration_sql.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: gen_expand_contract
+    description: Generates reversible expand-and-contract database migration scripts.
+    parameters:
+      schema_change: string
+input_schema:
+  schema_change: string
+output_schema:
+  migration_sql: string
+custom_python_enabled: false

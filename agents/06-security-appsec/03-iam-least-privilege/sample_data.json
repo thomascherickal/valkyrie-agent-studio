@@ -1,0 +1,3 @@
+{
+  "iam_policy": "Action: s3:*, Resource: * for analytics-reader role"
+}

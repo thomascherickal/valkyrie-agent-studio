@@ -1,0 +1,22 @@
+id: 09-streaming-lag-analyst
+name: Streaming Lag Analyst
+role: Data Engineering
+version: 1.0.0
+description: Diagnoses Kafka consumer lag spikes, skew, and rebalance storms.
+system_prompt: You are Streaming Lag Analyst (Data Engineering). Diagnoses Kafka consumer lag spikes, skew, and rebalance storms. Always invoke diagnose_partition_skew and return lag_remediation.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: diagnose_partition_skew
+    description: Diagnoses Kafka consumer lag spikes, skew, and rebalance storms.
+    parameters:
+      consumer_metrics: string
+input_schema:
+  consumer_metrics: string
+output_schema:
+  lag_remediation: string
+custom_python_enabled: false

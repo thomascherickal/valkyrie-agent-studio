@@ -1,0 +1,22 @@
+id: 04-changelog-curator
+name: Changelog Curator
+role: Developer Relations & Docs
+version: 1.0.0
+description: Highlights breaking changes, deprecations, and codemods for devs.
+system_prompt: You are Changelog Curator (Developer Relations & Docs). Highlights breaking changes, deprecations, and codemods for devs. Always invoke curate_dev_changelog and return changelog_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: curate_dev_changelog
+    description: Highlights breaking changes, deprecations, and codemods for devs.
+    parameters:
+      release_diff: string
+input_schema:
+  release_diff: string
+output_schema:
+  changelog_md: string
+custom_python_enabled: false

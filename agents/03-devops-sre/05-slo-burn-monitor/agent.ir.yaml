@@ -1,0 +1,22 @@
+id: 05-slo-burn-monitor
+name: SLO Burn Rate Monitor
+role: DevOps & SRE
+version: 1.0.0
+description: Computes multi-window error budget burn rates and alert severities.
+system_prompt: You are SLO Burn Rate Monitor (DevOps & SRE). Computes multi-window error budget burn rates and alert severities. Always invoke calc_burn_rate and return paging_decision.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: calc_burn_rate
+    description: Computes multi-window error budget burn rates and alert severities.
+    parameters:
+      sli_metrics: string
+input_schema:
+  sli_metrics: string
+output_schema:
+  paging_decision: string
+custom_python_enabled: false

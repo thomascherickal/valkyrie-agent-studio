@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_02_log_bundle_analyzer"
+version = "1.0.0"
+edition = "2021"

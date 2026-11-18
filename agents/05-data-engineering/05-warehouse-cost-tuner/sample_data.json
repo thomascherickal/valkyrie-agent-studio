@@ -1,0 +1,3 @@
+{
+  "query_telemetry": "Full table scan on 4TB events_log filtering by event_date"
+}

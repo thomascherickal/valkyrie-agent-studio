@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_09_load_test_modeler"
+version = "1.0.0"
+edition = "2021"

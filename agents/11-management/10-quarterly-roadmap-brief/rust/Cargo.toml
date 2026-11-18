@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_10_quarterly_roadmap_brief"
+version = "1.0.0"
+edition = "2021"

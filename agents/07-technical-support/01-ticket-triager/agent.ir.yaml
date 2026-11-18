@@ -1,0 +1,22 @@
+id: 01-ticket-triager
+name: Ticket Triager
+role: Technical Support
+version: 1.0.0
+description: Routes tickets by urgency, product module, and enterprise SLA tier.
+system_prompt: You are Ticket Triager (Technical Support). Routes tickets by urgency, product module, and enterprise SLA tier. Always invoke classify_ticket_sla and return routing_decision.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: classify_ticket_sla
+    description: Routes tickets by urgency, product module, and enterprise SLA tier.
+    parameters:
+      ticket_text: string
+input_schema:
+  ticket_text: string
+output_schema:
+  routing_decision: string
+custom_python_enabled: false

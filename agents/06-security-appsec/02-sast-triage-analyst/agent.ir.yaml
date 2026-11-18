@@ -1,0 +1,22 @@
+id: 02-sast-triage-analyst
+name: SAST Triage Analyst
+role: Security & AppSec
+version: 1.0.0
+description: Separates reachable injection sinks from dead-code false positives.
+system_prompt: You are SAST Triage Analyst (Security & AppSec). Separates reachable injection sinks from dead-code false positives. Always invoke assess_reachability and return triage_verdict.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: assess_reachability
+    description: Separates reachable injection sinks from dead-code false positives.
+    parameters:
+      sast_finding: string
+input_schema:
+  sast_finding: string
+output_schema:
+  triage_verdict: string
+custom_python_enabled: false

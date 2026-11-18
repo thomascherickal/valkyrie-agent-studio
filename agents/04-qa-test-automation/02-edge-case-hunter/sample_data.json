@@ -1,0 +1,3 @@
+{
+  "field_schema": "amount: decimal(>0), currency: ISO-4217, scheduled_at: ISO8601"
+}

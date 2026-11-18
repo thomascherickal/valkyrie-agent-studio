@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_10_metric_layer_definer"
+version = "1.0.0"
+edition = "2021"

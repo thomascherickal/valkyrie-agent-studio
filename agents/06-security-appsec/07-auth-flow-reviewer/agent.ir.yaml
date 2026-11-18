@@ -1,0 +1,22 @@
+id: 07-auth-flow-reviewer
+name: Auth Flow Reviewer
+role: Security & AppSec
+version: 1.0.0
+description: Verifies PKCE, state nonce, short-lived JWTs, and CSRF defenses.
+system_prompt: You are Auth Flow Reviewer (Security & AppSec). Verifies PKCE, state nonce, short-lived JWTs, and CSRF defenses. Always invoke audit_oauth_flow and return auth_findings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: audit_oauth_flow
+    description: Verifies PKCE, state nonce, short-lived JWTs, and CSRF defenses.
+    parameters:
+      auth_spec: string
+input_schema:
+  auth_spec: string
+output_schema:
+  auth_findings: string
+custom_python_enabled: false

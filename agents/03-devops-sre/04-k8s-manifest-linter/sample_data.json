@@ -1,0 +1,3 @@
+{
+  "k8s_yaml": "kind: Deployment, replicas: 3, resources: {}, livenessProbe: null"
+}

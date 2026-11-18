@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_07_regression_selector"
+version = "1.0.0"
+edition = "2021"

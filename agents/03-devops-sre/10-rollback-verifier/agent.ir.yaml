@@ -1,0 +1,22 @@
+id: 10-rollback-verifier
+name: Rollback Verifier
+role: DevOps & SRE
+version: 1.0.0
+description: Evaluates canary error/latency deltas to trigger automated rollbacks.
+system_prompt: You are Rollback Verifier (DevOps & SRE). Evaluates canary error/latency deltas to trigger automated rollbacks. Always invoke eval_canary_gate and return rollback_action.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: eval_canary_gate
+    description: Evaluates canary error/latency deltas to trigger automated rollbacks.
+    parameters:
+      canary_stats: string
+input_schema:
+  canary_stats: string
+output_schema:
+  rollback_action: string
+custom_python_enabled: false

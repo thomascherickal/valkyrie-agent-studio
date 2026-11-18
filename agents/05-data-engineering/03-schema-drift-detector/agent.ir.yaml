@@ -1,0 +1,22 @@
+id: 03-schema-drift-detector
+name: Schema Drift Detector
+role: Data Engineering
+version: 1.0.0
+description: Diffs upstream JSON/Avro schemas and flags breaking column removals.
+system_prompt: You are Schema Drift Detector (Data Engineering). Diffs upstream JSON/Avro schemas and flags breaking column removals. Always invoke analyze_schema_drift and return drift_alert.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_schema_drift
+    description: Diffs upstream JSON/Avro schemas and flags breaking column removals.
+    parameters:
+      schema_diff: string
+input_schema:
+  schema_diff: string
+output_schema:
+  drift_alert: string
+custom_python_enabled: false

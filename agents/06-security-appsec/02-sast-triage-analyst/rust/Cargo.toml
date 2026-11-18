@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_02_sast_triage_analyst"
+version = "1.0.0"
+edition = "2021"

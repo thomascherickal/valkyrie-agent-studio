@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_04_competitive_intel"
+version = "1.0.0"
+edition = "2021"

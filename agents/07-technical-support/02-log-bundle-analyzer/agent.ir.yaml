@@ -1,0 +1,22 @@
+id: 02-log-bundle-analyzer
+name: Log Bundle Analyzer
+role: Technical Support
+version: 1.0.0
+description: Extracts root-cause exceptions and timestamps from diagnostic logs.
+system_prompt: You are Log Bundle Analyzer (Technical Support). Extracts root-cause exceptions and timestamps from diagnostic logs. Always invoke extract_root_exception and return diagnostic_summary.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: extract_root_exception
+    description: Extracts root-cause exceptions and timestamps from diagnostic logs.
+    parameters:
+      log_excerpt: string
+input_schema:
+  log_excerpt: string
+output_schema:
+  diagnostic_summary: string
+custom_python_enabled: false

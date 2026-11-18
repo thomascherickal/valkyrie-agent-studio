@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_06_coverage_gap_finder"
+version = "1.0.0"
+edition = "2021"

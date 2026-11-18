@@ -1,0 +1,22 @@
+id: 01-funnel-dropoff-analyst
+name: Funnel Dropoff Analyst
+role: Growth & Product Analytics
+version: 1.0.0
+description: Computes step-by-step conversion rates and biggest dropoff levers.
+system_prompt: You are Funnel Dropoff Analyst (Growth & Product Analytics). Computes step-by-step conversion rates and biggest dropoff levers. Always invoke calc_funnel_rates and return dropoff_analysis.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: calc_funnel_rates
+    description: Computes step-by-step conversion rates and biggest dropoff levers.
+    parameters:
+      funnel_counts: string
+input_schema:
+  funnel_counts: string
+output_schema:
+  dropoff_analysis: string
+custom_python_enabled: false

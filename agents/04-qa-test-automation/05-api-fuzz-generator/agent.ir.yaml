@@ -1,0 +1,22 @@
+id: 05-api-fuzz-generator
+name: API Fuzz Generator
+role: QA & Test Automation
+version: 1.0.0
+description: Produces malformed JSON, type-confusion, and oversized payload cases.
+system_prompt: You are API Fuzz Generator (QA & Test Automation). Produces malformed JSON, type-confusion, and oversized payload cases. Always invoke generate_fuzz_corpus and return fuzz_cases.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: generate_fuzz_corpus
+    description: Produces malformed JSON, type-confusion, and oversized payload cases.
+    parameters:
+      endpoint_schema: string
+input_schema:
+  endpoint_schema: string
+output_schema:
+  fuzz_cases: string
+custom_python_enabled: false

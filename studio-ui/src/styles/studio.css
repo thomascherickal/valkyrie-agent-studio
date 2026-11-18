@@ -1,0 +1,142 @@
+:root {
+  --bg-canvas-light: #f8fafc;
+  --bg-canvas-dark: #090d16;
+  --bg-surface-light: #ffffff;
+  --bg-surface-dark: #111827;
+  --text-primary-light: #0f172a;
+  --text-primary-dark: #f1f5f9;
+  --text-muted-light: #475569;
+  --text-muted-dark: #94a3b8;
+  --border-light: #cbd5e1;
+  --border-dark: #1e293b;
+  --brand-light: #2563eb;
+  --brand-dark: #38bdf8;
+
+  --bg-canvas: var(--bg-canvas-light);
+  --bg-surface: var(--bg-surface-light);
+  --text-primary: var(--text-primary-light);
+  --text-muted: var(--text-muted-light);
+  --border-subtle: var(--border-light);
+  --brand-accent: var(--brand-light);
+
+  @media (prefers-color-scheme: dark) {
+    --bg-canvas: var(--bg-canvas-dark);
+    --bg-surface: var(--bg-surface-dark);
+    --text-primary: var(--text-primary-dark);
+    --text-muted: var(--text-muted-dark);
+    --border-subtle: var(--border-dark);
+    --brand-accent: var(--brand-dark);
+  }
+
+  @supports (color: light-dark(white, black)) {
+    --bg-canvas: light-dark(var(--bg-canvas-light), var(--bg-canvas-dark));
+    --bg-surface: light-dark(var(--bg-surface-light), var(--bg-surface-dark));
+    --text-primary: light-dark(var(--text-primary-light), var(--text-primary-dark));
+    --text-muted: light-dark(var(--text-muted-light), var(--text-muted-dark));
+    --border-subtle: light-dark(var(--border-light), var(--border-dark));
+    --brand-accent: light-dark(var(--brand-light), var(--brand-dark));
+  }
+
+  color-scheme: light dark;
+  accent-color: var(--brand-accent);
+  scrollbar-color: var(--text-muted) var(--bg-canvas);
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
+    color-scheme: dark;
+  }
+  &:has(> head > meta[name="color-scheme"][content="light"]) {
+    color-scheme: light;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+}
+
+.studio-shell {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "titlebar titlebar"
+    "sidebar workspace";
+  min-block-size: 100dvb;
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+
+.studio-titlebar {
+  grid-area: titlebar;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: safe center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.625rem;
+}
+
+.studio-titlebar h1 {
+  margin: 0;
+  font-size: 1.125rem;
+  margin-inline-end: auto;
+}
+
+.studio-sidebar {
+  grid-area: sidebar;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.625rem;
+  padding: 0.75rem;
+  max-block-size: calc(100dvb - 6rem);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+
+.studio-workspace {
+  grid-area: workspace;
+  container: workspace / inline-size;
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  min-inline-size: 0;
+}
+
+.panel-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.625rem;
+  padding: 1rem;
+}
+
+@container workspace (inline-size > 720px) {
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+}
+
+dialog:modal {
+  overscroll-behavior: contain;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  max-inline-size: 32rem;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgb(0 0 0 / 0.55);
+}
+

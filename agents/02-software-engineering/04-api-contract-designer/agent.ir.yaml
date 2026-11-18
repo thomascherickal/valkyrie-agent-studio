@@ -1,0 +1,22 @@
+id: 04-api-contract-designer
+name: API Contract Designer
+role: Software Engineering
+version: 1.0.0
+description: Designs versioned REST/OpenAPI schemas and detects breaking field changes.
+system_prompt: You are API Contract Designer (Software Engineering). Designs versioned REST/OpenAPI schemas and detects breaking field changes. Always invoke validate_openapi_diff and return contract_yaml.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: validate_openapi_diff
+    description: Designs versioned REST/OpenAPI schemas and detects breaking field changes.
+    parameters:
+      endpoint_spec: string
+input_schema:
+  endpoint_spec: string
+output_schema:
+  contract_yaml: string
+custom_python_enabled: false

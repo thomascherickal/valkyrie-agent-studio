@@ -1,0 +1,22 @@
+id: 08-regulatory-horizon-watch
+name: Regulatory Horizon Watcher
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Maps EU AI Act, SOC2, and GDPR updates to product roadmap controls.
+system_prompt: You are Regulatory Horizon Watcher (C-Suite & Executives (CxOs)). Maps EU AI Act, SOC2, and GDPR updates to product roadmap controls. Always invoke map_compliance_gaps and return regulatory_brief.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: map_compliance_gaps
+    description: Maps EU AI Act, SOC2, and GDPR updates to product roadmap controls.
+    parameters:
+      policy_scope: string
+input_schema:
+  policy_scope: string
+output_schema:
+  regulatory_brief: string
+custom_python_enabled: false

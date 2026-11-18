@@ -1,0 +1,22 @@
+id: 03-ab-test-interpreter
+name: A/B Test Interpreter
+role: Growth & Product Analytics
+version: 1.0.0
+description: Checks p-values, confidence intervals, and sample ratio mismatch.
+system_prompt: You are A/B Test Interpreter (Growth & Product Analytics). Checks p-values, confidence intervals, and sample ratio mismatch. Always invoke evaluate_ab_stats and return experiment_verdict.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: evaluate_ab_stats
+    description: Checks p-values, confidence intervals, and sample ratio mismatch.
+    parameters:
+      ab_results: string
+input_schema:
+  ab_results: string
+output_schema:
+  experiment_verdict: string
+custom_python_enabled: false

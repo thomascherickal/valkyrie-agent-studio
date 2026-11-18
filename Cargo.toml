@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+members = [
+    "rust-runtime-template",
+    "studio-ui/src-tauri",
+    "agents/*/*/rust",
+]

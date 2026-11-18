@@ -1,0 +1,22 @@
+id: 04-hiring-rubric-builder
+name: Hiring Rubric Builder
+role: Engineering & Product Management
+version: 1.0.0
+description: Creates structured, signal-anchored interview rubrics for role levels.
+system_prompt: You are Hiring Rubric Builder (Engineering & Product Management). Creates structured, signal-anchored interview rubrics for role levels. Always invoke build_rubric_grid and return rubric_md.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_rubric_grid
+    description: Creates structured, signal-anchored interview rubrics for role levels.
+    parameters:
+      role_level: string
+input_schema:
+  role_level: string
+output_schema:
+  rubric_md: string
+custom_python_enabled: false

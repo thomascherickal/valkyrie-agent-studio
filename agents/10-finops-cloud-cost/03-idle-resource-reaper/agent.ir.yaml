@@ -1,0 +1,22 @@
+id: 03-idle-resource-reaper
+name: Idle Resource Reaper
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Lists unattached EBS volumes, idle load balancers, and zombie VMs.
+system_prompt: You are Idle Resource Reaper (FinOps & Cloud Cost). Lists unattached EBS volumes, idle load balancers, and zombie VMs. Always invoke flag_idle_assets and return reap_candidates.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: flag_idle_assets
+    description: Lists unattached EBS volumes, idle load balancers, and zombie VMs.
+    parameters:
+      infra_inventory: string
+input_schema:
+  infra_inventory: string
+output_schema:
+  reap_candidates: string
+custom_python_enabled: false

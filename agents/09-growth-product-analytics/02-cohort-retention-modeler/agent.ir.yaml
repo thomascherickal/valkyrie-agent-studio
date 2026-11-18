@@ -1,0 +1,22 @@
+id: 02-cohort-retention-modeler
+name: Cohort Retention Modeler
+role: Growth & Product Analytics
+version: 1.0.0
+description: Evaluates D1/D7/D30 retention curves across signup channels.
+system_prompt: You are Cohort Retention Modeler (Growth & Product Analytics). Evaluates D1/D7/D30 retention curves across signup channels. Always invoke analyze_cohort_curve and return retention_summary.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_cohort_curve
+    description: Evaluates D1/D7/D30 retention curves across signup channels.
+    parameters:
+      cohort_data: string
+input_schema:
+  cohort_data: string
+output_schema:
+  retention_summary: string
+custom_python_enabled: false

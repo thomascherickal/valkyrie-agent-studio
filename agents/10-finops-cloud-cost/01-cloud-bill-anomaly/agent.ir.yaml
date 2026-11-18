@@ -1,0 +1,22 @@
+id: 01-cloud-bill-anomaly
+name: Cloud Bill Anomaly Detector
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Detects daily spend spikes by service, region, and cost-center tag.
+system_prompt: You are Cloud Bill Anomaly Detector (FinOps & Cloud Cost). Detects daily spend spikes by service, region, and cost-center tag. Always invoke detect_spend_spike and return anomaly_alert.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: detect_spend_spike
+    description: Detects daily spend spikes by service, region, and cost-center tag.
+    parameters:
+      daily_spend: string
+input_schema:
+  daily_spend: string
+output_schema:
+  anomaly_alert: string
+custom_python_enabled: false

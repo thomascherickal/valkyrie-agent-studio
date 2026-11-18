@@ -1,0 +1,22 @@
+id: 08-cfp-abstract-writer
+name: CFP Abstract Writer
+role: Developer Relations & Docs
+version: 1.0.0
+description: Crafts sharp conference talk abstracts with concrete takeaways.
+system_prompt: You are CFP Abstract Writer (Developer Relations & Docs). Crafts sharp conference talk abstracts with concrete takeaways. Always invoke polish_cfp_abstract and return cfp_submission.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: polish_cfp_abstract
+    description: Crafts sharp conference talk abstracts with concrete takeaways.
+    parameters:
+      talk_idea: string
+input_schema:
+  talk_idea: string
+output_schema:
+  cfp_submission: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 07-enterprise-deal-desk
+name: Enterprise Deal Desk
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Evaluates custom SLA, indemnity, and multi-year discount requests.
+system_prompt: You are Enterprise Deal Desk (C-Suite & Executives (CxOs)). Evaluates custom SLA, indemnity, and multi-year discount requests. Always invoke score_deal_margin and return deal_approval.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: score_deal_margin
+    description: Evaluates custom SLA, indemnity, and multi-year discount requests.
+    parameters:
+      deal_terms: string
+input_schema:
+  deal_terms: string
+output_schema:
+  deal_approval: string
+custom_python_enabled: false

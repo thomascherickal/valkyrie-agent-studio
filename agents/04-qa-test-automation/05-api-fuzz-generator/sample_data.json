@@ -1,0 +1,3 @@
+{
+  "endpoint_schema": "POST /api/agents/run { ir_yaml: string, prompt: string }"
+}

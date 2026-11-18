@@ -1,0 +1,22 @@
+id: 09-chaos-test-designer
+name: Chaos Test Designer
+role: DevOps & SRE
+version: 1.0.0
+description: Defines steady-state hypotheses and blast-radius bounds for fault drills.
+system_prompt: You are Chaos Test Designer (DevOps & SRE). Defines steady-state hypotheses and blast-radius bounds for fault drills. Always invoke design_chaos_drill and return chaos_spec.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: design_chaos_drill
+    description: Defines steady-state hypotheses and blast-radius bounds for fault drills.
+    parameters:
+      target_service: string
+input_schema:
+  target_service: string
+output_schema:
+  chaos_spec: string
+custom_python_enabled: false

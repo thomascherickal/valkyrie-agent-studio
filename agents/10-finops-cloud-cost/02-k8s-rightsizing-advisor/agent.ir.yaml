@@ -1,0 +1,22 @@
+id: 02-k8s-rightsizing-advisor
+name: K8s Rightsizing Advisor
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Compares requested vs p95 actual CPU/RAM to trim cluster waste.
+system_prompt: You are K8s Rightsizing Advisor (FinOps & Cloud Cost). Compares requested vs p95 actual CPU/RAM to trim cluster waste. Always invoke compute_rightsize and return rightsize_patch.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compute_rightsize
+    description: Compares requested vs p95 actual CPU/RAM to trim cluster waste.
+    parameters:
+      pod_metrics: string
+input_schema:
+  pod_metrics: string
+output_schema:
+  rightsize_patch: string
+custom_python_enabled: false

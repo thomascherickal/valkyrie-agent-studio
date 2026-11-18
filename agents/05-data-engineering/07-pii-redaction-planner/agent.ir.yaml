@@ -1,0 +1,22 @@
+id: 07-pii-redaction-planner
+name: PII Redaction Planner
+role: Data Engineering
+version: 1.0.0
+description: Detects email/SSN/IP columns and applies deterministic hashing policies.
+system_prompt: You are PII Redaction Planner (Data Engineering). Detects email/SSN/IP columns and applies deterministic hashing policies. Always invoke classify_pii_columns and return masking_policy.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: classify_pii_columns
+    description: Detects email/SSN/IP columns and applies deterministic hashing policies.
+    parameters:
+      columns_list: string
+input_schema:
+  columns_list: string
+output_schema:
+  masking_policy: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 04-activation-metric-finder
+name: Activation Metric Finder
+role: Growth & Product Analytics
+version: 1.0.0
+description: Identifies early actions strongly correlated with 90-day retention.
+system_prompt: You are Activation Metric Finder (Growth & Product Analytics). Identifies early actions strongly correlated with 90-day retention. Always invoke rank_activation_signals and return aha_moment.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: rank_activation_signals
+    description: Identifies early actions strongly correlated with 90-day retention.
+    parameters:
+      behavior_events: string
+input_schema:
+  behavior_events: string
+output_schema:
+  aha_moment: string
+custom_python_enabled: false

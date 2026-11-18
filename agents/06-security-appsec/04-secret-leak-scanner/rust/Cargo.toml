@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_04_secret_leak_scanner"
+version = "1.0.0"
+edition = "2021"

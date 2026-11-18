@@ -1,0 +1,22 @@
+id: 07-meeting-action-extractor
+name: Meeting Action Extractor
+role: Engineering & Product Management
+version: 1.0.0
+description: Extracts concrete owners, decisions, and due dates from transcripts.
+system_prompt: You are Meeting Action Extractor (Engineering & Product Management). Extracts concrete owners, decisions, and due dates from transcripts. Always invoke extract_action_items and return action_table.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: extract_action_items
+    description: Extracts concrete owners, decisions, and due dates from transcripts.
+    parameters:
+      meeting_notes: string
+input_schema:
+  meeting_notes: string
+output_schema:
+  action_table: string
+custom_python_enabled: false
