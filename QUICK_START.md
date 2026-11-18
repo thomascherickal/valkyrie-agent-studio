@@ -38,7 +38,7 @@ export OPENCODE_API_KEY=...      # optional: OpenCode (pick a Model ID under Des
 Local Ollama needs no key.
 
 ## 4. Explore the Desktop Studio
-1. **Pick an agent:** Search the left sidebar across all 12 roles, or create your own under **Create agent**: describe it in plain English and it appears under **Custom Agents**.
+1. **Pick an agent:** Search the left sidebar across all 12 roles, or create your own under **Create agent**: describe it in plain English and it appears under **Custom Agents**. Created agents are saved to `custom-agents/` (set `VALKYRIE_CUSTOM_DIR` to move it) with their Python, YAML and Rust files, and they come back the next time you open the studio.
 2. **Run:** Type a task and click **Run agent**. The result shows the engine, tokens, cost, and whether the eval gate passed.
 3. **Experience level** (top bar) reveals more tabs:
    - **Beginner:** Run and Create agent.

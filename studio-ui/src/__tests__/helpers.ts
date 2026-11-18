@@ -35,5 +35,6 @@ export function appRoutes(path: string) {
   if (path === "/api/agents/run") return ok(llmRun);
   if (path === "/api/agents/deploy-rust") return ok(deployed);
   if (path === "/api/agents/create-from-prompt") return ok(bundle);
+  if (path === "/api/agents/custom") return ok({ agents: [] });
   return ok({});
 }

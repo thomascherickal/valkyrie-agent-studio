@@ -7,6 +7,7 @@ import type {
   ModelSettings,
   Provider,
   RunResult,
+  SavedAgent,
   Trace,
 } from "./types";
 
@@ -66,7 +67,9 @@ export const deployRust = (irYaml: string) => post<DeployResult>("/api/agents/de
 export const createFromPrompt = (prompt: string, name: string) =>
   post<GeneratedBundle>("/api/agents/create-from-prompt", { prompt, name: name || null });
 
-export const listTraces = () => get<{ traces: Trace[] }>("/api/command-centre/traces");
+export const listCustomAgents = () => get<{ agents: SavedAgent[] }>("/api/agents/custom");
+
+export const listTraces =() => get<{ traces: Trace[] }>("/api/command-centre/traces");
 export const startAgent = (id: string) => post<Trace>(`/api/command-centre/start/${id}`);
 export const stopAgent = (id: string) => post<Trace>(`/api/command-centre/stop/${id}`);
 export const stopAll = () => post<{ stopped: number }>("/api/command-centre/admin/stop-all");

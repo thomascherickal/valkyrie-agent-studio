@@ -28,3 +28,8 @@ studio-ui/src-tauri/gen/
 *.swp
 .claude/worktrees/
 .claude/settings.local.json
+
+# Secrets and per-user data
+.env
+.env.*
+custom-agents/

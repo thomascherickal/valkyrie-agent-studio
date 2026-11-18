@@ -1,8 +1,8 @@
 .PHONY: test-all coverage run-gui deploy-rust
 
 test-all:
-	cd studio-core && .venv/bin/pytest
-	cd command-centre && PYTHONPATH=. ../studio-core/.venv/bin/pytest
+	cd studio-core && .venv/bin/python -m pytest
+	cd command-centre && PYTHONPATH=. ../studio-core/.venv/bin/python -m pytest
 	cd studio-ui && npm test
 	cargo test --workspace
 

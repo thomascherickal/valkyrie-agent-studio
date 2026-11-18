@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { addCustomAgent, CUSTOM_ROLE, DEFAULT_PYTHON, draftFor, findAgent } from "../components/studioState";
+import {
+  addCustomAgent, CUSTOM_ROLE, customBlueprint, DEFAULT_PYTHON, draftFor, findAgent, restoreCustomAgents,
+} from "../components/studioState";
 
 const a = (id: string) => ({ id, name: id, description: "d", tool: "t", inputKey: "i", outputKey: "o", sampleInput: "s" });
 const roles = [{ id: "r", name: "R", agents: [a("x")] }];
@@ -22,5 +24,12 @@ describe("studioState", () => {
     expect(custom[0].agents).toEqual([{ ...a("c"), name: "new" }]);
     const third = addCustomAgent(first, a("d"));
     expect(third[third.length - 1].agents).toHaveLength(2);
+  });
+  it("restoreCustomAgents turns saved agents into blueprints, and leaves roles alone when none are saved", () => {
+    expect(restoreCustomAgents(roles, [])).toBe(roles);
+    const saved = { id: "s", name: "Saved", description: "does s", tool: "run_s" };
+    const restored = restoreCustomAgents(roles, [saved]);
+    expect(restored[restored.length - 1].agents).toEqual([customBlueprint(saved)]);
+    expect(customBlueprint(saved)).toEqual({ ...saved, inputKey: "task_input", outputKey: "result", sampleInput: "does s" });
   });
 });
