@@ -34,6 +34,29 @@ textarea {
   font-weight: 400;
 }
 
+/* The code editor is wider than prose, keeps its spacing, and scrolls sideways instead of wrapping. */
+textarea.code {
+  inline-size: 100%;
+  max-inline-size: 100ch;
+  tab-size: 4;
+  white-space: pre;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+/* A user-added data field: name, value, and remove sit on one line. */
+.field {
+  align-items: flex-start;
+}
+
+.field input {
+  inline-size: 11rem;
+}
+
+.field textarea {
+  flex: 1 1 16rem;
+}
+
 button {
   padding: 0.4rem 0.85rem;
   background: var(--raised);

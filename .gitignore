@@ -33,3 +33,4 @@ studio-ui/src-tauri/gen/
 .env
 .env.*
 custom-agents/
+agent-edits/

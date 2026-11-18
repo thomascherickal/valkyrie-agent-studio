@@ -1,16 +1,28 @@
 import { describe, expect, it } from "vitest";
 import {
-  addCustomAgent, CUSTOM_ROLE, customBlueprint, DEFAULT_PYTHON, draftFor, findAgent, restoreCustomAgents,
+  addCustomAgent, CUSTOM_ROLE, customBlueprint, draftFor, findAgent, labelFor, payloadOf, promptOf, restoreCustomAgents,
 } from "../components/studioState";
 
 const a = (id: string) => ({ id, name: id, description: "d", tool: "t", inputKey: "i", outputKey: "o", sampleInput: "s" });
 const roles = [{ id: "r", name: "R", agents: [a("x")] }];
 
 describe("studioState", () => {
-  it("draftFor uses default or supplied python", () => {
-    expect(draftFor(a("x")).pythonCode).toBe(DEFAULT_PYTHON);
-    expect(draftFor(a("x"), "code").pythonCode).toBe("code");
-    expect(draftFor(a("x")).systemPrompt).toBe("You are x. d");
+  it("draftFor builds fields from the agent and starts without code", () => {
+    const d = draftFor(a("x"));
+    expect(d.pythonCode).toBe("");
+    expect(d.codeInfo).toBeNull();
+    expect(d.fields).toEqual([{ key: "i", value: "s", custom: false }]);
+    expect(d.systemPrompt).toBe("You are x. d");
+  });
+  it("labelFor, payloadOf and promptOf skip blank names and trim", () => {
+    expect(labelFor("feature_brief")).toBe("Feature brief");
+    const fields = [
+      { key: "feature_brief", value: "a", custom: false },
+      { key: "  extra_note ", value: "b", custom: true },
+      { key: "  ", value: "dropped", custom: true },
+    ];
+    expect(payloadOf(fields)).toEqual({ feature_brief: "a", extra_note: "b" });
+    expect(promptOf(fields)).toBe("Feature brief: a\nExtra note: b");
   });
   it("findAgent", () => {
     expect(findAgent(roles, "r", "x").agent.id).toBe("x");

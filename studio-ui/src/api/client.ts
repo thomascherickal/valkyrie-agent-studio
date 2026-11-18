@@ -1,5 +1,6 @@
 import { BASE_URL, DEFAULT_MODEL, DEFAULT_THINKING } from "./config";
 import type {
+  AgentCode,
   AgentSpec,
   DeployResult,
   GeneratedBundle,
@@ -54,13 +55,24 @@ export function buildIr(spec: AgentSpec, settings: ModelSettings, customPython: 
 
 export const getHealth = () => get<Health>("/health");
 
-export const runAgent = (irYaml: string, prompt: string, customPython: string | null) =>
-  post<RunResult>("/api/agents/run", {
-    ir_yaml: irYaml,
-    prompt,
-    custom_python: customPython,
-    payload: { task_input: prompt },
+/** `payload` is keyed by the agent's own input fields, which is what its run_agent(payload) reads. */
+export const runAgent = (
+  irYaml: string,
+  prompt: string,
+  customPython: string | null,
+  payload: Record<string, string>,
+) => post<RunResult>("/api/agents/run", { ir_yaml: irYaml, prompt, custom_python: customPython, payload });
+
+const codePath = (roleId: string, agentId: string) => `/api/agents/${roleId}/${agentId}/code`;
+export const getAgentCode = (roleId: string, agentId: string) => get<AgentCode>(codePath(roleId, agentId));
+export const saveAgentCode = (roleId: string, agentId: string, code: string) =>
+  send<AgentCode>(codePath(roleId, agentId), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code }),
   });
+export const revertAgentCode = (roleId: string, agentId: string) =>
+  send<AgentCode>(codePath(roleId, agentId), { method: "DELETE" });
 
 export const deployRust = (irYaml: string) => post<DeployResult>("/api/agents/deploy-rust", { ir_yaml: irYaml });
 

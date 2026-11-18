@@ -39,11 +39,11 @@ Local Ollama needs no key.
 
 ## 4. Explore the Desktop Studio
 1. **Pick an agent:** Search the left sidebar across all 12 roles, or create your own under **Create agent**: describe it in plain English and it appears under **Custom Agents**. Created agents are saved to `custom-agents/` (set `VALKYRIE_CUSTOM_DIR` to move it) with their Python, YAML and Rust files, and they come back the next time you open the studio.
-2. **Run:** Type a task and click **Run agent**. The result shows the engine, tokens, cost, and whether the eval gate passed.
+2. **Run:** Every agent shows a box for its own input (for example **Feature brief** for the PRD Architect), prefilled with a sample. Click **Add field** for more data boxes: each one is sent to the agent under the name you give it. Click **Run** to see the engine, tokens, cost, and whether the eval gate passed.
 3. **Experience level** (top bar) reveals more tabs:
    - **Beginner:** Run and Create agent.
    - **Intermediate:** adds **Design**: system prompt, provider (Gemini 4 Hydrogen, Ollama, OpenRouter, OpenCode), and thinking level.
-   - **Advanced:** adds **Python**: run your own `run_agent(payload)` instead of the model.
+   - **Advanced:** adds **Python**: see the agent's own Python, edit it, and **Save changes**. **Revert to original** puts the original back. The original is never changed: edits are saved separately in `agent-edits/` (set `VALKYRIE_EDITS_DIR` to move it), and the original stays visible under the editor. Turn on **Run my Python instead of the model** to run your version with your data fields.
 4. **Command Centre** (right pane): start or stop the selected agent, or stop all, and watch their traces.
 5. **Theme:** System, Light, or Dark in the top bar.
 6. **Deploy to Rust:** Click **Deploy to Rust** for the generated crate and its benchmark.

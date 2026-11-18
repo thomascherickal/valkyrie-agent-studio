@@ -23,7 +23,7 @@ describe("App modes and tabs", () => {
     fireEvent.click(screen.getByRole("checkbox"));
     expect(screen.getByLabelText("Python Source")).toBeTruthy();
     mode("beginner");
-    expect(screen.getByText("Run agent")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Run PRD Architect" })).toBeTruthy();
     mode("advanced");
     fireEvent.click(screen.getByText("Design"));
     fireEvent.change(screen.getByLabelText("System Prompt"), { target: { value: "custom" } });
