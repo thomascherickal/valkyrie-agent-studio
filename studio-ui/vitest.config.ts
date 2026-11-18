@@ -8,7 +8,8 @@ export default defineConfig({
     globals: true,
     coverage: {
       provider: "v8",
-      include: ["src/components/**", "src/theme/**", "src/App.tsx"],
+      include: ["src/components/**", "src/theme/**", "src/api/**", "src/hooks/**", "src/App.tsx"],
+      exclude: ["src/api/types.ts", "src/api/config.ts"],
       thresholds: {
         lines: 100,
         branches: 100,

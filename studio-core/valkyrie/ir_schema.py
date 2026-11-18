@@ -4,19 +4,26 @@ from __future__ import annotations
 
 from typing import Literal
 import yaml
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class ModelConfig(BaseModel):
     """LLM routing and effort configuration."""
 
-    provider: Literal["gemini", "ollama"] = "gemini"
+    provider: Literal["gemini", "ollama", "openrouter", "opencode"] = "gemini"
     model: str = "gemini-4-hydrogen"
     thinking_level: Literal["low", "medium", "high"] = "low"
     temperature: float = Field(default=0.2, ge=0.0, le=2.0)
     max_tokens: int = Field(default=4096, ge=1, le=1_000_000)
     ollama_base_url: str = "http://localhost:11434/v1"
     ollama_model: str = "qwen3.5:latest"
+
+    @model_validator(mode="after")
+    def require_model_for_hosted_providers(self) -> "ModelConfig":
+        """OpenRouter and OpenCode host many models, so the caller must name one."""
+        if self.provider in ("openrouter", "opencode") and self.model in ("", "gemini-4-hydrogen"):
+            raise ValueError(f"Set a model ID for provider {self.provider}")
+        return self
 
 
 class ToolSpec(BaseModel):

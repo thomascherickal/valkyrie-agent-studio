@@ -1,0 +1,170 @@
+/* Agent browser */
+.browser input[type="search"] {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.browser summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.count {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.browser ul,
+.traces ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.browser li button {
+  width: 100%;
+  border-color: transparent;
+  background: none;
+  text-align: left;
+}
+
+.browser li button[aria-current="true"] {
+  background: var(--raised);
+  border-left: 3px solid var(--accent);
+  font-weight: 600;
+}
+
+/* Agent summary */
+.summary .role {
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.summary .description {
+  margin: 0.4rem 0 0.75rem;
+  max-inline-size: 64ch;
+}
+
+.summary dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0;
+}
+
+.summary dt {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.summary dd {
+  margin: 0;
+}
+
+/* Run readout: the engine, cost and eval verdict sit on a rail above the output. */
+.readout {
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li,
+.chips button {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--raised);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.chips li[data-ok="true"] {
+  color: var(--ok);
+}
+
+.chips li[data-ok="false"],
+.chips button[aria-pressed="true"] {
+  color: var(--danger);
+}
+
+.chips button[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+pre {
+  margin: 0;
+  padding: 0.75rem;
+  max-block-size: 24rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+}
+
+/* Command centre */
+.traces li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.steps {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.badge {
+  padding: 0 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.78rem;
+}
+
+.badge[data-state="running"] {
+  color: var(--ok);
+}
+
+.badge[data-state="stopped"] {
+  color: var(--muted);
+}
+
+/* Deploy dialog */
+dialog.deploy {
+  inline-size: min(40rem, 92vw);
+  padding: 1.25rem;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overscroll-behavior: contain;
+}
+
+dialog.deploy::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+dialog.deploy > * + * {
+  margin-top: 0.75rem;
+}

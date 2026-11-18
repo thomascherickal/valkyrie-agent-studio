@@ -87,3 +87,11 @@ def test_catalog_and_websocket_traces() -> None:
         assert data["agent_id"] == "01-prd-architect"
         assert data["state"] == "running"
 
+
+def test_cors_allows_gui_origins() -> None:
+    for origin in ("http://localhost:5173", "tauri://localhost", "http://tauri.localhost"):
+        res = client.get("/health", headers={"Origin": origin})
+        assert res.headers["access-control-allow-origin"] == origin
+    blocked = client.get("/health", headers={"Origin": "http://evil.example"})
+    assert "access-control-allow-origin" not in blocked.headers
+
