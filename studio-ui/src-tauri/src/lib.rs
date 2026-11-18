@@ -1,5 +1,7 @@
 //! Tauri Rust desktop shell exposing native Valkyrie runtime commands.
 
+pub mod backend;
+
 use serde::Serialize;
 use valkyrie_rust_runtime::{mock_llm::MockGeminiAgent, AgentResult, ValkyrieAgent};
 
@@ -35,13 +37,21 @@ pub mod commands {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Start the Python API with the window. It is stopped on the Exit event, because the event loop
+    // can end the process without running destructors.
+    let mut api = backend::Backend::start();
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             commands::get_runtime_info,
             commands::run_rust_agent
         ])
-        .run(tauri::generate_context!())
-        .expect("error while running Valkyrie Tauri desktop shell");
+        .build(tauri::generate_context!())
+        .expect("error while building Valkyrie Tauri desktop shell")
+        .run(move |_app, event| {
+            if let tauri::RunEvent::Exit = event {
+                api.stop();
+            }
+        });
 }
 
 #[cfg(test)]

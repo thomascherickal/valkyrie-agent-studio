@@ -40,6 +40,8 @@
 ## Quick Commands
 ```bash
 make test-all                     # Run 100% covered Python, TypeScript, and Rust tests
-cd studio-ui && npm run desktop:build  # Build Vite + Electron standalone desktop bundle
+cd studio-ui && npm run desktop:start  # Open the desktop app. It starts the Python API itself (or reuses one on :8000)
+make run-gui                      # Run the API at localhost:8000 and the desktop app together
+cd studio-ui && npm run desktop:build  # Build Vite + the Tauri desktop shell
 cargo test --workspace            # Test runtime template + all 120 agent Rust crates
 ```

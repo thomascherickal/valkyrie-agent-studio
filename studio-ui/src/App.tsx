@@ -19,6 +19,8 @@ import { useTheme } from "./theme/ThemeProvider";
 
 export type { ExperienceMode } from "./components/modes";
 
+export const HEALTH_RETRY_MS = 1500;
+
 export function App() {
   const { theme, setThemeMode } = useTheme();
   const [roles, setRoles] = useState(AGENT_CATALOG);
@@ -30,9 +32,13 @@ export function App() {
 
   const health = useAsync(getHealth);
   const deploy = useAsync(deployRust);
+  // Check the API right away, then retry until it answers: the desktop app starts it and it needs a moment.
+  // ponytail: retries forever at a fixed interval. Add a cap or backoff if offline noise matters.
   useEffect(() => {
-    health.run();
-  }, [health.run]);
+    if (health.state.kind === "done" || health.state.kind === "loading") return;
+    const timer = setTimeout(health.run, health.state.kind === "idle" ? 0 : HEALTH_RETRY_MS);
+    return () => clearTimeout(timer);
+  }, [health.state.kind, health.run]);
 
   const tabs = MODE_TABS[mode];
   const active = tabs.includes(tab) ? tab : "run";
@@ -87,7 +93,7 @@ export function App() {
           {active === "code" && <CodePanel draft={draft} onChange={patchDraft} />}
         </div>
       </main>
-      <TracePanel agentId={agent.id} />
+      <TracePanel agentId={agent.id} online={health.state.kind === "done"} />
       <DeployDialog state={deploy.state} onClose={deploy.reset} />
     </div>
   );

@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import { App } from "../App";
+import { App, HEALTH_RETRY_MS } from "../App";
 import { ThemeProvider } from "../theme/ThemeProvider";
 import { appRoutes, fail, polyfillDialog, stubFetch } from "./helpers";
 
@@ -31,10 +31,22 @@ describe("App modes and tabs", () => {
     fireEvent.click(screen.getByText("Run", { selector: "[role=tab]" }));
     expect(screen.getByText(/Python override is on/)).toBeTruthy();
   });
-  it("shows API offline", async () => {
-    stubFetch((p) => (p === "/health" ? fail(500) : appRoutes(p)));
-    mount();
-    await screen.findByText("API offline");
+  it("shows API offline, then recovers when the API starts", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      let up = false;
+      const f = stubFetch((p) => (p === "/health" && !up ? fail(500) : appRoutes(p)));
+      mount();
+      await screen.findByText("API offline");
+      up = true;
+      await vi.advanceTimersByTimeAsync(HEALTH_RETRY_MS + 100);
+      await screen.findByText("gemini-4-hydrogen · low thinking");
+      const healthCalls = f.mock.calls.filter(([url]) => url.endsWith("/health")).length;
+      await vi.advanceTimersByTimeAsync(HEALTH_RETRY_MS * 3);
+      expect(f.mock.calls.filter(([url]) => url.endsWith("/health")).length).toBe(healthCalls); // stops polling once up
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
 
