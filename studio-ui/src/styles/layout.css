@@ -1,0 +1,103 @@
+/* Three panes: agent browser, workspace, command centre. Below 1100px the panes stack. */
+.shell {
+  display: grid;
+  height: 100%;
+  grid-template:
+    "bar bar bar" auto
+    "browser main traces" minmax(0, 1fr) / 17rem minmax(0, 1fr) 21rem;
+}
+
+.titlebar {
+  grid-area: bar;
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 0.6rem var(--gap);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.titlebar label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: 450;
+  gap: 0.4rem;
+  color: var(--muted);
+}
+
+.api-status {
+  margin: 0 auto 0 0;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.api-status[data-state="done"] {
+  color: var(--ok);
+  border-color: currentColor;
+}
+
+.api-status[data-state="error"] {
+  color: var(--danger);
+  border-color: currentColor;
+}
+
+.browser {
+  grid-area: browser;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--gap);
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.workspace {
+  grid-area: main;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(var(--gap) * 1.5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.traces {
+  grid-area: traces;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--gap);
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.traces h2 {
+  font-size: 1rem;
+}
+
+@container (max-width: 1100px) {
+  .shell {
+    height: auto;
+    min-height: 100%;
+    grid-template:
+      "bar" auto
+      "browser" minmax(0, 16rem)
+      "main" auto
+      "traces" auto / minmax(0, 1fr);
+  }
+
+  .titlebar {
+    flex-wrap: wrap;
+  }
+
+  .browser,
+  .traces {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+  }
+}

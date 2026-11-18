@@ -1,0 +1,91 @@
+/* Palette: basalt and bone with one blue accent. The theme follows <meta name="color-scheme">. */
+:root {
+  /* Fallbacks for engines without light-dark(): the light palette. */
+  --bg: #f2f4f5;
+  --surface: #ffffff;
+  --raised: #e8edef;
+  --ink: #1b2428;
+  --muted: #5a6870;
+  --line: #cfd7db;
+  --accent: #1d63a8;
+  --on-accent: #ffffff;
+  --danger: #b03d28;
+  --ok: #1f7a4a;
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --radius: 6px;
+  --gap: 1rem;
+}
+
+@supports (color: light-dark(#000, #fff)) {
+  :root {
+    --bg: light-dark(#f2f4f5, #12171a);
+    --surface: light-dark(#ffffff, #1a2126);
+    --raised: light-dark(#e8edef, #232c32);
+    --ink: light-dark(#1b2428, #e5e9ea);
+    --muted: light-dark(#5a6870, #94a1a8);
+    --line: light-dark(#cfd7db, #2d3840);
+    --accent: light-dark(#1d63a8, #6fb0e6);
+    --on-accent: light-dark(#ffffff, #0c1620);
+    --danger: light-dark(#b03d28, #ee8a74);
+    --ok: light-dark(#1f7a4a, #6fd19b);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 0.9375rem/1.5 var(--font);
+  overscroll-behavior: none;
+}
+
+#root {
+  container-type: inline-size;
+  height: 100%;
+}
+
+h1,
+h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+
+code,
+pre,
+.code {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

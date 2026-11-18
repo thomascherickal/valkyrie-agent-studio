@@ -4,8 +4,6 @@
   "version": "0.2.0",
   "identifier": "ai.valkyrie.studio",
   "build": {
-    "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:5173",
     "beforeBuildCommand": "npm run build",
     "frontendDist": "../dist"
   },

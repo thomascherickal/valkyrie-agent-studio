@@ -5,8 +5,10 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from valkyrie.agent_generator_routes import router as agent_generator_router
 from valkyrie.command_centre import CommandCentre
 from valkyrie.command_centre_routes import router as command_centre_router
 
@@ -17,7 +19,15 @@ from valkyrie.python_runner import run_custom_python
 from valkyrie.rust_transpiler import transpile_ir_to_rust
 
 app = FastAPI(title="Valkyrie AI Agent Studio API", version="0.1.0")
+# Origins of the Vite dev server and the Tauri webview (Linux/macOS and Windows).
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "tauri://localhost", "http://tauri.localhost"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(command_centre_router)
+app.include_router(agent_generator_router)
 
 
 class RunRequest(BaseModel):

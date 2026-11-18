@@ -26,3 +26,5 @@ studio-ui/src-tauri/gen/
 # OS & Editors
 .DS_Store
 *.swp
+.claude/worktrees/
+.claude/settings.local.json
