@@ -8,7 +8,6 @@
 ![React](https://img.shields.io/badge/React-18-61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-5-646CFF)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB)
-![Antigravity](https://img.shields.io/badge/Antigravity-Ready-blueviolet)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Compatible-cc785c)
 ![OpenRouter](https://img.shields.io/badge/OpenRouter-Free%20Tier-6366f1)
 ![OpenCode](https://img.shields.io/badge/OpenCode-Free%20Tier-10b981)
@@ -36,7 +35,7 @@
 - [Project Plan & Gap Closure](PLAN.md)
 - [Next Steps](NEXT-STEPS.md)
 - [Software Metrics](METRICS.md)
-- [Project Rules](GEMINI.md)
+- [Project Rules](CLAUDE.md)
 
 ## Quick Commands
 ```bash
