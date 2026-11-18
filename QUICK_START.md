@@ -29,13 +29,24 @@ The studio needs its Python API (FastAPI, `localhost:8000`) for everything: runn
 - The top bar shows **API offline** until the API answers, then the engine, `gemini-4-hydrogen · low thinking`. It keeps retrying, so a slow start is fine.
 
 ### Live model keys
-Export a key before starting the API. Without one, runs are simulated and nothing is sent anywhere.
+Without a key, runs are simulated and nothing is sent anywhere. Give the API a key either way:
+
+**1. A `.env` file (easiest).** Copy the template and fill it in. The API reads it when it starts, including when the desktop app starts the API for you. `.env` is gitignored, so your keys are not committed.
 ```bash
-export GEMINI_API_KEY=...        # Gemini 4 Hydrogen, the default for every request
-export OPENROUTER_API_KEY=...    # optional: OpenRouter (pick a Model ID under Design)
-export OPENCODE_API_KEY=...      # optional: OpenCode (pick a Model ID under Design)
+cp .env.example .env     # then edit .env
 ```
-Local Ollama needs no key.
+```
+GEMINI_API_KEY=...        # Gemini 4 Hydrogen, the default for every request
+OPENROUTER_API_KEY=...    # optional: OpenRouter (pick a Model ID under Design)
+OPENCODE_API_KEY=...      # optional: OpenCode (pick a Model ID under Design)
+```
+
+**2. Environment variables.** Export them before starting the API. A variable you export wins over the same name in `.env`.
+```bash
+export GEMINI_API_KEY=...
+```
+
+Restart the API after changing a key. Local Ollama needs no key.
 
 ## 4. Explore the Desktop Studio
 1. **Pick an agent:** Search the left sidebar across all 12 roles, or create your own under **Create agent**: describe it in plain English and it appears under **Custom Agents**. Created agents are saved to `custom-agents/` (set `VALKYRIE_CUSTOM_DIR` to move it) with their Python, YAML and Rust files, and they come back the next time you open the studio.

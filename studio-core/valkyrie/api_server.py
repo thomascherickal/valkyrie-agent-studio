@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 from fastapi import FastAPI, HTTPException, WebSocket
@@ -13,13 +15,21 @@ from valkyrie.agent_generator_routes import router as agent_generator_router
 from valkyrie.command_centre import CommandCentre
 from valkyrie.command_centre_routes import router as command_centre_router
 
+from valkyrie.env_file import load_env_file
 from valkyrie.eval_gate import evaluate_agent_output
 from valkyrie.ir_schema import AgentIR, load_ir_from_yaml
 from valkyrie.llm_router import LLMRouter
 from valkyrie.python_runner import run_custom_python
 from valkyrie.rust_transpiler import transpile_ir_to_rust
 
-app = FastAPI(title="Valkyrie AI Agent Studio API", version="0.1.0")
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncGenerator[None]:
+    """Load keys from the repo's .env file when the server starts (real environment variables win)."""
+    load_env_file()
+    yield
+
+
+app = FastAPI(title="Valkyrie AI Agent Studio API", version="0.1.0", lifespan=lifespan)
 # Origins of the Vite dev server and the Tauri webview (Linux/macOS and Windows).
 app.add_middleware(
     CORSMiddleware,

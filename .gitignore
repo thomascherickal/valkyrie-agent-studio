@@ -32,5 +32,6 @@ studio-ui/src-tauri/gen/
 # Secrets and per-user data
 .env
 .env.*
+!.env.example
 custom-agents/
 agent-edits/

@@ -3,7 +3,7 @@
 ## Test Coverage & Build Gate
 | Component | Test Suite / Build | Coverage | Status |
 | :--- | :--- | :--- | :--- |
-| `studio-core` (Python) | `pytest` (40 passed) | 100.00% (528 stmts, 64 branches) | Green |
+| `studio-core` (Python) | `pytest` (45 passed) | 100.00% (568 stmts, 78 branches) | Green |
 | `command-centre` (Python) | `pytest` (1 passed) | 100.00% (40 stmts, 6 branches) | Green |
 | `studio-ui` (TypeScript + Tauri v2) | `desktop:build` + `vitest` (60 passed, 19 files) | 100.00% (stmts, branch, funcs, lines) | Green |
 | `Cargo.toml` Workspace (Rust) | `cargo test --workspace` (122 crates incl. `valkyrie-studio-tauri`; 131 tests) | 100.00% | Green |
@@ -14,14 +14,14 @@
 
 | Language | Source Files | Total Lines |
 | :--- | ---: | ---: |
-| Python | 271 | 5,821 |
+| Python | 273 | 5,959 |
 | TypeScript (`.ts`/`.tsx`) | 58 | 3,175 |
 | Rust | 126 | 3,039 |
 | YAML | 121 | 2,661 |
-| Markdown | 146 | 2,317 |
+| Markdown | 146 | 2,330 |
 | TOML | 125 | 577 |
 | CSS | 4 | 506 |
 | JSON | 124 | 443 |
 | SVG | 120 | 122 |
 | HTML | 1 | 19 |
-| **Total** | **1,096** | **18,680** |
+| **Total** | **1,098** | **18,831** |
