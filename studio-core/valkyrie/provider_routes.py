@@ -17,6 +17,7 @@ def _status() -> dict[str, object]:
     router_ = LLMRouter()
     return {
         "env_file": env_file_path().name,
+        "env_path": str(env_file_path()),
         "providers": [{"id": p, "env_var": v, "key_set": router_.has_key(p)} for p, v in KEY_VARS.items()],
         # The order a run falls back in, and the free models each hosted fallback tries.
         "fallback": [{"provider": p, "models": list(free_models(p)) if p in FREE_MODELS else ["gemini-4-hydrogen"]} for p in CHAIN],

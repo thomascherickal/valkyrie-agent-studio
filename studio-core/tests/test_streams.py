@@ -28,7 +28,7 @@ def test_the_trace_stream_sends_the_current_traces_then_every_change(monkeypatch
 
 def test_providers_report_which_keys_are_set_without_revealing_them(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     body = client.get("/api/providers").json()
-    assert body["env_file"] == "no-such.env"
+    assert body["env_file"] == "no-such.env" and body["env_path"].endswith("no-such.env")
     assert [(p["id"], p["env_var"], p["key_set"]) for p in body["providers"]] == [
         ("gemini", "GEMINI_API_KEY", False), ("openrouter", "OPENROUTER_API_KEY", False), ("opencode", "OPENCODE_API_KEY", False),
     ]

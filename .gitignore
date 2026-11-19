@@ -38,3 +38,6 @@ agent-edits/
 
 # Trace log written by the API
 logs/
+
+# Packaged API (built by make sidecar)
+studio-ui/src-tauri/binaries/

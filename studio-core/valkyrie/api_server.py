@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from pathlib import Path
 from typing import Any
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,6 +16,7 @@ from valkyrie.env_file import load_env_file
 from valkyrie.ir_schema import load_ir_from_yaml
 from valkyrie.provider_routes import router as provider_router
 from valkyrie.run_routes import router as run_router
+from valkyrie.storage import agents_dir
 from valkyrie.trace_routes import router as trace_router
 from valkyrie.rust_transpiler import transpile_ir_to_rust
 
@@ -77,7 +77,7 @@ def deploy_rust_endpoint(req: DeployRequest) -> dict[str, str]:
 @app.get("/api/agents")
 def list_agents_catalog() -> dict[str, Any]:
     """List every role and agent found in the agents/ directory."""
-    agents_root = Path(__file__).resolve().parents[2] / "agents"
+    agents_root = agents_dir()
     roles: list[dict[str, Any]] = []
     for role_dir in sorted(p for p in agents_root.iterdir() if p.is_dir()):
         agents = [{"id": a.name, "name": a.name} for a in sorted(role_dir.iterdir()) if a.is_dir()]

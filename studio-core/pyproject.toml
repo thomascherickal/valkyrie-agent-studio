@@ -25,6 +25,11 @@ dev = [
     "mypy>=1.11.0",
 ]
 
+# For `make sidecar`: builds the API into one executable that installers ship.
+package = [
+    "pyinstaller>=6.10.0",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--cov=valkyrie --cov-branch --cov-report=term-missing --cov-fail-under=100"

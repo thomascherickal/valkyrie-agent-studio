@@ -1,4 +1,4 @@
-.PHONY: test-all coverage run-gui deploy-rust
+.PHONY: test-all coverage run-gui deploy-rust sidecar package
 
 test-all:
 	cd studio-core && .venv/bin/python -m pytest
@@ -14,3 +14,12 @@ run-gui:
 
 deploy-rust:
 	cargo build --release --workspace
+
+# The API as one executable for installers (needs: studio-core/.venv/bin/pip install pyinstaller, and rustc).
+sidecar:
+	studio-core/.venv/bin/python scripts/build_sidecar.py
+
+# An installer that carries the API (needs: cargo install tauri-cli). Pass BUNDLES=deb (or appimage, msi, dmg...) to pick one.
+package: sidecar
+	cd studio-ui && npm run build
+	cd studio-ui/src-tauri && cargo tauri build --config tauri.sidecar.conf.json $(if $(BUNDLES),--bundles $(BUNDLES),)

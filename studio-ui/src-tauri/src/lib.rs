@@ -1,6 +1,8 @@
 //! Tauri Rust desktop shell exposing native Valkyrie runtime commands.
 
 pub mod backend;
+pub mod plan;
+pub mod sidecar;
 
 use serde::Serialize;
 use valkyrie_rust_runtime::{mock_llm::MockGeminiAgent, AgentResult, ValkyrieAgent};

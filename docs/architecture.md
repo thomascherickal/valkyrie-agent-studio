@@ -16,3 +16,9 @@ Valkyrie AI Agent Studio is organized as a modular monorepo where every source a
    - `rust_transpiler.py`, `command_centre.py`, and `api_server.py`: One-click Rust crate generation, lifecycle/trace control, REST endpoints, and `/ws/traces` WebSocket stream.
 3. **Rust Runtime & Workspace (`Cargo.toml`, `rust-runtime-template/`, `agents/*/*/rust/`):**
    - Shared `ValkyrieAgent` trait and deterministic `MockGeminiAgent` in `rust-runtime-template/` plus 240 standalone agent crates unified in the root Cargo workspace.
+
+## Packaging (`scripts/build_sidecar.py`, `studio-ui/src-tauri/src/{plan,sidecar,backend}.rs`)
+- `make sidecar` builds the API (`valkyrie/serve.py`) into one PyInstaller executable named `valkyrie-api-<target-triple>`, bundling the read-only `agents/` files (not the Rust crates or tests).
+- `tauri.sidecar.conf.json` lists it as an `externalBin`, so Tauri places it beside the app executable as `valkyrie-api`.
+- At start the shell (`plan::choose`) uses that binary when it is next to the executable, otherwise the venv's uvicorn. An API already listening on port 8000 is reused.
+- `storage.py` separates what ships (`BUNDLE/agents`, read only) from what you create (`home_dir()`: the repo in development, the user data folder when packaged, or `VALKYRIE_HOME`). The `.env`, custom agents, edits and the trace log live in the home folder.

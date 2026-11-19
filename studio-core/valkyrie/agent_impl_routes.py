@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field
 
 from valkyrie import tracing
 from valkyrie.agent_explanation import explanation
-from valkyrie.agent_impls import REPO, VARIANTS, AgentSpec, load_spec, playbook_for, render
+from valkyrie.agent_impls import VARIANTS, AgentSpec, load_spec, playbook_for, render
 from valkyrie.python_runner import run_custom_python, validate_python_source
 from valkyrie.storage import edits_dir
 
