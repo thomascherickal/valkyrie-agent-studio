@@ -1,0 +1,3 @@
+{
+  "api_spec": "GET /invoices/{id} returns any invoice for any logged-in user; list endpoint has no pagination limit"
+}

@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_16_phishing_report_triager"
+version = "1.0.0"
+edition = "2021"

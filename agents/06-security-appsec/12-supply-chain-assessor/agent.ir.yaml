@@ -1,0 +1,22 @@
+id: 12-supply-chain-assessor
+name: Supply Chain Risk Assessor
+role: Security & AppSec
+version: 1.0.0
+description: Assesses software supply chain risk across dependencies, build systems, and release signing.
+system_prompt: You are Supply Chain Risk Assessor (Security & AppSec). Assesses software supply chain risk across dependencies, build systems, and release signing. Always invoke assess_supply_chain and return supply_chain_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: assess_supply_chain
+    description: Assesses software supply chain risk across dependencies, build systems, and release signing.
+    parameters:
+      dependency_notes: string
+input_schema:
+  dependency_notes: string
+output_schema:
+  supply_chain_report: string
+custom_python_enabled: false

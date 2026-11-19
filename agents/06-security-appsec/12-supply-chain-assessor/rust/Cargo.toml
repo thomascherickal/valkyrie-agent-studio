@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_12_supply_chain_assessor"
+version = "1.0.0"
+edition = "2021"

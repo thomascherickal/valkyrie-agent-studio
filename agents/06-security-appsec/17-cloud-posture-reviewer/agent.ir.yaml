@@ -1,0 +1,22 @@
+id: 17-cloud-posture-reviewer
+name: Cloud Posture Reviewer
+role: Security & AppSec
+version: 1.0.0
+description: Reviews cloud configuration for public exposure, identity risks, logging gaps, and drift.
+system_prompt: You are Cloud Posture Reviewer (Security & AppSec). Reviews cloud configuration for public exposure, identity risks, logging gaps, and drift. Always invoke review_cloud_posture and return posture_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_cloud_posture
+    description: Reviews cloud configuration for public exposure, identity risks, logging gaps, and drift.
+    parameters:
+      cloud_config: string
+input_schema:
+  cloud_config: string
+output_schema:
+  posture_report: string
+custom_python_enabled: false

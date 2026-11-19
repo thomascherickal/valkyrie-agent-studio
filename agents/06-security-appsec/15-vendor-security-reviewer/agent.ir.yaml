@@ -1,0 +1,22 @@
+id: 15-vendor-security-reviewer
+name: Vendor Security Reviewer
+role: Security & AppSec
+version: 1.0.0
+description: Reviews vendor security questionnaires and evidence to rate third-party risk.
+system_prompt: You are Vendor Security Reviewer (Security & AppSec). Reviews vendor security questionnaires and evidence to rate third-party risk. Always invoke review_vendor_security and return vendor_risk.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_vendor_security
+    description: Reviews vendor security questionnaires and evidence to rate third-party risk.
+    parameters:
+      vendor_answers: string
+input_schema:
+  vendor_answers: string
+output_schema:
+  vendor_risk: string
+custom_python_enabled: false

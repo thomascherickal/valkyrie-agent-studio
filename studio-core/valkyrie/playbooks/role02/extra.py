@@ -57,7 +57,7 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
         "metrics": ["Ingest volume per day (GB)|lines_day * bytes_line / 1000000000|{:,.1f}", "Monthly ingest cost (USD)|lines_day * bytes_line / 1000000000 * cost_gb * 30|${:,.0f}", "Monthly cost of debug lines (USD)|lines_day * bytes_line / 1000000000 * cost_gb * 30 * debug_share|${:,.0f}"],
     },
     "02-software-engineering/16-cache-strategy-advisor": {
-        "fields": ["reads_s|Reads per second|number|800", "writes_s|Writes per second|number|2", "hit_rate|Expected cache hit rate (0 to 1)|number|0.92", "origin_ms|Origin response time (ms)|number|120", "ttl_s|Acceptable staleness (seconds)|number|60"],
+        "fields": ["reads_s|Reads per second|number|800", "writes_s|Writes per second|number|2", "hit_rate|Expected cache hit rate (0 to 1)|number|0.92", "origin_ms|Origin response time (ms)|number|120", "ttl_s|Acceptable staleness (seconds)|number|60", "cache_ms|Response time on a cache hit (ms)|number|2"],
         "sections": [
             ["Access pattern", "Pattern: {input}", "{reads_s} reads and {writes_s} writes per second. Staleness allowed: {ttl_s} seconds.", "Caches pay off when reads far outnumber writes and a small set of keys gets most of the traffic."],
             ["Where to cache", "Use a CDN for public pages, an in-process cache for tiny hot values and a shared cache (Redis or similar) for data many servers read.", "Each layer you add makes invalidation harder, so add the layer that removes the most load first."],
@@ -65,7 +65,7 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
             ["Invalidation", "Prefer expiry plus explicit deletion on write. Publish an invalidation event from the writer for keys that must change at once.", "Never cache per-user data under a shared key."],
             ["Stampedes and failure", "On a miss, let one request rebuild the value while others wait or serve the stale copy. If the cache is down, protect the origin with limits instead of sending all traffic to it.", "Monitor hit rate, miss latency and evictions."],
         ],
-        "metrics": ["Origin reads per second after caching|reads_s * (1 - hit_rate)|{:,.0f}", "Average response time (ms)|hit_rate * 2 + (1 - hit_rate) * origin_ms|{:,.1f}", "Reduction in origin load|hit_rate|{:.0%}"],
+        "metrics": ["Origin reads per second after caching|reads_s * (1 - hit_rate)|{:,.0f}", "Average response time (ms)|hit_rate * cache_ms + (1 - hit_rate) * origin_ms|{:,.1f}", "Reduction in origin load|hit_rate|{:.0%}"],
     },
     "02-software-engineering/17-type-safety-planner": {
         "fields": ["language|Language|text|TypeScript", "any_count|Uses of any or untyped values|number|1900", "per_week|Uses you can remove per week|number|60", "bug_share|Share of bugs caused by type errors (0 to 1)|number|0.22", "bugs_quarter|Bugs last quarter|number|140"],

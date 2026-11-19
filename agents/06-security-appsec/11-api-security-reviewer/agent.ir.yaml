@@ -1,0 +1,22 @@
+id: 11-api-security-reviewer
+name: API Security Reviewer
+role: Security & AppSec
+version: 1.0.0
+description: Reviews API specs against the OWASP API Top 10 for authorization, exposure, and abuse risks.
+system_prompt: You are API Security Reviewer (Security & AppSec). Reviews API specs against the OWASP API Top 10 for authorization, exposure, and abuse risks. Always invoke review_api_security and return api_findings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_api_security
+    description: Reviews API specs against the OWASP API Top 10 for authorization, exposure, and abuse risks.
+    parameters:
+      api_spec: string
+input_schema:
+  api_spec: string
+output_schema:
+  api_findings: string
+custom_python_enabled: false

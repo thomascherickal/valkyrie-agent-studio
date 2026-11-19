@@ -90,7 +90,7 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
         "metrics": ["High-risk share of the release|high_risk / tickets|{:.0%}", "Bugs still to resolve or accept|open_bugs|{:,.0f}"],
     },
     "04-qa-test-automation/19-l10n-test-planner": {
-        "fields": ["locales|Locales to launch|number|4", "strings|Translatable strings|number|3200", "rtl|Right-to-left locales|number|1", "expansion|Expected text growth in the longest language (0 to 1)|number|0.35", "tester_minutes|Minutes to review one screen per locale|number|6"],
+        "fields": ["locales|Locales to launch|number|4", "strings|Translatable strings|number|3200", "rtl|Right-to-left locales|number|1", "expansion|Expected text growth in the longest language (0 to 1)|number|0.35", "tester_minutes|Minutes to review one screen per locale|number|6", "screens|Screens to review per locale|number|40"],
         "sections": [
             ["Scope", "Locales: {input}", "{locales} locales and {strings} strings, {rtl} right-to-left.", "Internationalization (the code can handle any locale) comes before localization (the translation for one locale). Test both."],
             ["Formats", "Check dates, times, time zones, numbers, currency symbols and placement, phone numbers, addresses, names and sort order for each locale.", "Test with the locale of the user, not of the server."],
@@ -98,7 +98,7 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
             ["Content", "Check plural rules, gender and context for each string, strings built by joining parts, untranslated leftovers and screenshots of the translated UI in context.", "Send translators context and a glossary, and review the first batch with a native speaker."],
             ["Automation", "Run screenshot tests per locale and a check that every string has a translation. Add locales to the release checklist.", "Block hard-coded strings with a lint rule."],
         ],
-        "metrics": ["Screens to review per locale at 40 screens|40 * tester_minutes / 60|{:.1f}", "Review hours for all locales|40 * locales * tester_minutes / 60|{:.1f}"],
+        "metrics": ["Review hours per locale|screens * tester_minutes / 60|{:.1f}", "Review hours for all locales|screens * locales * tester_minutes / 60|{:.1f}"],
     },
     "04-qa-test-automation/20-security-test-case-writer": {
         "fields": ["flow|Flow under test|text|Password reset by email link", "token_minutes|Token lifetime (minutes)|number|60", "requests_hour|Reset requests per hour you allow per account|number|20", "limit_target|Limit you want per hour|number|3", "cases|Test cases you plan|number|14"],

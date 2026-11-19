@@ -93,6 +93,96 @@ export const ROLE_06: RoleCatalog = {
       "inputKey": "advisory_input",
       "outputKey": "advisory_doc",
       "sampleInput": "Patched path traversal in export endpoint in v1.4.2"
+    },
+    {
+      "id": "11-api-security-reviewer",
+      "name": "API Security Reviewer",
+      "description": "Reviews API specs against the OWASP API Top 10 for authorization, exposure, and abuse risks.",
+      "tool": "review_api_security",
+      "inputKey": "api_spec",
+      "outputKey": "api_findings",
+      "sampleInput": "GET /invoices/{id} returns any invoice for any logged-in user; list endpoint has no pagination limit"
+    },
+    {
+      "id": "12-supply-chain-assessor",
+      "name": "Supply Chain Risk Assessor",
+      "description": "Assesses software supply chain risk across dependencies, build systems, and release signing.",
+      "tool": "assess_supply_chain",
+      "inputKey": "dependency_notes",
+      "outputKey": "supply_chain_report",
+      "sampleInput": "1,240 transitive packages, 36 maintained by one person, builds pull unpinned actions, images unsigned"
+    },
+    {
+      "id": "13-forensics-guide",
+      "name": "Incident Forensics Guide",
+      "description": "Guides digital forensics collection with evidence order, preservation, and chain of custody.",
+      "tool": "plan_forensics",
+      "inputKey": "incident_summary",
+      "outputKey": "forensics_plan",
+      "sampleInput": "Suspected credential theft on 3 production hosts, first alert 02:10 UTC, logs kept 14 days"
+    },
+    {
+      "id": "14-data-classification-advisor",
+      "name": "Data Classification Advisor",
+      "description": "Classifies data stores by sensitivity and maps required controls for each class.",
+      "tool": "classify_data",
+      "inputKey": "data_inventory",
+      "outputKey": "classification_map",
+      "sampleInput": "Customer DB with emails and payment tokens; analytics warehouse with pseudonymous IDs; public marketing site"
+    },
+    {
+      "id": "15-vendor-security-reviewer",
+      "name": "Vendor Security Reviewer",
+      "description": "Reviews vendor security questionnaires and evidence to rate third-party risk.",
+      "tool": "review_vendor_security",
+      "inputKey": "vendor_answers",
+      "outputKey": "vendor_risk",
+      "sampleInput": "Vendor stores customer emails, SOC 2 Type I only, no pen test in 2 years, subprocessors listed, 99.5% SLA"
+    },
+    {
+      "id": "16-phishing-report-triager",
+      "name": "Phishing Report Triager",
+      "description": "Triages reported phishing emails by indicators, impact, and required response actions.",
+      "tool": "triage_phishing",
+      "inputKey": "reported_email",
+      "outputKey": "phishing_verdict",
+      "sampleInput": "Subject Urgent payroll update; link to payr0ll-portal.example; sent to 240 staff; 12 clicked, 3 entered passwords"
+    },
+    {
+      "id": "17-cloud-posture-reviewer",
+      "name": "Cloud Posture Reviewer",
+      "description": "Reviews cloud configuration for public exposure, identity risks, logging gaps, and drift.",
+      "tool": "review_cloud_posture",
+      "inputKey": "cloud_config",
+      "outputKey": "posture_report",
+      "sampleInput": "3 public storage buckets, 14 security groups open to 0.0.0.0/0, CloudTrail off in 2 regions, root has no MFA"
+    },
+    {
+      "id": "18-security-training-planner",
+      "name": "Security Training Planner",
+      "description": "Plans role-based security training with topics, cadence, measures, and engagement tactics.",
+      "tool": "plan_security_training",
+      "inputKey": "team_profile",
+      "outputKey": "training_plan",
+      "sampleInput": "420 staff: 90 engineers, 40 support with customer data access, 20 finance; phishing click rate 11%"
+    },
+    {
+      "id": "19-crypto-usage-reviewer",
+      "name": "Cryptography Usage Reviewer",
+      "description": "Reviews code for weak algorithms, key handling, randomness, and mode misuse.",
+      "tool": "review_crypto_usage",
+      "inputKey": "code_snippet",
+      "outputKey": "crypto_findings",
+      "sampleInput": "hash = md5(password); key = 'hardcoded-secret'; token = random.randint(100000, 999999); AES in ECB mode"
+    },
+    {
+      "id": "20-bug-bounty-triager",
+      "name": "Bug Bounty Triager",
+      "description": "Triages bug bounty reports by validity, severity, duplicates, scope, and reward.",
+      "tool": "triage_bounty_report",
+      "inputKey": "bounty_report",
+      "outputKey": "bounty_verdict",
+      "sampleInput": "Researcher reports stored XSS in the profile bio field on app.example.com, proof of concept attached"
     }
   ]
 };
