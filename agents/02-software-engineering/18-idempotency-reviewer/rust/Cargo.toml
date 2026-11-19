@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_18_idempotency_reviewer"
+version = "1.0.0"
+edition = "2021"

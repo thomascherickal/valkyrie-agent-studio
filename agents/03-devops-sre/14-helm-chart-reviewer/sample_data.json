@@ -1,0 +1,3 @@
+{
+  "helm_values": "replicaCount: 1; image.tag: latest; resources: {}; ingress.enabled: true; no podDisruptionBudget"
+}

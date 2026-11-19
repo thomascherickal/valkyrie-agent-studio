@@ -1,0 +1,22 @@
+id: 17-deploy-freeze-advisor
+name: Deploy Freeze Advisor
+role: DevOps & SRE
+version: 1.0.0
+description: Decides whether to freeze deploys using change risk, error budget, and the event calendar.
+system_prompt: You are Deploy Freeze Advisor (DevOps & SRE). Decides whether to freeze deploys using change risk, error budget, and the event calendar. Always invoke decide_freeze and return freeze_decision.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: decide_freeze
+    description: Decides whether to freeze deploys using change risk, error budget, and the event calendar.
+    parameters:
+      change_calendar: string
+input_schema:
+  change_calendar: string
+output_schema:
+  freeze_decision: string
+custom_python_enabled: false

@@ -1,0 +1,3 @@
+{
+  "endpoint_spec": "POST /payments creates a charge; mobile app retries on timeout; webhook consumer processes events"
+}

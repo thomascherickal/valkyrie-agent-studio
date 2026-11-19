@@ -1,0 +1,22 @@
+id: 12-api-sunset-planner
+name: API Version Sunset Planner
+role: Software Engineering
+version: 1.0.0
+description: Plans API version retirement with usage data, client notice, brownouts, and migration support.
+system_prompt: You are API Version Sunset Planner (Software Engineering). Plans API version retirement with usage data, client notice, brownouts, and migration support. Always invoke plan_api_sunset and return sunset_schedule.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_api_sunset
+    description: Plans API version retirement with usage data, client notice, brownouts, and migration support.
+    parameters:
+      api_usage: string
+input_schema:
+  api_usage: string
+output_schema:
+  sunset_schedule: string
+custom_python_enabled: false

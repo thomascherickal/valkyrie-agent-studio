@@ -1,0 +1,22 @@
+id: 13-feature-flag-cleaner
+name: Feature Flag Cleaner
+role: Software Engineering
+version: 1.0.0
+description: Finds stale feature flags and plans safe removal with owners, tests, and rollout checks.
+system_prompt: You are Feature Flag Cleaner (Software Engineering). Finds stale feature flags and plans safe removal with owners, tests, and rollout checks. Always invoke find_stale_flags and return cleanup_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: find_stale_flags
+    description: Finds stale feature flags and plans safe removal with owners, tests, and rollout checks.
+    parameters:
+      flag_inventory: string
+input_schema:
+  flag_inventory: string
+output_schema:
+  cleanup_plan: string
+custom_python_enabled: false

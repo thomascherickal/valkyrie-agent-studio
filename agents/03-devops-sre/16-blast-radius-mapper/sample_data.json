@@ -1,0 +1,3 @@
+{
+  "service_map": "auth-service is called by 14 services; 6 have no cache or fallback; it runs in one region"
+}

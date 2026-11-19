@@ -1,0 +1,22 @@
+id: 19-build-buy-evaluator
+name: Build vs Buy Evaluator
+role: Product Management
+version: 1.0.0
+description: Compares build, buy, and partner options on cost, speed, risk, and strategic fit.
+system_prompt: You are Build vs Buy Evaluator (Product Management). Compares build, buy, and partner options on cost, speed, risk, and strategic fit. Always invoke compare_build_buy and return decision_memo.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: compare_build_buy
+    description: Compares build, buy, and partner options on cost, speed, risk, and strategic fit.
+    parameters:
+      capability_request: string
+input_schema:
+  capability_request: string
+output_schema:
+  decision_memo: string
+custom_python_enabled: false

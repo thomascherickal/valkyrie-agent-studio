@@ -80,7 +80,7 @@ def test_catalog_and_websocket_traces() -> None:
     assert resp.status_code == 200
     roles = resp.json()["roles"]
     assert len(roles) == 12
-    assert sum(len(r["agents"]) for r in roles) == 120
+    assert sum(len(r["agents"]) for r in roles) == 240
 
     with client.websocket_connect("/ws/traces") as ws:  # the live stream: see tests/test_streams.py
         assert "traces" in ws.receive_json()

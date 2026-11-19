@@ -1,0 +1,22 @@
+id: 14-north-star-designer
+name: North Star Metric Designer
+role: Product Management
+version: 1.0.0
+description: Chooses a north star metric and breaks it into input metrics teams can move.
+system_prompt: You are North Star Metric Designer (Product Management). Chooses a north star metric and breaks it into input metrics teams can move. Always invoke define_north_star and return metric_tree.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: define_north_star
+    description: Chooses a north star metric and breaks it into input metrics teams can move.
+    parameters:
+      product_goals: string
+input_schema:
+  product_goals: string
+output_schema:
+  metric_tree: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 19-code-owner-mapper
+name: Code Ownership Mapper
+role: Software Engineering
+version: 1.0.0
+description: Maps files to owners from commit history and flags orphaned or overloaded areas.
+system_prompt: You are Code Ownership Mapper (Software Engineering). Maps files to owners from commit history and flags orphaned or overloaded areas. Always invoke map_code_owners and return owners_map.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: map_code_owners
+    description: Maps files to owners from commit history and flags orphaned or overloaded areas.
+    parameters:
+      commit_history: string
+input_schema:
+  commit_history: string
+output_schema:
+  owners_map: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 11-error-handling-auditor
+name: Error Handling Auditor
+role: Software Engineering
+version: 1.0.0
+description: Audits code for swallowed exceptions, vague errors, missing retries, and unsafe fallbacks.
+system_prompt: You are Error Handling Auditor (Software Engineering). Audits code for swallowed exceptions, vague errors, missing retries, and unsafe fallbacks. Always invoke audit_error_paths and return error_audit.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: audit_error_paths
+    description: Audits code for swallowed exceptions, vague errors, missing retries, and unsafe fallbacks.
+    parameters:
+      code_excerpt: string
+input_schema:
+  code_excerpt: string
+output_schema:
+  error_audit: string
+custom_python_enabled: false

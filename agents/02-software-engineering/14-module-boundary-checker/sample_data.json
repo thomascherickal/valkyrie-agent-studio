@@ -1,0 +1,3 @@
+{
+  "dependency_graph": "billing imports orders; orders imports billing; reports reads the orders table directly"
+}

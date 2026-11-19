@@ -1,0 +1,3 @@
+{
+  "dns_change": "Move api.example.com from the old load balancer to the new one; current TTL 3600; mail records unchanged"
+}

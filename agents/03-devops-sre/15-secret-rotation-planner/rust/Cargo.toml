@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_15_secret_rotation_planner"
+version = "1.0.0"
+edition = "2021"

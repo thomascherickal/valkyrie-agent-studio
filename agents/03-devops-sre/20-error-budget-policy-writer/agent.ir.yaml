@@ -1,0 +1,22 @@
+id: 20-error-budget-policy-writer
+name: Error Budget Policy Writer
+role: DevOps & SRE
+version: 1.0.0
+description: Drafts error budget policies with thresholds, release rules, and escalation paths.
+system_prompt: You are Error Budget Policy Writer (DevOps & SRE). Drafts error budget policies with thresholds, release rules, and escalation paths. Always invoke draft_budget_policy and return budget_policy.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: draft_budget_policy
+    description: Drafts error budget policies with thresholds, release rules, and escalation paths.
+    parameters:
+      slo_context: string
+input_schema:
+  slo_context: string
+output_schema:
+  budget_policy: string
+custom_python_enabled: false

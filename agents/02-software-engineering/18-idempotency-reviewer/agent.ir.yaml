@@ -1,0 +1,22 @@
+id: 18-idempotency-reviewer
+name: Idempotency Reviewer
+role: Software Engineering
+version: 1.0.0
+description: Reviews endpoints and consumers for safe retries, duplicate delivery, and exactly-once illusions.
+system_prompt: You are Idempotency Reviewer (Software Engineering). Reviews endpoints and consumers for safe retries, duplicate delivery, and exactly-once illusions. Always invoke check_idempotency and return idempotency_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: check_idempotency
+    description: Reviews endpoints and consumers for safe retries, duplicate delivery, and exactly-once illusions.
+    parameters:
+      endpoint_spec: string
+input_schema:
+  endpoint_spec: string
+output_schema:
+  idempotency_review: string
+custom_python_enabled: false

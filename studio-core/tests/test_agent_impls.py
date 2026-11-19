@@ -30,7 +30,7 @@ def payload_for(key: str) -> dict:
 
 
 def test_every_agent_has_an_authored_profile() -> None:
-    assert len(KEYS) == 120 and sorted(PROFILES) == KEYS
+    assert len(KEYS) == 240 and sorted(PROFILES) == KEYS
     for key, text in PROFILES.items():
         facets = parse_profile(text)
         assert 3 <= len(facets) <= 4, key
@@ -63,7 +63,7 @@ def test_every_agent_has_a_well_formed_playbook() -> None:
             assert m["format"].count("{}") + m["format"].count("{:") == 1, (key, m)
 
 
-def test_all_360_implementations_finish_the_job_with_only_their_example_data() -> None:
+def test_all_720_implementations_finish_the_job_with_only_their_example_data() -> None:
     for key in KEYS:
         role_id, agent_id = key.split("/")
         spec = load_spec(role_id, agent_id)

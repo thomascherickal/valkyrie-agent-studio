@@ -93,6 +93,96 @@ export const ROLE_03: RoleCatalog = {
       "inputKey": "canary_stats",
       "outputKey": "rollback_action",
       "sampleInput": "Canary p99: 420ms vs Baseline p99: 95ms"
+    },
+    {
+      "id": "11-oncall-load-analyzer",
+      "name": "On-Call Load Analyzer",
+      "description": "Analyzes pager load per person and per service to keep on-call sustainable.",
+      "tool": "analyze_oncall_load",
+      "inputKey": "pager_stats",
+      "outputKey": "oncall_report",
+      "sampleInput": "Last 4 weeks: 212 pages, 61 outside working hours, 9 engineers in rotation, top service 74 pages"
+    },
+    {
+      "id": "12-alert-noise-reducer",
+      "name": "Alert Noise Reducer",
+      "description": "Ranks noisy alerts by page count and action rate and proposes tuning or deletion.",
+      "tool": "rank_noisy_alerts",
+      "inputKey": "alert_history",
+      "outputKey": "noise_plan",
+      "sampleInput": "CPUHigh fired 310 times, 4 led to action; DiskSlow 95 times, 60 actioned; QueueLag 40 times, 38 actioned"
+    },
+    {
+      "id": "13-dr-plan-reviewer",
+      "name": "Disaster Recovery Reviewer",
+      "description": "Reviews disaster recovery plans against RTO, RPO, backups, dependencies, and test evidence.",
+      "tool": "review_dr_plan",
+      "inputKey": "dr_plan",
+      "outputKey": "dr_gaps",
+      "sampleInput": "Primary region us-east-1, nightly backups to the same region, restore never tested, RTO 4h, RPO 1h"
+    },
+    {
+      "id": "14-helm-chart-reviewer",
+      "name": "Helm Chart Reviewer",
+      "description": "Reviews Helm values and templates for safe defaults, resource limits, and upgrade risks.",
+      "tool": "review_helm_values",
+      "inputKey": "helm_values",
+      "outputKey": "chart_review",
+      "sampleInput": "replicaCount: 1; image.tag: latest; resources: {}; ingress.enabled: true; no podDisruptionBudget"
+    },
+    {
+      "id": "15-secret-rotation-planner",
+      "name": "Secrets Rotation Planner",
+      "description": "Plans secret rotation by age, blast radius, and ownership with zero-downtime steps.",
+      "tool": "plan_secret_rotation",
+      "inputKey": "secret_inventory",
+      "outputKey": "rotation_plan",
+      "sampleInput": "86 secrets: 23 older than 1 year, 9 shared by several services, 14 database passwords, no owner on 11"
+    },
+    {
+      "id": "16-blast-radius-mapper",
+      "name": "Dependency Outage Mapper",
+      "description": "Maps which services fail when a dependency fails and ranks single points of failure.",
+      "tool": "map_blast_radius",
+      "inputKey": "service_map",
+      "outputKey": "outage_map",
+      "sampleInput": "auth-service is called by 14 services; 6 have no cache or fallback; it runs in one region"
+    },
+    {
+      "id": "17-deploy-freeze-advisor",
+      "name": "Deploy Freeze Advisor",
+      "description": "Decides whether to freeze deploys using change risk, error budget, and the event calendar.",
+      "tool": "decide_freeze",
+      "inputKey": "change_calendar",
+      "outputKey": "freeze_decision",
+      "sampleInput": "Black Friday week, 31 changes queued, error budget 38% left, two incidents last week"
+    },
+    {
+      "id": "18-log-retention-tuner",
+      "name": "Log Retention Tuner",
+      "description": "Tunes log retention by value, compliance need, and storage cost per log class.",
+      "tool": "tune_log_retention",
+      "inputKey": "log_volumes",
+      "outputKey": "retention_policy",
+      "sampleInput": "Audit logs 2 TB/month kept 7 years, app logs 40 TB/month kept 90 days, debug 25 TB/month kept 30 days"
+    },
+    {
+      "id": "19-dns-change-verifier",
+      "name": "DNS Change Verifier",
+      "description": "Checks planned DNS changes for TTLs, propagation risk, records, and rollback readiness.",
+      "tool": "verify_dns_change",
+      "inputKey": "dns_change",
+      "outputKey": "dns_checklist",
+      "sampleInput": "Move api.example.com from the old load balancer to the new one; current TTL 3600; mail records unchanged"
+    },
+    {
+      "id": "20-error-budget-policy-writer",
+      "name": "Error Budget Policy Writer",
+      "description": "Drafts error budget policies with thresholds, release rules, and escalation paths.",
+      "tool": "draft_budget_policy",
+      "inputKey": "slo_context",
+      "outputKey": "budget_policy",
+      "sampleInput": "Checkout API SLO 99.9% over 30 days; product wants weekly releases; last month used 80% of budget"
     }
   ]
 };

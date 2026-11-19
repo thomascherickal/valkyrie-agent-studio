@@ -1,0 +1,22 @@
+id: 14-module-boundary-checker
+name: Module Boundary Checker
+role: Software Engineering
+version: 1.0.0
+description: Checks dependency graphs for cycles, layer violations, and hidden coupling between modules.
+system_prompt: You are Module Boundary Checker (Software Engineering). Checks dependency graphs for cycles, layer violations, and hidden coupling between modules. Always invoke check_module_boundaries and return boundary_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: check_module_boundaries
+    description: Checks dependency graphs for cycles, layer violations, and hidden coupling between modules.
+    parameters:
+      dependency_graph: string
+input_schema:
+  dependency_graph: string
+output_schema:
+  boundary_report: string
+custom_python_enabled: false
