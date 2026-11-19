@@ -18,7 +18,7 @@ from valkyrie.profiles import PROFILES
 from valkyrie.impl_rules import TEMPLATE as RULES
 from valkyrie.ir_schema import load_ir_from_yaml
 from valkyrie.playbooks import PLAYBOOKS
-from valkyrie.storage import REPO, custom_agents_dir
+from valkyrie.storage import REPO, agents_dir, custom_agents_dir
 
 CUSTOM_ROLE_ID = "custom-agents"
 VARIANTS: dict[str, tuple[str, str]] = {
@@ -49,7 +49,7 @@ def agent_dir(role_id: str, agent_id: str) -> Path:
     """The agent's directory. Raises ValueError for a bad id and LookupError when there is no such agent."""
     if not (_ID.fullmatch(role_id) and _ID.fullmatch(agent_id)):
         raise ValueError("Invalid agent id")
-    base = custom_agents_dir() if role_id == CUSTOM_ROLE_ID else REPO / "agents" / role_id
+    base = custom_agents_dir() if role_id == CUSTOM_ROLE_ID else agents_dir() / role_id
     path = base / agent_id
     if not (path / "agent.ir.yaml").is_file():
         raise LookupError(f"No agent {agent_id} in {role_id}")

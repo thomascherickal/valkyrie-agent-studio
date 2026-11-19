@@ -37,16 +37,28 @@ cp .env.example .env     # then edit .env
 ```
 ```
 GEMINI_API_KEY=...        # Gemini 4 Hydrogen, the default for every request
-OPENROUTER_API_KEY=...    # optional: OpenRouter (pick a Model ID under Design)
-OPENCODE_API_KEY=...      # optional: OpenCode (pick a Model ID under Design)
+OPENCODE_API_KEY=...      # fallback 1: OpenCode free models (they need a key)
+OPENROUTER_API_KEY=...    # fallback 2: OpenRouter free models
 ```
+**If Gemini fails, the next provider answers.** A run tries Gemini, then OpenCode free models (`big-pickle`, `deepseek-v4.1-flash-free`, `mimo-v2.6-flash-free`), then OpenRouter free models (`openrouter/free`). A provider with no key is skipped. The **Providers** tab (Advanced) shows which keys are set and the fallback order.
 
 **2. Environment variables.** Export them before starting the API. A variable you export wins over the same name in `.env`.
 ```bash
 export GEMINI_API_KEY=...
 ```
 
-Restart the API after changing a key. Local Ollama needs no key.
+You do not need to restart the API after changing a key: every run re-reads `.env`, and **Reload .env** in the Providers tab does it on demand. Local Ollama needs no key.
+
+### See every step
+The right-hand **Command Centre** has a **Trace log**: every step of every run, live (the request, the key check, the prompt, each provider attempt and its error, the code that ran, each stage, the checks). Click a step to open its full detail. The same steps are written to `logs/trace.jsonl`. Keys are never recorded.
+
+### Install it as an app (carries its own API)
+```bash
+studio-core/.venv/bin/pip install pyinstaller    # once
+cargo install tauri-cli                          # once
+make package BUNDLES=deb                         # or appimage, msi, dmg (on that system)
+```
+`make sidecar` builds the API into one executable (`studio-ui/src-tauri/binaries/`), and `make package` has Tauri ship it beside the app. An installed app starts that API itself and keeps what you create (custom agents, edits, logs and your `.env`) in your user folder, for example `~/.local/share/valkyrie-studio/` on Linux. The Providers tab shows the exact path of the `.env`. Set `VALKYRIE_HOME` to use another folder.
 
 ## 4. Explore the Desktop Studio
 1. **Pick an agent:** Search the left sidebar across all 12 roles, or create your own under **Create agent**: describe it in plain English and it appears under **Custom Agents**. Created agents are saved to `custom-agents/` (set `VALKYRIE_CUSTOM_DIR` to move it) with their Python, YAML and Rust files, and they come back the next time you open the studio.

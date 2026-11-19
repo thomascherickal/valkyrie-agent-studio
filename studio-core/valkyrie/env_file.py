@@ -10,13 +10,14 @@ import os
 from pathlib import Path
 import re
 
+from valkyrie.storage import home_dir
+
 _KEY = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
-_REPO = Path(__file__).resolve().parents[2]
 
 
 def env_file_path() -> Path:
-    """The .env file at the repo root. Set VALKYRIE_ENV_FILE to use another file."""
-    return Path(os.environ.get("VALKYRIE_ENV_FILE") or _REPO / ".env")
+    """The .env file in the home folder (the repo root in development). Set VALKYRIE_ENV_FILE to use another file."""
+    return Path(os.environ.get("VALKYRIE_ENV_FILE") or home_dir() / ".env")
 
 
 def parse_env(text: str) -> dict[str, str]:

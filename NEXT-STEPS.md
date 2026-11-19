@@ -3,7 +3,7 @@
 Keep this file current. Tick what is done, add what you find, then pick up the next open step that does not need the user (see "Autonomous Delivery" in `CLAUDE.md`).
 
 ## Verification Checklist (All Green)
-- [x] `studio-core`: `pytest` (114 passed, 100.00% branch & statement coverage).
+- [x] `studio-core`: `pytest` (123 passed, 100.00% branch & statement coverage).
 - [x] `command-centre`: `pytest` (1 passed, 100.00% branch & statement coverage).
 - [x] `studio-ui`: `npm run desktop:build` (Vite + Tauri v2 Rust Shell) + `vitest run --coverage` (145 tests, 100% statements, branches, functions, lines).
 - [x] `Cargo.toml` workspace: `cargo test --workspace` (242 crates: `rust-runtime-template`, `valkyrie-studio-tauri`, and 240 agent crates).
@@ -42,7 +42,9 @@ Keep this file current. Tick what is done, add what you find, then pick up the n
 - [x] **Full step tracing:** every run and every action is recorded step by step (`tracing.py`), kept in memory, appended to `logs/trace.jsonl`, streamed over `/ws/trace` and shown in the Command Centre **Trace log** with run and status filters, expandable detail, copy and clear. Keys are redacted before anything is stored or sent.
 - [x] **Live provider check (Gemini and OpenRouter):** verified with the saved keys. It found and fixed a real bug: the Gemini request carried `thinking_level` and `reasoning_effort` as top-level fields, which the API rejects (HTTP 400); the level now goes in `generationConfig.thinkingConfig`, and Gemini's key travels in a header instead of the URL. A Hybrid run now uses the real model and its review step passes.
 
+- [x] **API bundled for installers:** `make sidecar` builds the API into one executable (PyInstaller, 89 MB, 972 agent files), `make package` ships it beside the app, and the shell uses it when installed (`plan::choose`). Verified: the binary serves all 240 agents, runs an agent, creates a custom agent and writes its data and trace log to the user folder; Tauri placed it next to the app executable; a real `.deb` built and contains `usr/bin/valkyrie-studio-tauri` and `usr/bin/valkyrie-api`. Packaged apps keep your data and `.env` in the user folder (`VALKYRIE_HOME` overrides).
+
 ## Recommended Next Steps
 1. **Needs the user: an OpenCode key.** Gemini and OpenRouter are verified live. OpenCode's free models answer HTTP 429 (free usage limit) without a key, so the OpenCode fallback is skipped until `OPENCODE_API_KEY` is set in `.env`. Paste one, press Reload .env in the Providers tab, and confirm that a forced Gemini failure falls back to an OpenCode free model.
 2. **Review the playbooks with the people who own each domain.** They are expert-written starting points. Thresholds and wording should be adjusted to each team's standards (the About tab lists what to add).
-3. **Bundle the API for installers.** The auto-start finds the repo at compile time, so it works for `desktop:start` and dev builds only. A packaged installer needs the API shipped as a Tauri sidecar (for example a PyInstaller binary). PyInstaller is not installed in `studio-core/.venv`.
+3. **Run the installer on a desktop.** The `.deb` was built and its contents checked, but not launched (no display here). Install it, open the app and confirm the status bar reads `gemini-4-hydrogen` and the Providers tab shows the user-folder `.env`. The macOS (`dmg`) and Windows (`msi`) bundles need to be built on those systems with `make package BUNDLES=...`.

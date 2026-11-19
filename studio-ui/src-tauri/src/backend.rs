@@ -1,46 +1,15 @@
-//! Starts the Python API (uvicorn) alongside the desktop window and stops it on exit.
+//! Starts the Python API alongside the desktop window and stops it on exit.
 //!
-//! ponytail: the repo root is fixed at compile time, so this works for `desktop:start` and dev builds.
-//! A packaged installer needs the API bundled as a Tauri sidecar. Until then, set VALKYRIE_PYTHON to
-//! choose the interpreter, or start the API yourself: a running API on the port is detected and reused.
+//! What to start (the bundled API in an installed app, the venv's uvicorn in development) is decided in `plan`.
+//! A running API on the port is detected and reused.
 
 use std::net::{SocketAddr, TcpStream};
-use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::time::Duration;
 
+use crate::plan::{default_plan, Plan};
+
 pub const API_ADDR: &str = "127.0.0.1:8000";
-
-#[derive(Debug, PartialEq)]
-pub struct Plan {
-    pub program: PathBuf,
-    pub args: Vec<String>,
-    pub cwd: PathBuf,
-}
-
-/// Decides what to run: VALKYRIE_PYTHON if set, else the repo's venv python when it exists, else `python3`.
-pub fn plan(repo_root: &Path, python_override: Option<String>, venv_python_exists: bool) -> Plan {
-    let core = repo_root.join("studio-core");
-    let venv_python = if cfg!(windows) {
-        core.join(".venv/Scripts/python.exe")
-    } else {
-        core.join(".venv/bin/python")
-    };
-    let program = match python_override {
-        Some(path) => PathBuf::from(path),
-        None if venv_python_exists => venv_python,
-        None => PathBuf::from("python3"),
-    };
-    let args = ["-m", "uvicorn", "valkyrie.api_server:app", "--port", "8000"];
-    Plan { program, args: args.iter().map(|a| a.to_string()).collect(), cwd: core }
-}
-
-/// The plan for this machine, read from the environment and the file system.
-pub fn default_plan() -> Plan {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
-    let venv_exists = root.join("studio-core/.venv").is_dir();
-    plan(&root, std::env::var("VALKYRIE_PYTHON").ok(), venv_exists)
-}
 
 pub fn is_up(addr: &SocketAddr) -> bool {
     TcpStream::connect_timeout(addr, Duration::from_millis(200)).is_ok()
@@ -112,24 +81,6 @@ mod tests {
 
     fn sleeper() -> Plan {
         Plan { program: "sleep".into(), args: vec!["30".into()], cwd: ".".into() }
-    }
-
-    #[test]
-    fn plan_prefers_override_then_venv_then_python3() {
-        let root = Path::new("/repo");
-        assert_eq!(plan(root, Some("/opt/py".into()), true).program, PathBuf::from("/opt/py"));
-        let venv = plan(root, None, true);
-        assert!(venv.program.starts_with("/repo/studio-core/.venv"));
-        assert_eq!(plan(root, None, false).program, PathBuf::from("python3"));
-        assert_eq!(venv.cwd, PathBuf::from("/repo/studio-core"));
-        assert_eq!(venv.args, ["-m", "uvicorn", "valkyrie.api_server:app", "--port", "8000"]);
-    }
-
-    #[test]
-    fn default_plan_runs_uvicorn_from_studio_core() {
-        let p = default_plan();
-        assert!(p.cwd.ends_with("studio-core"));
-        assert!(p.args.contains(&"uvicorn".to_string()));
     }
 
     #[test]

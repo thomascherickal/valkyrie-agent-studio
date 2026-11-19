@@ -113,6 +113,8 @@ export interface ProviderStatus {
 /** Which providers have a key. Never contains a key itself. `changed` lists what a reload updated. */
 export interface Providers {
   env_file: string;
+  /** The full path of the .env file: the repo root in development, the user data folder when installed. */
+  env_path: string;
   providers: ProviderStatus[];
   /** The order a run falls back in, with the models each provider tries (free models for the hosted fallbacks). */
   fallback: { provider: string; models: string[] }[];

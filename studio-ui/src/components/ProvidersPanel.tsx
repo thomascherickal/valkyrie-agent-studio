@@ -16,7 +16,7 @@ export function ProvidersPanel() {
   return (
     <div className="stack">
       <p>
-        Model keys live in the <code>{latest?.env_file ?? ".env"}</code> file at the top of the repo, one <code>NAME=value</code> per line.
+        Model keys live in <code>{latest?.env_path ?? ".env"}</code>, one <code>NAME=value</code> per line.
         The studio shows whether a key is set, never the key. Without a key, runs are simulated.
       </p>
       <AsyncNotice state={status.state} working="Checking keys…" />
