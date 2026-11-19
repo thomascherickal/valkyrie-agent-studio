@@ -93,6 +93,96 @@ export const ROLE_10: RoleCatalog = {
       "inputKey": "monthly_ledger",
       "outputKey": "monthly_report",
       "sampleInput": "Total $24.5k (-9% MoM), Savings realized $4.2k"
+    },
+    {
+      "id": "11-commitment-coverage-checker",
+      "name": "Commitment Coverage Checker",
+      "description": "Checks reserved capacity and savings plan coverage and utilization against steady usage.",
+      "tool": "check_commitment_coverage",
+      "inputKey": "usage_summary",
+      "outputKey": "coverage_report",
+      "sampleInput": "Compute 410k a month on demand; commitments cover 52%, utilization 97%; baseline steady 70% of spend"
+    },
+    {
+      "id": "12-spot-instance-advisor",
+      "name": "Spot Instance Advisor",
+      "description": "Assesses which workloads can run on spot capacity and designs interruption handling.",
+      "tool": "assess_spot_fit",
+      "inputKey": "workload_profile",
+      "outputKey": "spot_plan",
+      "sampleInput": "Batch ETL 120 vCPU nightly, CI runners 60 vCPU, stateless API 200 vCPU; interruptions tolerated for batch and CI"
+    },
+    {
+      "id": "13-cross-az-traffic-analyst",
+      "name": "Cross-AZ Traffic Analyst",
+      "description": "Analyzes cross-zone and cross-region data transfer and proposes locality fixes.",
+      "tool": "analyze_az_traffic",
+      "inputKey": "traffic_matrix",
+      "outputKey": "az_plan",
+      "sampleInput": "Service mesh sends 62% of traffic across zones; Kafka replication 140 TB/month; one analytics job crosses regions"
+    },
+    {
+      "id": "14-tagging-policy-auditor",
+      "name": "Tagging Policy Auditor",
+      "description": "Audits cloud resource tags for cost allocation coverage, consistency, and owner accuracy.",
+      "tool": "audit_tags",
+      "inputKey": "resource_tags",
+      "outputKey": "tag_report",
+      "sampleInput": "12,400 resources: 71% have owner, 58% have cost-center, 9 spellings of environment, 3.1k untagged by spend"
+    },
+    {
+      "id": "15-chargeback-allocator",
+      "name": "Chargeback Allocator",
+      "description": "Allocates shared cloud and platform costs to teams with fair, explainable drivers.",
+      "tool": "allocate_shared_cost",
+      "inputKey": "shared_costs",
+      "outputKey": "allocation_table",
+      "sampleInput": "Shared Kubernetes 84k, networking 31k, observability 52k, support 19k a month; 6 product teams"
+    },
+    {
+      "id": "16-database-cost-tuner",
+      "name": "Database Cost Tuner",
+      "description": "Tunes managed database cost by sizing, storage, replicas, backups, and idle environments.",
+      "tool": "tune_db_cost",
+      "inputKey": "db_usage",
+      "outputKey": "db_savings",
+      "sampleInput": "3 production clusters at 18% CPU, provisioned IOPS 4x used, 9 dev databases running 24/7, backups kept 90 days"
+    },
+    {
+      "id": "17-observability-cost-reducer",
+      "name": "Observability Cost Reducer",
+      "description": "Reduces logging, metrics, and tracing cost without losing the signals teams need.",
+      "tool": "trim_telemetry_cost",
+      "inputKey": "telemetry_volumes",
+      "outputKey": "telemetry_plan",
+      "sampleInput": "Logs 38 TB/month, 2.4M active metric series (40% unused), traces sampled at 100%, vendor bill 96k a month"
+    },
+    {
+      "id": "18-forecast-variance-explainer",
+      "name": "Forecast Variance Explainer",
+      "description": "Explains cloud cost variance against forecast by volume, price, mix, and one-off effects.",
+      "tool": "explain_cost_variance",
+      "inputKey": "actual_vs_forecast",
+      "outputKey": "variance_story",
+      "sampleInput": "Forecast 1.20M, actual 1.38M (+15%); traffic +9%, new region launch, one-off 40k migration; reservation discount lower than planned"
+    },
+    {
+      "id": "19-saas-license-optimizer",
+      "name": "SaaS License Optimizer",
+      "description": "Optimizes SaaS seats and tiers using activity data, role needs, and renewal dates.",
+      "tool": "optimize_seats",
+      "inputKey": "license_usage",
+      "outputKey": "seat_plan",
+      "sampleInput": "CRM 480 seats, 61% active in 90 days; design tool 120 seats, 38 never opened; renewal in 70 days"
+    },
+    {
+      "id": "20-gpu-utilization-analyst",
+      "name": "GPU Utilization Analyst",
+      "description": "Analyzes GPU utilization and queueing to cut idle accelerator spend and fix scheduling.",
+      "tool": "analyze_gpu_use",
+      "inputKey": "gpu_metrics",
+      "outputKey": "gpu_plan",
+      "sampleInput": "64 GPUs, average utilization 31%, jobs queue for 3 hours at peak, 22% of GPU-hours are idle between jobs"
     }
   ]
 };

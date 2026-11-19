@@ -1,6 +1,6 @@
 # FinOps & Cloud Cost
 
-FinOps & Cloud Cost suite of 10 focused autonomous agents in Valkyrie AI Agent Studio.
+FinOps & Cloud Cost suite of 20 focused autonomous agents in Valkyrie AI Agent Studio.
 
 ## Engine Policy
 - **Default:** `gemini-4-hydrogen` (`thinking_level: low`, `high` optional per agent)
@@ -17,3 +17,13 @@ FinOps & Cloud Cost suite of 10 focused autonomous agents in Valkyrie AI Agent S
 - `08-unit-economics-tracker` — **Unit Economics Tracker**: Calculates COGS per active tenant and per 1,000 agent invocations. (Tool: `calc_unit_cogs`)
 - `09-budget-alert-router` — **Budget Alert Router**: Routes forecasted monthly overruns to squad Slack/email owners. (Tool: `route_budget_warning`)
 - `10-finops-monthly-brief` — **FinOps Monthly Brief**: Summarizes cloud spend variance, realized savings, and unit margins. (Tool: `compile_finops_brief`)
+- `11-commitment-coverage-checker` — **Commitment Coverage Checker**: Checks reserved capacity and savings plan coverage and utilization against steady usage. (Tool: `check_commitment_coverage`)
+- `12-spot-instance-advisor` — **Spot Instance Advisor**: Assesses which workloads can run on spot capacity and designs interruption handling. (Tool: `assess_spot_fit`)
+- `13-cross-az-traffic-analyst` — **Cross-AZ Traffic Analyst**: Analyzes cross-zone and cross-region data transfer and proposes locality fixes. (Tool: `analyze_az_traffic`)
+- `14-tagging-policy-auditor` — **Tagging Policy Auditor**: Audits cloud resource tags for cost allocation coverage, consistency, and owner accuracy. (Tool: `audit_tags`)
+- `15-chargeback-allocator` — **Chargeback Allocator**: Allocates shared cloud and platform costs to teams with fair, explainable drivers. (Tool: `allocate_shared_cost`)
+- `16-database-cost-tuner` — **Database Cost Tuner**: Tunes managed database cost by sizing, storage, replicas, backups, and idle environments. (Tool: `tune_db_cost`)
+- `17-observability-cost-reducer` — **Observability Cost Reducer**: Reduces logging, metrics, and tracing cost without losing the signals teams need. (Tool: `trim_telemetry_cost`)
+- `18-forecast-variance-explainer` — **Forecast Variance Explainer**: Explains cloud cost variance against forecast by volume, price, mix, and one-off effects. (Tool: `explain_cost_variance`)
+- `19-saas-license-optimizer` — **SaaS License Optimizer**: Optimizes SaaS seats and tiers using activity data, role needs, and renewal dates. (Tool: `optimize_seats`)
+- `20-gpu-utilization-analyst` — **GPU Utilization Analyst**: Analyzes GPU utilization and queueing to cut idle accelerator spend and fix scheduling. (Tool: `analyze_gpu_use`)

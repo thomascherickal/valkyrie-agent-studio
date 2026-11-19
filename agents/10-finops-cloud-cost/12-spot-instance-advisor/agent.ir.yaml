@@ -1,0 +1,22 @@
+id: 12-spot-instance-advisor
+name: Spot Instance Advisor
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Assesses which workloads can run on spot capacity and designs interruption handling.
+system_prompt: You are Spot Instance Advisor (FinOps & Cloud Cost). Assesses which workloads can run on spot capacity and designs interruption handling. Always invoke assess_spot_fit and return spot_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: assess_spot_fit
+    description: Assesses which workloads can run on spot capacity and designs interruption handling.
+    parameters:
+      workload_profile: string
+input_schema:
+  workload_profile: string
+output_schema:
+  spot_plan: string
+custom_python_enabled: false

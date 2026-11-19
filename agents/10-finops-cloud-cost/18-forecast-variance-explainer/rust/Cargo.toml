@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_18_forecast_variance_explainer"
+version = "1.0.0"
+edition = "2021"

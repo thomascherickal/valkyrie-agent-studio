@@ -1,0 +1,22 @@
+id: 14-tagging-policy-auditor
+name: Tagging Policy Auditor
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Audits cloud resource tags for cost allocation coverage, consistency, and owner accuracy.
+system_prompt: You are Tagging Policy Auditor (FinOps & Cloud Cost). Audits cloud resource tags for cost allocation coverage, consistency, and owner accuracy. Always invoke audit_tags and return tag_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: audit_tags
+    description: Audits cloud resource tags for cost allocation coverage, consistency, and owner accuracy.
+    parameters:
+      resource_tags: string
+input_schema:
+  resource_tags: string
+output_schema:
+  tag_report: string
+custom_python_enabled: false

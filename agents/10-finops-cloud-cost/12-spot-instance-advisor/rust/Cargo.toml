@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_12_spot_instance_advisor"
+version = "1.0.0"
+edition = "2021"

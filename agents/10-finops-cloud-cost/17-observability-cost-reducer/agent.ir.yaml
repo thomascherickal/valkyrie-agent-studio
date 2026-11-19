@@ -1,0 +1,22 @@
+id: 17-observability-cost-reducer
+name: Observability Cost Reducer
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Reduces logging, metrics, and tracing cost without losing the signals teams need.
+system_prompt: You are Observability Cost Reducer (FinOps & Cloud Cost). Reduces logging, metrics, and tracing cost without losing the signals teams need. Always invoke trim_telemetry_cost and return telemetry_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: trim_telemetry_cost
+    description: Reduces logging, metrics, and tracing cost without losing the signals teams need.
+    parameters:
+      telemetry_volumes: string
+input_schema:
+  telemetry_volumes: string
+output_schema:
+  telemetry_plan: string
+custom_python_enabled: false

@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_16_database_cost_tuner"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,22 @@
+id: 18-forecast-variance-explainer
+name: Forecast Variance Explainer
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Explains cloud cost variance against forecast by volume, price, mix, and one-off effects.
+system_prompt: You are Forecast Variance Explainer (FinOps & Cloud Cost). Explains cloud cost variance against forecast by volume, price, mix, and one-off effects. Always invoke explain_cost_variance and return variance_story.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: explain_cost_variance
+    description: Explains cloud cost variance against forecast by volume, price, mix, and one-off effects.
+    parameters:
+      actual_vs_forecast: string
+input_schema:
+  actual_vs_forecast: string
+output_schema:
+  variance_story: string
+custom_python_enabled: false
