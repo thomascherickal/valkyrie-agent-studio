@@ -1,0 +1,22 @@
+id: 20-feedback-writer
+name: Feedback Writer
+role: Engineering & Product Management
+version: 1.0.0
+description: Writes specific, balanced feedback from observed behavior, impact, and a clear request.
+system_prompt: You are Feedback Writer (Engineering & Product Management). Writes specific, balanced feedback from observed behavior, impact, and a clear request. Always invoke write_feedback and return feedback_draft.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: write_feedback
+    description: Writes specific, balanced feedback from observed behavior, impact, and a clear request.
+    parameters:
+      observed_behavior: string
+input_schema:
+  observed_behavior: string
+output_schema:
+  feedback_draft: string
+custom_python_enabled: false

@@ -93,6 +93,96 @@ export const ROLE_11: RoleCatalog = {
       "inputKey": "qbr_inputs",
       "outputKey": "qbr_summary",
       "sampleInput": "Q4: 9/10 milestones on track; Rust CLI 1 week behind"
+    },
+    {
+      "id": "11-delegation-coach",
+      "name": "Delegation Coach",
+      "description": "Coaches managers on what to delegate, to whom, and how much guidance and authority to give.",
+      "tool": "plan_delegation",
+      "inputKey": "task_list",
+      "outputKey": "delegation_plan",
+      "sampleInput": "My tasks: weekly metrics report, vendor negotiation, hiring screens, incident reviews, roadmap draft"
+    },
+    {
+      "id": "12-promotion-packet-builder",
+      "name": "Promotion Packet Builder",
+      "description": "Builds promotion packets from impact evidence mapped to level expectations and peer signal.",
+      "tool": "build_promo_packet",
+      "inputKey": "impact_notes",
+      "outputKey": "promo_packet",
+      "sampleInput": "Led billing migration (zero downtime, 3 teams), mentored 2 engineers, cut invoice errors 70%, wrote the pricing RFC"
+    },
+    {
+      "id": "13-conflict-mediation-guide",
+      "name": "Conflict Mediation Guide",
+      "description": "Guides managers through team conflicts with fact-finding, a mediation agenda, and agreements.",
+      "tool": "plan_mediation",
+      "inputKey": "conflict_summary",
+      "outputKey": "mediation_plan",
+      "sampleInput": "Two senior engineers disagree on ownership of the auth service; reviews have turned sharp; 3 teammates raised concerns"
+    },
+    {
+      "id": "14-retro-facilitator",
+      "name": "Retro Facilitator",
+      "description": "Facilitates team retrospectives with a format, data, discussion, and tracked action items.",
+      "tool": "facilitate_retro",
+      "inputKey": "retro_notes",
+      "outputKey": "retro_actions",
+      "sampleInput": "Sprint 42: 3 incidents, review wait 2 days, good pairing, unclear priorities; last retro's 4 actions: 1 done"
+    },
+    {
+      "id": "15-headcount-justifier",
+      "name": "Headcount Justifier",
+      "description": "Builds a headcount case from workload data, cost, risk, and the cost of not hiring.",
+      "tool": "justify_headcount",
+      "inputKey": "workload_data",
+      "outputKey": "headcount_case",
+      "sampleInput": "On-call load 1.8x target, 3 roadmap items slipped a quarter, team of 8, requesting 2 engineers"
+    },
+    {
+      "id": "16-first-90-days-planner",
+      "name": "30-60-90 Day Planner",
+      "description": "Plans a new manager or hire's first 90 days with learning goals, relationships, and early wins.",
+      "tool": "plan_first_quarter",
+      "inputKey": "role_context",
+      "outputKey": "onboarding_plan",
+      "sampleInput": "New engineering manager for a 9-person platform team, two open incidents, roadmap behind, one low-morale report"
+    },
+    {
+      "id": "17-tradeoff-advisor",
+      "name": "Priority Tradeoff Advisor",
+      "description": "Weighs competing requests by value, cost, deadline, and risk and explains the choice.",
+      "tool": "weigh_tradeoffs",
+      "inputKey": "competing_asks",
+      "outputKey": "tradeoff_memo",
+      "sampleInput": "Sales wants a custom export for a 300k deal; support wants fixes for 40 tickets; platform wants a 3-week upgrade"
+    },
+    {
+      "id": "18-skip-level-prep-assistant",
+      "name": "Skip Level Prep Assistant",
+      "description": "Prepares skip-level meetings with questions, signals to listen for, and follow-up commitments.",
+      "tool": "prep_skip_level",
+      "inputKey": "team_signals",
+      "outputKey": "skip_level_agenda",
+      "sampleInput": "Team of 14 under 2 managers; engagement dip in the survey; reports mention unclear priorities and slow decisions"
+    },
+    {
+      "id": "19-blameless-review-facilitator",
+      "name": "Blameless Review Facilitator",
+      "description": "Facilitates blameless incident reviews with a timeline, contributing factors, and actions.",
+      "tool": "run_blameless_review",
+      "inputKey": "incident_timeline",
+      "outputKey": "review_agenda",
+      "sampleInput": "Checkout down 47 minutes after a config push at 14:05; rollback delayed by missing runbook; alert fired 9 minutes late"
+    },
+    {
+      "id": "20-feedback-writer",
+      "name": "Feedback Writer",
+      "description": "Writes specific, balanced feedback from observed behavior, impact, and a clear request.",
+      "tool": "write_feedback",
+      "inputKey": "observed_behavior",
+      "outputKey": "feedback_draft",
+      "sampleInput": "In Tuesday's design review you interrupted two juniors; they stopped presenting; the design missed two edge cases"
     }
   ]
 };

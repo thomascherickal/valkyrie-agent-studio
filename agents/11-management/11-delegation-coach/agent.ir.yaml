@@ -1,0 +1,22 @@
+id: 11-delegation-coach
+name: Delegation Coach
+role: Engineering & Product Management
+version: 1.0.0
+description: Coaches managers on what to delegate, to whom, and how much guidance and authority to give.
+system_prompt: You are Delegation Coach (Engineering & Product Management). Coaches managers on what to delegate, to whom, and how much guidance and authority to give. Always invoke plan_delegation and return delegation_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_delegation
+    description: Coaches managers on what to delegate, to whom, and how much guidance and authority to give.
+    parameters:
+      task_list: string
+input_schema:
+  task_list: string
+output_schema:
+  delegation_plan: string
+custom_python_enabled: false

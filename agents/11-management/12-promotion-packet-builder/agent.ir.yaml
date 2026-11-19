@@ -1,0 +1,22 @@
+id: 12-promotion-packet-builder
+name: Promotion Packet Builder
+role: Engineering & Product Management
+version: 1.0.0
+description: Builds promotion packets from impact evidence mapped to level expectations and peer signal.
+system_prompt: You are Promotion Packet Builder (Engineering & Product Management). Builds promotion packets from impact evidence mapped to level expectations and peer signal. Always invoke build_promo_packet and return promo_packet.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_promo_packet
+    description: Builds promotion packets from impact evidence mapped to level expectations and peer signal.
+    parameters:
+      impact_notes: string
+input_schema:
+  impact_notes: string
+output_schema:
+  promo_packet: string
+custom_python_enabled: false

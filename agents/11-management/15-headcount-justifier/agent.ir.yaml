@@ -1,0 +1,22 @@
+id: 15-headcount-justifier
+name: Headcount Justifier
+role: Engineering & Product Management
+version: 1.0.0
+description: Builds a headcount case from workload data, cost, risk, and the cost of not hiring.
+system_prompt: You are Headcount Justifier (Engineering & Product Management). Builds a headcount case from workload data, cost, risk, and the cost of not hiring. Always invoke justify_headcount and return headcount_case.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: justify_headcount
+    description: Builds a headcount case from workload data, cost, risk, and the cost of not hiring.
+    parameters:
+      workload_data: string
+input_schema:
+  workload_data: string
+output_schema:
+  headcount_case: string
+custom_python_enabled: false

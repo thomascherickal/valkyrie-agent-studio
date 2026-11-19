@@ -1,0 +1,22 @@
+id: 18-skip-level-prep-assistant
+name: Skip Level Prep Assistant
+role: Engineering & Product Management
+version: 1.0.0
+description: Prepares skip-level meetings with questions, signals to listen for, and follow-up commitments.
+system_prompt: You are Skip Level Prep Assistant (Engineering & Product Management). Prepares skip-level meetings with questions, signals to listen for, and follow-up commitments. Always invoke prep_skip_level and return skip_level_agenda.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: prep_skip_level
+    description: Prepares skip-level meetings with questions, signals to listen for, and follow-up commitments.
+    parameters:
+      team_signals: string
+input_schema:
+  team_signals: string
+output_schema:
+  skip_level_agenda: string
+custom_python_enabled: false

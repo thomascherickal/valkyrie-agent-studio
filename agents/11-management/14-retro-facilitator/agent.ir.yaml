@@ -1,0 +1,22 @@
+id: 14-retro-facilitator
+name: Retro Facilitator
+role: Engineering & Product Management
+version: 1.0.0
+description: Facilitates team retrospectives with a format, data, discussion, and tracked action items.
+system_prompt: You are Retro Facilitator (Engineering & Product Management). Facilitates team retrospectives with a format, data, discussion, and tracked action items. Always invoke facilitate_retro and return retro_actions.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: facilitate_retro
+    description: Facilitates team retrospectives with a format, data, discussion, and tracked action items.
+    parameters:
+      retro_notes: string
+input_schema:
+  retro_notes: string
+output_schema:
+  retro_actions: string
+custom_python_enabled: false

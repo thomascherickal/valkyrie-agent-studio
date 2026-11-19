@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_16_first_90_days_planner"
+version = "1.0.0"
+edition = "2021"
