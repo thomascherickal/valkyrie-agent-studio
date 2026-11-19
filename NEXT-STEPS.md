@@ -49,6 +49,8 @@ Keep this file current. Tick what is done, add what you find, then pick up the n
 
 - [x] **Git hooks enforce the tracking rule:** `.githooks/pre-commit` rewrites the `METRICS.md` table (`scripts/update_metrics.py`) and refuses a commit that does not include `NEXT-STEPS.md`; `.githooks/pre-push` refuses a push while the table is stale. `make hooks` turns them on (once per clone), `make metrics` rewrites the table by hand, `SKIP_TRACKING=1` skips them once.
 
+- [x] **Stale worktrees removed, and kept away:** seven stale worktrees (six with their folders gone, one locked by an ended session) and 14 merged local branches were removed; only the main checkout and the active session's worktree remain. `make clean-worktrees` (`scripts/clean_worktrees.py`, tested) repeats it safely: it only touches worktrees whose folder is gone and branches that `git branch -d` accepts. `CLAUDE.md` now has a strict rule to merge finished work automatically and clean up after every merge.
+
 ## Recommended Next Steps
 1. **Needs the user: OpenCode free quota or credits.** The key works, but OpenCode's free quota is used up (HTTP 429) and the account has no credits. Wait for the free quota to reset, or top up credits and enable model access in the OpenCode console, then confirm that a forced Gemini failure is answered by an OpenCode free model.
 2. **Review the playbooks with the people who own each domain.** They are expert-written starting points. Thresholds and wording should be adjusted to each team's standards (the About tab lists what to add).
