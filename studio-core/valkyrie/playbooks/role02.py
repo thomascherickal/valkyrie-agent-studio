@@ -101,14 +101,14 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
         "metrics": ["Lock utilization|ops_per_sec * hold_ms / 1000|{:.2f}", "Max throughput of the lock (per second)|1000 / hold_ms|{:,.0f}"],
     },
     "02-software-engineering/10-rust-port-advisor": {
-        "fields": ["cpu_share|Share of CPU time in the hotspot (percent)|number|68", "hotspot_speedup|Expected speedup of the hotspot (x)|number|15", "p99_ms|Current p99 latency (ms)|number|42", "monthly_cost|Monthly compute cost of the service (USD)|number|3000", "port_weeks|Estimated port effort (engineer-weeks)|number|3"],
+        "fields": ["cpu_share|Share of CPU time in the hotspot (percent)|number|68", "hotspot_speedup|Expected speedup of the hotspot (x)|number|15", "p99_ms|Current p99 latency (ms)|number|42", "monthly_cost|Monthly compute cost of the service (USD)|number|3000", "port_weeks|Estimated port effort (engineer-weeks)|number|3", "week_cost|Cost of one engineer-week (USD)|number|4000"],
         "sections": [
             ["Profile", "Profile: {input}", "Hotspot takes {cpu_share} percent of CPU; current p99 is {p99_ms} ms."],
             ["Is it worth porting?", "Amdahl's law: overall speedup = 1 / ((1 - p) + p / s) where p is the hotspot share and s its speedup. A 68 percent hotspot caps the gain well below the hotspot speedup.", "Port only pure, CPU-bound, well-tested functions. Do not port I/O-bound code: the bottleneck is the network, not Python."],
             ["Port design", "Expose the function through PyO3 with a maturin build, release the GIL during compute (Python::allow_threads), and move data across the boundary as bytes or arrow buffers, not per-item Python objects.", "Use Tokio only if the Rust side does async I/O; for pure compute use rayon."],
             ["Verification", "Keep the Python version as the oracle. Run property tests and a corpus of real inputs comparing outputs bit for bit, and benchmark with criterion plus the original profile.", "Ship behind a flag and compare p99 in canary before removal."],
-            ["Decision rule", "Go if estimated savings pay back the effort within 6 months and p99 matters to an SLO. Otherwise try caching, vectorisation or a C-backed library first.", "Estimated engineer cost: assume roughly 4000 USD per engineer-week."],
+            ["Decision rule", "Go if estimated savings pay back the effort within 6 months and p99 matters to an SLO. Otherwise try caching, vectorisation or a C-backed library first.", "Estimated engineer cost: {week_cost} USD per engineer-week."],
         ],
-        "metrics": ["Overall speedup (Amdahl)|1 / ((1 - cpu_share / 100) + cpu_share / 100 / hotspot_speedup)|{:.2f}x", "Monthly compute saved|monthly_cost * (1 - ((1 - cpu_share / 100) + cpu_share / 100 / hotspot_speedup))|${:,.0f}", "Payback in months|port_weeks * 4000 / (monthly_cost * (1 - ((1 - cpu_share / 100) + cpu_share / 100 / hotspot_speedup)))|{:.1f}"],
+        "metrics": ["Overall speedup (Amdahl)|1 / ((1 - cpu_share / 100) + cpu_share / 100 / hotspot_speedup)|{:.2f}x", "Monthly compute saved|monthly_cost * (1 - ((1 - cpu_share / 100) + cpu_share / 100 / hotspot_speedup))|${:,.0f}", "Payback in months|port_weeks * week_cost / (monthly_cost * (1 - ((1 - cpu_share / 100) + cpu_share / 100 / hotspot_speedup)))|{:.1f}"],
     },
 }
