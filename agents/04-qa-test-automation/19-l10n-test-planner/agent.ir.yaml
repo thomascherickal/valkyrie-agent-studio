@@ -1,0 +1,22 @@
+id: 19-l10n-test-planner
+name: Localization Test Planner
+role: QA & Test Automation
+version: 1.0.0
+description: Plans localization and internationalization tests for locales, text expansion, and formats.
+system_prompt: You are Localization Test Planner (QA & Test Automation). Plans localization and internationalization tests for locales, text expansion, and formats. Always invoke plan_locale_tests and return l10n_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_locale_tests
+    description: Plans localization and internationalization tests for locales, text expansion, and formats.
+    parameters:
+      locale_list: string
+input_schema:
+  locale_list: string
+output_schema:
+  l10n_plan: string
+custom_python_enabled: false

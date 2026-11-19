@@ -1,0 +1,22 @@
+id: 20-win-loss-analyst
+name: Win Loss Analyst
+role: Growth & Product Analytics
+version: 1.0.0
+description: Analyzes win and loss interviews for decision drivers, competitor patterns, and sales fixes.
+system_prompt: You are Win Loss Analyst (Growth & Product Analytics). Analyzes win and loss interviews for decision drivers, competitor patterns, and sales fixes. Always invoke analyze_win_loss and return win_loss_themes.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_win_loss
+    description: Analyzes win and loss interviews for decision drivers, competitor patterns, and sales fixes.
+    parameters:
+      deal_notes: string
+input_schema:
+  deal_notes: string
+output_schema:
+  win_loss_themes: string
+custom_python_enabled: false

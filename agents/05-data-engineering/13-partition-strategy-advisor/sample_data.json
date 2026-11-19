@@ -1,0 +1,3 @@
+{
+  "table_profile": "events: 6 TB, 2.1B rows, 90% of queries filter on the last 7 days and customer_id"
+}

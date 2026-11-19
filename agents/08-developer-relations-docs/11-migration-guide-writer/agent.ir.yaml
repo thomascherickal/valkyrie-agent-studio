@@ -1,0 +1,22 @@
+id: 11-migration-guide-writer
+name: Migration Guide Writer
+role: Developer Relations & Docs
+version: 1.0.0
+description: Writes upgrade guides for breaking changes with before and after code and a safe order of steps.
+system_prompt: You are Migration Guide Writer (Developer Relations & Docs). Writes upgrade guides for breaking changes with before and after code and a safe order of steps. Always invoke write_migration_guide and return migration_guide.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: write_migration_guide
+    description: Writes upgrade guides for breaking changes with before and after code and a safe order of steps.
+    parameters:
+      breaking_changes: string
+input_schema:
+  breaking_changes: string
+output_schema:
+  migration_guide: string
+custom_python_enabled: false

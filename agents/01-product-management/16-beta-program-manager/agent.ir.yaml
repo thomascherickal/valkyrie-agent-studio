@@ -1,0 +1,22 @@
+id: 16-beta-program-manager
+name: Beta Program Manager
+role: Product Management
+version: 1.0.0
+description: Plans beta programs with cohort size, entry criteria, feedback loops, and exit gates.
+system_prompt: You are Beta Program Manager (Product Management). Plans beta programs with cohort size, entry criteria, feedback loops, and exit gates. Always invoke plan_beta_program and return beta_playbook.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_beta_program
+    description: Plans beta programs with cohort size, entry criteria, feedback loops, and exit gates.
+    parameters:
+      beta_plan_brief: string
+input_schema:
+  beta_plan_brief: string
+output_schema:
+  beta_playbook: string
+custom_python_enabled: false

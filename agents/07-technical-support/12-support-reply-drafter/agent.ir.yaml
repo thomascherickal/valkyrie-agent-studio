@@ -1,0 +1,22 @@
+id: 12-support-reply-drafter
+name: Customer Reply Drafter
+role: Technical Support
+version: 1.0.0
+description: Drafts clear, empathetic support replies with the answer, next steps, and expectations set.
+system_prompt: You are Customer Reply Drafter (Technical Support). Drafts clear, empathetic support replies with the answer, next steps, and expectations set. Always invoke draft_support_reply and return reply_draft.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: draft_support_reply
+    description: Drafts clear, empathetic support replies with the answer, next steps, and expectations set.
+    parameters:
+      ticket_thread: string
+input_schema:
+  ticket_thread: string
+output_schema:
+  reply_draft: string
+custom_python_enabled: false

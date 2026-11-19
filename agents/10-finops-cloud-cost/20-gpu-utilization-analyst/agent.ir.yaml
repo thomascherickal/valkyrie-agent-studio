@@ -1,0 +1,22 @@
+id: 20-gpu-utilization-analyst
+name: GPU Utilization Analyst
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Analyzes GPU utilization and queueing to cut idle accelerator spend and fix scheduling.
+system_prompt: You are GPU Utilization Analyst (FinOps & Cloud Cost). Analyzes GPU utilization and queueing to cut idle accelerator spend and fix scheduling. Always invoke analyze_gpu_use and return gpu_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_gpu_use
+    description: Analyzes GPU utilization and queueing to cut idle accelerator spend and fix scheduling.
+    parameters:
+      gpu_metrics: string
+input_schema:
+  gpu_metrics: string
+output_schema:
+  gpu_plan: string
+custom_python_enabled: false

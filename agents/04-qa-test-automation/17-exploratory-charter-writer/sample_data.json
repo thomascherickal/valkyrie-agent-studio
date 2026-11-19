@@ -1,0 +1,3 @@
+{
+  "feature_summary": "New bulk-import feature: CSV up to 50k rows, duplicate detection, email report on completion"
+}

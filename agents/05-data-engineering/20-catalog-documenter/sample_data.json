@@ -1,0 +1,3 @@
+{
+  "table_metadata": "fct_subscriptions: one row per subscription per month, columns mrr, plan_id, started_at, churned_at"
+}

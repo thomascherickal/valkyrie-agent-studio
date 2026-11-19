@@ -1,4 +1,4 @@
-"""Standalone Command Centre fleet controller for all 120 agents."""
+"""Standalone Command Centre fleet controller for every agent."""
 
 from __future__ import annotations
 

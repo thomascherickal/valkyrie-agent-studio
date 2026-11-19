@@ -1,0 +1,22 @@
+id: 15-devrel-metrics-reporter
+name: DevRel Metrics Reporter
+role: Developer Relations & Docs
+version: 1.0.0
+description: Reports developer relations impact with activation, community, and content metrics tied to goals.
+system_prompt: You are DevRel Metrics Reporter (Developer Relations & Docs). Reports developer relations impact with activation, community, and content metrics tied to goals. Always invoke report_devrel_metrics and return devrel_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: report_devrel_metrics
+    description: Reports developer relations impact with activation, community, and content metrics tied to goals.
+    parameters:
+      community_stats: string
+input_schema:
+  community_stats: string
+output_schema:
+  devrel_report: string
+custom_python_enabled: false

@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_17_cloud_posture_reviewer"
+version = "1.0.0"
+edition = "2021"

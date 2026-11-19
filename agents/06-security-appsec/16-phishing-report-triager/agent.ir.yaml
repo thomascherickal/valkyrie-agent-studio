@@ -1,0 +1,22 @@
+id: 16-phishing-report-triager
+name: Phishing Report Triager
+role: Security & AppSec
+version: 1.0.0
+description: Triages reported phishing emails by indicators, impact, and required response actions.
+system_prompt: You are Phishing Report Triager (Security & AppSec). Triages reported phishing emails by indicators, impact, and required response actions. Always invoke triage_phishing and return phishing_verdict.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: triage_phishing
+    description: Triages reported phishing emails by indicators, impact, and required response actions.
+    parameters:
+      reported_email: string
+input_schema:
+  reported_email: string
+output_schema:
+  phishing_verdict: string
+custom_python_enabled: false

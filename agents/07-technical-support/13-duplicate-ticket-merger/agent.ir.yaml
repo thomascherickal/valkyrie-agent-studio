@@ -1,0 +1,22 @@
+id: 13-duplicate-ticket-merger
+name: Duplicate Ticket Merger
+role: Technical Support
+version: 1.0.0
+description: Finds duplicate and related tickets and proposes safe merges with one owner.
+system_prompt: You are Duplicate Ticket Merger (Technical Support). Finds duplicate and related tickets and proposes safe merges with one owner. Always invoke find_duplicate_tickets and return merge_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: find_duplicate_tickets
+    description: Finds duplicate and related tickets and proposes safe merges with one owner.
+    parameters:
+      ticket_list: string
+input_schema:
+  ticket_list: string
+output_schema:
+  merge_plan: string
+custom_python_enabled: false

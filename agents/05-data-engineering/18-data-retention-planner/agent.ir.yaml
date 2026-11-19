@@ -1,0 +1,22 @@
+id: 18-data-retention-planner
+name: Data Retention Planner
+role: Data Engineering
+version: 1.0.0
+description: Plans retention and deletion schedules by dataset class, purpose, law, and storage cost.
+system_prompt: You are Data Retention Planner (Data Engineering). Plans retention and deletion schedules by dataset class, purpose, law, and storage cost. Always invoke plan_retention and return retention_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_retention
+    description: Plans retention and deletion schedules by dataset class, purpose, law, and storage cost.
+    parameters:
+      dataset_catalog: string
+input_schema:
+  dataset_catalog: string
+output_schema:
+  retention_plan: string
+custom_python_enabled: false

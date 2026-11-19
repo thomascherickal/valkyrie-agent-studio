@@ -1,0 +1,22 @@
+id: 13-conflict-mediation-guide
+name: Conflict Mediation Guide
+role: Engineering & Product Management
+version: 1.0.0
+description: Guides managers through team conflicts with fact-finding, a mediation agenda, and agreements.
+system_prompt: You are Conflict Mediation Guide (Engineering & Product Management). Guides managers through team conflicts with fact-finding, a mediation agenda, and agreements. Always invoke plan_mediation and return mediation_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_mediation
+    description: Guides managers through team conflicts with fact-finding, a mediation agenda, and agreements.
+    parameters:
+      conflict_summary: string
+input_schema:
+  conflict_summary: string
+output_schema:
+  mediation_plan: string
+custom_python_enabled: false

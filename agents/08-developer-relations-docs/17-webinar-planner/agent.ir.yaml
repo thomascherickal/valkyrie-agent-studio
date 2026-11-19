@@ -1,0 +1,22 @@
+id: 17-webinar-planner
+name: Developer Webinar Planner
+role: Developer Relations & Docs
+version: 1.0.0
+description: Plans developer webinars with topic, run of show, demo safety, promotion, and follow-up.
+system_prompt: You are Developer Webinar Planner (Developer Relations & Docs). Plans developer webinars with topic, run of show, demo safety, promotion, and follow-up. Always invoke plan_webinar and return webinar_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_webinar
+    description: Plans developer webinars with topic, run of show, demo safety, promotion, and follow-up.
+    parameters:
+      webinar_brief: string
+input_schema:
+  webinar_brief: string
+output_schema:
+  webinar_plan: string
+custom_python_enabled: false

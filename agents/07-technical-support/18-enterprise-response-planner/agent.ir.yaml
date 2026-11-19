@@ -1,0 +1,22 @@
+id: 18-enterprise-response-planner
+name: Enterprise Account Handler
+role: Technical Support
+version: 1.0.0
+description: Plans responses for enterprise accounts with escalation, executive contacts, and recovery steps.
+system_prompt: You are Enterprise Account Handler (Technical Support). Plans responses for enterprise accounts with escalation, executive contacts, and recovery steps. Always invoke plan_enterprise_response and return escalation_path.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_enterprise_response
+    description: Plans responses for enterprise accounts with escalation, executive contacts, and recovery steps.
+    parameters:
+      account_issue: string
+input_schema:
+  account_issue: string
+output_schema:
+  escalation_path: string
+custom_python_enabled: false

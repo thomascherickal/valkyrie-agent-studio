@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_18_pmf_survey_analyst"
+version = "1.0.0"
+edition = "2021"

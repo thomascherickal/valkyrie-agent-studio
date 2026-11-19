@@ -1,0 +1,3 @@
+{
+  "db_usage": "3 production clusters at 18% CPU, provisioned IOPS 4x used, 9 dev databases running 24/7, backups kept 90 days"
+}

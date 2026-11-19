@@ -93,6 +93,96 @@ export const ROLE_05: RoleCatalog = {
       "inputKey": "kpi_request",
       "outputKey": "metric_yaml",
       "sampleInput": "Net Revenue Retention trailing 12 months by cohort"
+    },
+    {
+      "id": "11-cdc-pipeline-designer",
+      "name": "CDC Pipeline Designer",
+      "description": "Designs change data capture pipelines from operational databases into the warehouse.",
+      "tool": "design_cdc_flow",
+      "inputKey": "source_tables",
+      "outputKey": "cdc_design",
+      "sampleInput": "Postgres orders (4M rows, 300 updates/s peak), customers, payments; target warehouse within 5 minutes"
+    },
+    {
+      "id": "12-data-contract-author",
+      "name": "Data Contract Author",
+      "description": "Drafts data contracts with schema, semantics, quality rules, ownership, and change process.",
+      "tool": "draft_data_contract",
+      "inputKey": "dataset_spec",
+      "outputKey": "contract_doc",
+      "sampleInput": "orders_daily: one row per order, order_id unique, amount in cents, refreshed by 06:00 UTC, owner Payments"
+    },
+    {
+      "id": "13-partition-strategy-advisor",
+      "name": "Partition Strategy Advisor",
+      "description": "Chooses partition keys, sizes, and pruning rules from table and query profiles.",
+      "tool": "choose_partitioning",
+      "inputKey": "table_profile",
+      "outputKey": "partition_plan",
+      "sampleInput": "events: 6 TB, 2.1B rows, 90% of queries filter on the last 7 days and customer_id"
+    },
+    {
+      "id": "14-dedup-strategy-designer",
+      "name": "Deduplication Strategy Designer",
+      "description": "Designs deduplication rules for events and records with keys, windows, and survivorship.",
+      "tool": "design_dedup",
+      "inputKey": "duplicate_report",
+      "outputKey": "dedup_plan",
+      "sampleInput": "Events table: 3.4% duplicate event_ids from client retries; customers: 11% near-duplicate names and emails"
+    },
+    {
+      "id": "15-scd-modeler",
+      "name": "Slowly Changing Dimension Modeler",
+      "description": "Models slowly changing dimensions with type choice, keys, effective dates, and load logic.",
+      "tool": "model_scd",
+      "inputKey": "dimension_changes",
+      "outputKey": "scd_design",
+      "sampleInput": "Customer tier changes ~8% of customers a month; reports need revenue by the tier at the time of sale"
+    },
+    {
+      "id": "16-dag-migration-planner",
+      "name": "Orchestrator Migration Planner",
+      "description": "Plans migration of legacy jobs to a modern orchestrator with parity checks and cutover waves.",
+      "tool": "plan_dag_migration",
+      "inputKey": "legacy_jobs",
+      "outputKey": "migration_plan",
+      "sampleInput": "420 cron jobs on 6 servers, 60 with hidden dependencies, nightly batch window 5 hours, moving to Airflow"
+    },
+    {
+      "id": "17-feature-store-reviewer",
+      "name": "Feature Store Reviewer",
+      "description": "Reviews feature definitions for training and serving skew, leakage, freshness, and reuse.",
+      "tool": "review_feature_store",
+      "inputKey": "feature_specs",
+      "outputKey": "store_review",
+      "sampleInput": "user_30d_spend computed in SQL for training, recomputed in the service for serving; refreshed nightly"
+    },
+    {
+      "id": "18-data-retention-planner",
+      "name": "Data Retention Planner",
+      "description": "Plans retention and deletion schedules by dataset class, purpose, law, and storage cost.",
+      "tool": "plan_retention",
+      "inputKey": "dataset_catalog",
+      "outputKey": "retention_plan",
+      "sampleInput": "Clickstream 80 TB/yr kept forever, invoices 7 yrs required, support chats with personal data kept forever"
+    },
+    {
+      "id": "19-sql-style-reviewer",
+      "name": "SQL Style Reviewer",
+      "description": "Reviews SQL for readability, correctness traps, join risks, and maintainable structure.",
+      "tool": "review_sql_style",
+      "inputKey": "sql_excerpt",
+      "outputKey": "sql_review",
+      "sampleInput": "SELECT * FROM orders o, customers c WHERE o.cid = c.id AND created > '2025-01-01' ORDER BY 1"
+    },
+    {
+      "id": "20-catalog-documenter",
+      "name": "Data Catalog Documenter",
+      "description": "Writes data catalog entries with definitions, lineage, quality status, and access guidance.",
+      "tool": "document_dataset",
+      "inputKey": "table_metadata",
+      "outputKey": "catalog_entry",
+      "sampleInput": "fct_subscriptions: one row per subscription per month, columns mrr, plan_id, started_at, churned_at"
     }
   ]
 };

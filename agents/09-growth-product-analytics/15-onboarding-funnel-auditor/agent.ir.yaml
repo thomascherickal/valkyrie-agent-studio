@@ -1,0 +1,22 @@
+id: 15-onboarding-funnel-auditor
+name: Onboarding Funnel Auditor
+role: Growth & Product Analytics
+version: 1.0.0
+description: Audits onboarding steps for friction, time to value, and the biggest drop-off.
+system_prompt: You are Onboarding Funnel Auditor (Growth & Product Analytics). Audits onboarding steps for friction, time to value, and the biggest drop-off. Always invoke audit_onboarding and return onboarding_audit.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: audit_onboarding
+    description: Audits onboarding steps for friction, time to value, and the biggest drop-off.
+    parameters:
+      onboarding_steps: string
+input_schema:
+  onboarding_steps: string
+output_schema:
+  onboarding_audit: string
+custom_python_enabled: false

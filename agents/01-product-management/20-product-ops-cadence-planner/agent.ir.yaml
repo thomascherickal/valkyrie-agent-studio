@@ -1,0 +1,22 @@
+id: 20-product-ops-cadence-planner
+name: Product Ops Cadence Planner
+role: Product Management
+version: 1.0.0
+description: Designs the weekly, monthly, and quarterly meeting and reporting rhythm for product teams.
+system_prompt: You are Product Ops Cadence Planner (Product Management). Designs the weekly, monthly, and quarterly meeting and reporting rhythm for product teams. Always invoke plan_product_ops_cadence and return ops_cadence.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_product_ops_cadence
+    description: Designs the weekly, monthly, and quarterly meeting and reporting rhythm for product teams.
+    parameters:
+      team_rituals: string
+input_schema:
+  team_rituals: string
+output_schema:
+  ops_cadence: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 18-cyber-risk-briefer
+name: Cyber Risk Briefer
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Briefs executives on cyber risk in business terms with exposure, controls, and decisions.
+system_prompt: You are Cyber Risk Briefer (C-Suite & Executives (CxOs)). Briefs executives on cyber risk in business terms with exposure, controls, and decisions. Always invoke brief_cyber_risk and return exec_risk_brief.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: brief_cyber_risk
+    description: Briefs executives on cyber risk in business terms with exposure, controls, and decisions.
+    parameters:
+      security_summary: string
+input_schema:
+  security_summary: string
+output_schema:
+  exec_risk_brief: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 18-security-training-planner
+name: Security Training Planner
+role: Security & AppSec
+version: 1.0.0
+description: Plans role-based security training with topics, cadence, measures, and engagement tactics.
+system_prompt: You are Security Training Planner (Security & AppSec). Plans role-based security training with topics, cadence, measures, and engagement tactics. Always invoke plan_security_training and return training_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_security_training
+    description: Plans role-based security training with topics, cadence, measures, and engagement tactics.
+    parameters:
+      team_profile: string
+input_schema:
+  team_profile: string
+output_schema:
+  training_plan: string
+custom_python_enabled: false

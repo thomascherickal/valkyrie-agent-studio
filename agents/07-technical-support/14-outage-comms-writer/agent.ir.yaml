@@ -1,0 +1,22 @@
+id: 14-outage-comms-writer
+name: Outage Customer Comms Writer
+role: Technical Support
+version: 1.0.0
+description: Writes timely customer updates during an outage with impact, workaround, and the next update time.
+system_prompt: You are Outage Customer Comms Writer (Technical Support). Writes timely customer updates during an outage with impact, workaround, and the next update time. Always invoke write_outage_comms and return customer_comms.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: write_outage_comms
+    description: Writes timely customer updates during an outage with impact, workaround, and the next update time.
+    parameters:
+      outage_facts: string
+input_schema:
+  outage_facts: string
+output_schema:
+  customer_comms: string
+custom_python_enabled: false

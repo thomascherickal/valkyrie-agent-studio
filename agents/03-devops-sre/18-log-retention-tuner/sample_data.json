@@ -1,0 +1,3 @@
+{
+  "log_volumes": "Audit logs 2 TB/month kept 7 years, app logs 40 TB/month kept 90 days, debug 25 TB/month kept 30 days"
+}

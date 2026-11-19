@@ -1,0 +1,22 @@
+id: 19-support-capacity-planner
+name: Support Capacity Planner
+role: Technical Support
+version: 1.0.0
+description: Plans support staffing from ticket volume, handle time, shrinkage, and service targets.
+system_prompt: You are Support Capacity Planner (Technical Support). Plans support staffing from ticket volume, handle time, shrinkage, and service targets. Always invoke plan_support_staffing and return staffing_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_support_staffing
+    description: Plans support staffing from ticket volume, handle time, shrinkage, and service targets.
+    parameters:
+      ticket_volume: string
+input_schema:
+  ticket_volume: string
+output_schema:
+  staffing_plan: string
+custom_python_enabled: false

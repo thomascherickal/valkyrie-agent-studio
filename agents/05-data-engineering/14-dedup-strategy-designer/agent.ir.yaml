@@ -1,0 +1,22 @@
+id: 14-dedup-strategy-designer
+name: Deduplication Strategy Designer
+role: Data Engineering
+version: 1.0.0
+description: Designs deduplication rules for events and records with keys, windows, and survivorship.
+system_prompt: You are Deduplication Strategy Designer (Data Engineering). Designs deduplication rules for events and records with keys, windows, and survivorship. Always invoke design_dedup and return dedup_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: design_dedup
+    description: Designs deduplication rules for events and records with keys, windows, and survivorship.
+    parameters:
+      duplicate_report: string
+input_schema:
+  duplicate_report: string
+output_schema:
+  dedup_plan: string
+custom_python_enabled: false

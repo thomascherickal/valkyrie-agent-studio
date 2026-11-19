@@ -1,0 +1,22 @@
+id: 14-data-classification-advisor
+name: Data Classification Advisor
+role: Security & AppSec
+version: 1.0.0
+description: Classifies data stores by sensitivity and maps required controls for each class.
+system_prompt: You are Data Classification Advisor (Security & AppSec). Classifies data stores by sensitivity and maps required controls for each class. Always invoke classify_data and return classification_map.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: classify_data
+    description: Classifies data stores by sensitivity and maps required controls for each class.
+    parameters:
+      data_inventory: string
+input_schema:
+  data_inventory: string
+output_schema:
+  classification_map: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 20-strategic-bet-reviewer
+name: Strategic Bet Reviewer
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Reviews strategic bets for assumptions, option value, staging, and kill criteria.
+system_prompt: You are Strategic Bet Reviewer (C-Suite & Executives (CxOs)). Reviews strategic bets for assumptions, option value, staging, and kill criteria. Always invoke review_strategic_bet and return bet_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_strategic_bet
+    description: Reviews strategic bets for assumptions, option value, staging, and kill criteria.
+    parameters:
+      bet_proposal: string
+input_schema:
+  bet_proposal: string
+output_schema:
+  bet_review: string
+custom_python_enabled: false

@@ -1,0 +1,3 @@
+{
+  "symptom_report": "Export to PDF hangs at 95% for reports over 5,000 rows on Safari; started after the 3.2 release"
+}

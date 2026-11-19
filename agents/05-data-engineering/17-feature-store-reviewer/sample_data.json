@@ -1,0 +1,3 @@
+{
+  "feature_specs": "user_30d_spend computed in SQL for training, recomputed in the service for serving; refreshed nightly"
+}

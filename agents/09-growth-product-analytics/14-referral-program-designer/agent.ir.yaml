@@ -1,0 +1,22 @@
+id: 14-referral-program-designer
+name: Referral Program Designer
+role: Growth & Product Analytics
+version: 1.0.0
+description: Designs referral programs with rewards, triggers, fraud limits, and break-even math.
+system_prompt: You are Referral Program Designer (Growth & Product Analytics). Designs referral programs with rewards, triggers, fraud limits, and break-even math. Always invoke design_referral and return referral_design.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: design_referral
+    description: Designs referral programs with rewards, triggers, fraud limits, and break-even math.
+    parameters:
+      referral_brief: string
+input_schema:
+  referral_brief: string
+output_schema:
+  referral_design: string
+custom_python_enabled: false

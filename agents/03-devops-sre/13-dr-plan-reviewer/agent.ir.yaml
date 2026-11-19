@@ -1,0 +1,22 @@
+id: 13-dr-plan-reviewer
+name: Disaster Recovery Reviewer
+role: DevOps & SRE
+version: 1.0.0
+description: Reviews disaster recovery plans against RTO, RPO, backups, dependencies, and test evidence.
+system_prompt: You are Disaster Recovery Reviewer (DevOps & SRE). Reviews disaster recovery plans against RTO, RPO, backups, dependencies, and test evidence. Always invoke review_dr_plan and return dr_gaps.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_dr_plan
+    description: Reviews disaster recovery plans against RTO, RPO, backups, dependencies, and test evidence.
+    parameters:
+      dr_plan: string
+input_schema:
+  dr_plan: string
+output_schema:
+  dr_gaps: string
+custom_python_enabled: false

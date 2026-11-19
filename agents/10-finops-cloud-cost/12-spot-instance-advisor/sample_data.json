@@ -1,0 +1,3 @@
+{
+  "workload_profile": "Batch ETL 120 vCPU nightly, CI runners 60 vCPU, stateless API 200 vCPU; interruptions tolerated for batch and CI"
+}

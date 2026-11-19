@@ -1,0 +1,22 @@
+id: 19-dns-change-verifier
+name: DNS Change Verifier
+role: DevOps & SRE
+version: 1.0.0
+description: Checks planned DNS changes for TTLs, propagation risk, records, and rollback readiness.
+system_prompt: You are DNS Change Verifier (DevOps & SRE). Checks planned DNS changes for TTLs, propagation risk, records, and rollback readiness. Always invoke verify_dns_change and return dns_checklist.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: verify_dns_change
+    description: Checks planned DNS changes for TTLs, propagation risk, records, and rollback readiness.
+    parameters:
+      dns_change: string
+input_schema:
+  dns_change: string
+output_schema:
+  dns_checklist: string
+custom_python_enabled: false

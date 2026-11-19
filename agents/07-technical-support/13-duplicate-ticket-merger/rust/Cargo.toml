@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_13_duplicate_ticket_merger"
+version = "1.0.0"
+edition = "2021"

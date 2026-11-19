@@ -1,0 +1,22 @@
+id: 16-blast-radius-mapper
+name: Dependency Outage Mapper
+role: DevOps & SRE
+version: 1.0.0
+description: Maps which services fail when a dependency fails and ranks single points of failure.
+system_prompt: You are Dependency Outage Mapper (DevOps & SRE). Maps which services fail when a dependency fails and ranks single points of failure. Always invoke map_blast_radius and return outage_map.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: map_blast_radius
+    description: Maps which services fail when a dependency fails and ranks single points of failure.
+    parameters:
+      service_map: string
+input_schema:
+  service_map: string
+output_schema:
+  outage_map: string
+custom_python_enabled: false

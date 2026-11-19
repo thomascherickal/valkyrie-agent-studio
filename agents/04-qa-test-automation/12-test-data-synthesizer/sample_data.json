@@ -1,0 +1,3 @@
+{
+  "schema_rules": "users(id, email unique, country, plan), orders(user_id FK, amount > 0); production has 2M users, 9M orders"
+}

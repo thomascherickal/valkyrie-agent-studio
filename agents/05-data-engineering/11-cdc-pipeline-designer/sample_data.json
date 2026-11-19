@@ -1,0 +1,3 @@
+{
+  "source_tables": "Postgres orders (4M rows, 300 updates/s peak), customers, payments; target warehouse within 5 minutes"
+}

@@ -1,0 +1,22 @@
+id: 15-logging-quality-reviewer
+name: Logging Quality Reviewer
+role: Software Engineering
+version: 1.0.0
+description: Reviews log statements for structure, levels, sensitive data, noise, and missing context.
+system_prompt: You are Logging Quality Reviewer (Software Engineering). Reviews log statements for structure, levels, sensitive data, noise, and missing context. Always invoke review_log_statements and return logging_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_log_statements
+    description: Reviews log statements for structure, levels, sensitive data, noise, and missing context.
+    parameters:
+      log_samples: string
+input_schema:
+  log_samples: string
+output_schema:
+  logging_review: string
+custom_python_enabled: false

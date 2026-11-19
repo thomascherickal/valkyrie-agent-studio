@@ -1,0 +1,22 @@
+id: 15-secret-rotation-planner
+name: Secrets Rotation Planner
+role: DevOps & SRE
+version: 1.0.0
+description: Plans secret rotation by age, blast radius, and ownership with zero-downtime steps.
+system_prompt: You are Secrets Rotation Planner (DevOps & SRE). Plans secret rotation by age, blast radius, and ownership with zero-downtime steps. Always invoke plan_secret_rotation and return rotation_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_secret_rotation
+    description: Plans secret rotation by age, blast radius, and ownership with zero-downtime steps.
+    parameters:
+      secret_inventory: string
+input_schema:
+  secret_inventory: string
+output_schema:
+  rotation_plan: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 18-pipeline-forecaster
+name: Pipeline Forecaster
+role: Growth & Product Analytics
+version: 1.0.0
+description: Forecasts bookings from pipeline stage, conversion history, and deal age with risk bands.
+system_prompt: You are Pipeline Forecaster (Growth & Product Analytics). Forecasts bookings from pipeline stage, conversion history, and deal age with risk bands. Always invoke forecast_pipeline and return forecast.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: forecast_pipeline
+    description: Forecasts bookings from pipeline stage, conversion history, and deal age with risk bands.
+    parameters:
+      pipeline_snapshot: string
+input_schema:
+  pipeline_snapshot: string
+output_schema:
+  forecast: string
+custom_python_enabled: false

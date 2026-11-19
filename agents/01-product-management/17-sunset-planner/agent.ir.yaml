@@ -1,0 +1,22 @@
+id: 17-sunset-planner
+name: Feature Sunset Planner
+role: Product Management
+version: 1.0.0
+description: Plans feature retirement with usage evidence, customer notice, migration, and rollback gates.
+system_prompt: You are Feature Sunset Planner (Product Management). Plans feature retirement with usage evidence, customer notice, migration, and rollback gates. Always invoke plan_sunset and return sunset_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_sunset
+    description: Plans feature retirement with usage evidence, customer notice, migration, and rollback gates.
+    parameters:
+      feature_usage: string
+input_schema:
+  feature_usage: string
+output_schema:
+  sunset_plan: string
+custom_python_enabled: false

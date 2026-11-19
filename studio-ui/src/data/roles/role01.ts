@@ -93,6 +93,96 @@ export const ROLE_01: RoleCatalog = {
       "inputKey": "weekly_updates",
       "outputKey": "brief_text",
       "sampleInput": "Shipped v2.1 API; p99 latency down 38%; 2 blockers on SSO"
+    },
+    {
+      "id": "11-persona-builder",
+      "name": "Persona Builder",
+      "description": "Turns interview and survey notes into evidence-backed persona cards.",
+      "tool": "synthesize_personas",
+      "inputKey": "research_notes",
+      "outputKey": "persona_cards",
+      "sampleInput": "12 interviews: admins spend Mondays on access requests; 9 of 12 use spreadsheets to track licences"
+    },
+    {
+      "id": "12-jtbd-mapper",
+      "name": "Jobs-To-Be-Done Mapper",
+      "description": "Maps customer interviews to jobs, triggers, and the outcomes people hire a product for.",
+      "tool": "map_jobs_to_be_done",
+      "inputKey": "interview_notes",
+      "outputKey": "jtbd_map",
+      "sampleInput": "Switched from spreadsheets after the audit failed; needs proof of access reviews in under an hour"
+    },
+    {
+      "id": "13-kano-classifier",
+      "name": "Kano Feature Classifier",
+      "description": "Classifies features as must-have, performance, or delighter from paired survey answers.",
+      "tool": "classify_kano",
+      "inputKey": "survey_results",
+      "outputKey": "kano_matrix",
+      "sampleInput": "SSO: 72% would be happy with it, 55% unhappy without it; dark mode: 40% happy, 6% unhappy without"
+    },
+    {
+      "id": "14-north-star-designer",
+      "name": "North Star Metric Designer",
+      "description": "Chooses a north star metric and breaks it into input metrics teams can move.",
+      "tool": "define_north_star",
+      "inputKey": "product_goals",
+      "outputKey": "metric_tree",
+      "sampleInput": "Goal: help teams ship reviewed releases faster; users create pull requests, reviewers approve"
+    },
+    {
+      "id": "15-opportunity-tree-builder",
+      "name": "Opportunity Solution Tree Builder",
+      "description": "Builds an opportunity solution tree from an outcome, customer needs, and candidate solutions.",
+      "tool": "build_ost",
+      "inputKey": "desired_outcome",
+      "outputKey": "opportunity_tree",
+      "sampleInput": "Outcome: raise week-4 retention from 31% to 40%; customers say setup is long and reports are hard to share"
+    },
+    {
+      "id": "16-beta-program-manager",
+      "name": "Beta Program Manager",
+      "description": "Plans beta programs with cohort size, entry criteria, feedback loops, and exit gates.",
+      "tool": "plan_beta_program",
+      "inputKey": "beta_plan_brief",
+      "outputKey": "beta_playbook",
+      "sampleInput": "Beta of the new reporting module for 40 accounts over 6 weeks; need a go or no-go by the end"
+    },
+    {
+      "id": "17-sunset-planner",
+      "name": "Feature Sunset Planner",
+      "description": "Plans feature retirement with usage evidence, customer notice, migration, and rollback gates.",
+      "tool": "plan_sunset",
+      "inputKey": "feature_usage",
+      "outputKey": "sunset_plan",
+      "sampleInput": "Legacy CSV exporter: 3% of accounts, 180 weekly runs, replaced by the scheduled-reports API"
+    },
+    {
+      "id": "18-pmf-survey-analyst",
+      "name": "PMF Survey Analyst",
+      "description": "Scores the product-market fit survey and reads the segments that would miss the product most.",
+      "tool": "score_pmf_survey",
+      "inputKey": "survey_counts",
+      "outputKey": "pmf_readout",
+      "sampleInput": "150 responses: 54 very disappointed, 63 somewhat, 33 not disappointed; strongest in agencies"
+    },
+    {
+      "id": "19-build-buy-evaluator",
+      "name": "Build vs Buy Evaluator",
+      "description": "Compares build, buy, and partner options on cost, speed, risk, and strategic fit.",
+      "tool": "compare_build_buy",
+      "inputKey": "capability_request",
+      "outputKey": "decision_memo",
+      "sampleInput": "Need in-app e-signature within 2 quarters; vendor quotes 45k per year, in-house estimate 5 engineer-months"
+    },
+    {
+      "id": "20-product-ops-cadence-planner",
+      "name": "Product Ops Cadence Planner",
+      "description": "Designs the weekly, monthly, and quarterly meeting and reporting rhythm for product teams.",
+      "tool": "plan_product_ops_cadence",
+      "inputKey": "team_rituals",
+      "outputKey": "ops_cadence",
+      "sampleInput": "6 squads, weekly product reviews run long, roadmap changes surprise sales, metrics reviewed ad hoc"
     }
   ]
 };

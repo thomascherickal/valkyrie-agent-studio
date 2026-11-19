@@ -1,0 +1,22 @@
+id: 15-chargeback-allocator
+name: Chargeback Allocator
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Allocates shared cloud and platform costs to teams with fair, explainable drivers.
+system_prompt: You are Chargeback Allocator (FinOps & Cloud Cost). Allocates shared cloud and platform costs to teams with fair, explainable drivers. Always invoke allocate_shared_cost and return allocation_table.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: allocate_shared_cost
+    description: Allocates shared cloud and platform costs to teams with fair, explainable drivers.
+    parameters:
+      shared_costs: string
+input_schema:
+  shared_costs: string
+output_schema:
+  allocation_table: string
+custom_python_enabled: false

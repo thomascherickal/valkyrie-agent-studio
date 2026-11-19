@@ -1,0 +1,3 @@
+{
+  "topic_brief": "How we cut p99 latency 40% by moving session lookups from Postgres to a read-through cache"
+}

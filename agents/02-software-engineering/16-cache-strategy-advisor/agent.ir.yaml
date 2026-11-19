@@ -1,0 +1,22 @@
+id: 16-cache-strategy-advisor
+name: Cache Strategy Advisor
+role: Software Engineering
+version: 1.0.0
+description: Designs cache layers, keys, expiry, and invalidation from the observed access pattern.
+system_prompt: You are Cache Strategy Advisor (Software Engineering). Designs cache layers, keys, expiry, and invalidation from the observed access pattern. Always invoke design_cache_strategy and return cache_design.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: design_cache_strategy
+    description: Designs cache layers, keys, expiry, and invalidation from the observed access pattern.
+    parameters:
+      access_pattern: string
+input_schema:
+  access_pattern: string
+output_schema:
+  cache_design: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 18-pmf-survey-analyst
+name: PMF Survey Analyst
+role: Product Management
+version: 1.0.0
+description: Scores the product-market fit survey and reads the segments that would miss the product most.
+system_prompt: You are PMF Survey Analyst (Product Management). Scores the product-market fit survey and reads the segments that would miss the product most. Always invoke score_pmf_survey and return pmf_readout.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: score_pmf_survey
+    description: Scores the product-market fit survey and reads the segments that would miss the product most.
+    parameters:
+      survey_counts: string
+input_schema:
+  survey_counts: string
+output_schema:
+  pmf_readout: string
+custom_python_enabled: false

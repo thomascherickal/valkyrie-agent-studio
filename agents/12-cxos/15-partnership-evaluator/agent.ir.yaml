@@ -1,0 +1,22 @@
+id: 15-partnership-evaluator
+name: Partnership Evaluator
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Evaluates partnership proposals on strategic fit, economics, dependency, and exit terms.
+system_prompt: You are Partnership Evaluator (C-Suite & Executives (CxOs)). Evaluates partnership proposals on strategic fit, economics, dependency, and exit terms. Always invoke score_partnership and return partner_memo.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: score_partnership
+    description: Evaluates partnership proposals on strategic fit, economics, dependency, and exit terms.
+    parameters:
+      partnership_terms: string
+input_schema:
+  partnership_terms: string
+output_schema:
+  partner_memo: string
+custom_python_enabled: false

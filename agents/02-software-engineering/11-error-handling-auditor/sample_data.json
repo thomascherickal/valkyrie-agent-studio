@@ -1,0 +1,3 @@
+{
+  "code_excerpt": "try: charge(card) except Exception: pass  # then marks the order paid"
+}

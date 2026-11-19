@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_20_catalog_documenter"
+version = "1.0.0"
+edition = "2021"

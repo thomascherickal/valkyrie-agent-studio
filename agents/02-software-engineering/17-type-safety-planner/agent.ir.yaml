@@ -1,0 +1,22 @@
+id: 17-type-safety-planner
+name: Type Safety Hardener
+role: Software Engineering
+version: 1.0.0
+description: Plans gradual type-checking adoption with strictness steps, hotspots, and CI gates.
+system_prompt: You are Type Safety Hardener (Software Engineering). Plans gradual type-checking adoption with strictness steps, hotspots, and CI gates. Always invoke plan_type_hardening and return typing_roadmap.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_type_hardening
+    description: Plans gradual type-checking adoption with strictness steps, hotspots, and CI gates.
+    parameters:
+      codebase_stats: string
+input_schema:
+  codebase_stats: string
+output_schema:
+  typing_roadmap: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 20-bug-bounty-triager
+name: Bug Bounty Triager
+role: Security & AppSec
+version: 1.0.0
+description: Triages bug bounty reports by validity, severity, duplicates, scope, and reward.
+system_prompt: You are Bug Bounty Triager (Security & AppSec). Triages bug bounty reports by validity, severity, duplicates, scope, and reward. Always invoke triage_bounty_report and return bounty_verdict.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: triage_bounty_report
+    description: Triages bug bounty reports by validity, severity, duplicates, scope, and reward.
+    parameters:
+      bounty_report: string
+input_schema:
+  bounty_report: string
+output_schema:
+  bounty_verdict: string
+custom_python_enabled: false

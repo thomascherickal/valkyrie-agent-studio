@@ -1,0 +1,22 @@
+id: 14-docs-ia-reviewer
+name: Docs Information Architecture Reviewer
+role: Developer Relations & Docs
+version: 1.0.0
+description: Reviews documentation navigation, page types, and search paths against reader tasks.
+system_prompt: You are Docs Information Architecture Reviewer (Developer Relations & Docs). Reviews documentation navigation, page types, and search paths against reader tasks. Always invoke review_docs_ia and return ia_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_docs_ia
+    description: Reviews documentation navigation, page types, and search paths against reader tasks.
+    parameters:
+      site_map: string
+input_schema:
+  site_map: string
+output_schema:
+  ia_review: string
+custom_python_enabled: false

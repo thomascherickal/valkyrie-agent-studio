@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_11_persona_builder"
+version = "1.0.0"
+edition = "2021"

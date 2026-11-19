@@ -1,0 +1,22 @@
+id: 13-forensics-guide
+name: Incident Forensics Guide
+role: Security & AppSec
+version: 1.0.0
+description: Guides digital forensics collection with evidence order, preservation, and chain of custody.
+system_prompt: You are Incident Forensics Guide (Security & AppSec). Guides digital forensics collection with evidence order, preservation, and chain of custody. Always invoke plan_forensics and return forensics_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_forensics
+    description: Guides digital forensics collection with evidence order, preservation, and chain of custody.
+    parameters:
+      incident_summary: string
+input_schema:
+  incident_summary: string
+output_schema:
+  forensics_plan: string
+custom_python_enabled: false

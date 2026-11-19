@@ -1,0 +1,3 @@
+{
+  "dataset_spec": "orders_daily: one row per order, order_id unique, amount in cents, refreshed by 06:00 UTC, owner Payments"
+}

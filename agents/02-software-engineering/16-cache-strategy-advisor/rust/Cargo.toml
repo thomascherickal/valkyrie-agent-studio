@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_16_cache_strategy_advisor"
+version = "1.0.0"
+edition = "2021"

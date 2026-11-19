@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_16_blast_radius_mapper"
+version = "1.0.0"
+edition = "2021"

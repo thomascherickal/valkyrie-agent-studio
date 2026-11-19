@@ -1,0 +1,3 @@
+{
+  "access_pattern": "Product pages: 800 reads/s, 2 writes/s, 95% of reads hit 5% of products, stale up to 60s is fine"
+}

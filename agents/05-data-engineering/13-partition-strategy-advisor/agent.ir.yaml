@@ -1,0 +1,22 @@
+id: 13-partition-strategy-advisor
+name: Partition Strategy Advisor
+role: Data Engineering
+version: 1.0.0
+description: Chooses partition keys, sizes, and pruning rules from table and query profiles.
+system_prompt: You are Partition Strategy Advisor (Data Engineering). Chooses partition keys, sizes, and pruning rules from table and query profiles. Always invoke choose_partitioning and return partition_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: choose_partitioning
+    description: Chooses partition keys, sizes, and pruning rules from table and query profiles.
+    parameters:
+      table_profile: string
+input_schema:
+  table_profile: string
+output_schema:
+  partition_plan: string
+custom_python_enabled: false

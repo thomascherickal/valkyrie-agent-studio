@@ -1,0 +1,22 @@
+id: 13-board-risk-register-keeper
+name: Board Risk Register Keeper
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Maintains a board-level risk register with likelihood, impact, owners, and mitigations.
+system_prompt: You are Board Risk Register Keeper (C-Suite & Executives (CxOs)). Maintains a board-level risk register with likelihood, impact, owners, and mitigations. Always invoke rank_board_risks and return risk_register.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: rank_board_risks
+    description: Maintains a board-level risk register with likelihood, impact, owners, and mitigations.
+    parameters:
+      risk_list: string
+input_schema:
+  risk_list: string
+output_schema:
+  risk_register: string
+custom_python_enabled: false

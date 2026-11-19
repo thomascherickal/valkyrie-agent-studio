@@ -1,0 +1,22 @@
+id: 12-alert-noise-reducer
+name: Alert Noise Reducer
+role: DevOps & SRE
+version: 1.0.0
+description: Ranks noisy alerts by page count and action rate and proposes tuning or deletion.
+system_prompt: You are Alert Noise Reducer (DevOps & SRE). Ranks noisy alerts by page count and action rate and proposes tuning or deletion. Always invoke rank_noisy_alerts and return noise_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: rank_noisy_alerts
+    description: Ranks noisy alerts by page count and action rate and proposes tuning or deletion.
+    parameters:
+      alert_history: string
+input_schema:
+  alert_history: string
+output_schema:
+  noise_plan: string
+custom_python_enabled: false

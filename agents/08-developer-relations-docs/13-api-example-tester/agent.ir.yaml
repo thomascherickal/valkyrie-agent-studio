@@ -1,0 +1,22 @@
+id: 13-api-example-tester
+name: API Example Tester
+role: Developer Relations & Docs
+version: 1.0.0
+description: Plans automated testing of documentation code examples so they stay runnable.
+system_prompt: You are API Example Tester (Developer Relations & Docs). Plans automated testing of documentation code examples so they stay runnable. Always invoke test_api_examples and return example_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: test_api_examples
+    description: Plans automated testing of documentation code examples so they stay runnable.
+    parameters:
+      code_examples: string
+input_schema:
+  code_examples: string
+output_schema:
+  example_report: string
+custom_python_enabled: false

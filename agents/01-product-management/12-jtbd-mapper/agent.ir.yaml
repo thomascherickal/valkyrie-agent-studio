@@ -1,0 +1,22 @@
+id: 12-jtbd-mapper
+name: Jobs-To-Be-Done Mapper
+role: Product Management
+version: 1.0.0
+description: Maps customer interviews to jobs, triggers, and the outcomes people hire a product for.
+system_prompt: You are Jobs-To-Be-Done Mapper (Product Management). Maps customer interviews to jobs, triggers, and the outcomes people hire a product for. Always invoke map_jobs_to_be_done and return jtbd_map.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: map_jobs_to_be_done
+    description: Maps customer interviews to jobs, triggers, and the outcomes people hire a product for.
+    parameters:
+      interview_notes: string
+input_schema:
+  interview_notes: string
+output_schema:
+  jtbd_map: string
+custom_python_enabled: false

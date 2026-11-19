@@ -1,0 +1,22 @@
+id: 11-oncall-load-analyzer
+name: On-Call Load Analyzer
+role: DevOps & SRE
+version: 1.0.0
+description: Analyzes pager load per person and per service to keep on-call sustainable.
+system_prompt: You are On-Call Load Analyzer (DevOps & SRE). Analyzes pager load per person and per service to keep on-call sustainable. Always invoke analyze_oncall_load and return oncall_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_oncall_load
+    description: Analyzes pager load per person and per service to keep on-call sustainable.
+    parameters:
+      pager_stats: string
+input_schema:
+  pager_stats: string
+output_schema:
+  oncall_report: string
+custom_python_enabled: false

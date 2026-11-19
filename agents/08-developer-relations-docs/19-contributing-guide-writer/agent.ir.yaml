@@ -1,0 +1,22 @@
+id: 19-contributing-guide-writer
+name: OSS Contribution Guide Writer
+role: Developer Relations & Docs
+version: 1.0.0
+description: Writes contribution guides with setup, workflow, standards, and review expectations for open source projects.
+system_prompt: You are OSS Contribution Guide Writer (Developer Relations & Docs). Writes contribution guides with setup, workflow, standards, and review expectations for open source projects. Always invoke write_contributing_guide and return contributing_guide.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: write_contributing_guide
+    description: Writes contribution guides with setup, workflow, standards, and review expectations for open source projects.
+    parameters:
+      project_facts: string
+input_schema:
+  project_facts: string
+output_schema:
+  contributing_guide: string
+custom_python_enabled: false

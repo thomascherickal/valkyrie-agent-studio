@@ -1,0 +1,3 @@
+{
+  "mutation_report": "pricing.py: 240 mutants, 168 killed, 72 survived; survivors mostly in boundary checks and rounding"
+}

@@ -15,7 +15,7 @@ cargo test --workspace
 This runs:
 1. `studio-core`: `pytest` with 100% branch and statement coverage.
 2. `studio-ui`: `vitest run --coverage` with 100% lines, branches, functions, and statements.
-3. `Cargo.toml` workspace: `rust-runtime-template` + all 120 agent Rust crates.
+3. `Cargo.toml` workspace: `rust-runtime-template` + all 240 agent Rust crates.
 
 ## 3. Build & Launch the Standalone Desktop GUI
 ```bash

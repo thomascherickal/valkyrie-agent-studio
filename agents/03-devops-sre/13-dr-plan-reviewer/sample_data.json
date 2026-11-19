@@ -1,0 +1,3 @@
+{
+  "dr_plan": "Primary region us-east-1, nightly backups to the same region, restore never tested, RTO 4h, RPO 1h"
+}

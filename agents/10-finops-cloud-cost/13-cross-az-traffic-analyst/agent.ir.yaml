@@ -1,0 +1,22 @@
+id: 13-cross-az-traffic-analyst
+name: Cross-AZ Traffic Analyst
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Analyzes cross-zone and cross-region data transfer and proposes locality fixes.
+system_prompt: You are Cross-AZ Traffic Analyst (FinOps & Cloud Cost). Analyzes cross-zone and cross-region data transfer and proposes locality fixes. Always invoke analyze_az_traffic and return az_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_az_traffic
+    description: Analyzes cross-zone and cross-region data transfer and proposes locality fixes.
+    parameters:
+      traffic_matrix: string
+input_schema:
+  traffic_matrix: string
+output_schema:
+  az_plan: string
+custom_python_enabled: false

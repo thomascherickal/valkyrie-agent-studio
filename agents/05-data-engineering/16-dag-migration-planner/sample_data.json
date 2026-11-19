@@ -1,0 +1,3 @@
+{
+  "legacy_jobs": "420 cron jobs on 6 servers, 60 with hidden dependencies, nightly batch window 5 hours, moving to Airflow"
+}

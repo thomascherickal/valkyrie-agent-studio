@@ -1,0 +1,22 @@
+id: 19-saas-license-optimizer
+name: SaaS License Optimizer
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Optimizes SaaS seats and tiers using activity data, role needs, and renewal dates.
+system_prompt: You are SaaS License Optimizer (FinOps & Cloud Cost). Optimizes SaaS seats and tiers using activity data, role needs, and renewal dates. Always invoke optimize_seats and return seat_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: optimize_seats
+    description: Optimizes SaaS seats and tiers using activity data, role needs, and renewal dates.
+    parameters:
+      license_usage: string
+input_schema:
+  license_usage: string
+output_schema:
+  seat_plan: string
+custom_python_enabled: false

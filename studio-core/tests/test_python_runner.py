@@ -132,7 +132,7 @@ def test_runaway_code_is_stopped() -> None:
 def test_every_original_agent_runs_in_the_sandbox_with_its_own_sample() -> None:
     root = Path(__file__).resolve().parents[2] / "agents"
     agents = sorted(root.glob("*/*/agent.py"))
-    assert len(agents) == 120
+    assert len(agents) == 240
     for agent_py in agents:
         sample = json.loads((agent_py.parent / "sample_data.json").read_text())
         res = run_custom_python(agent_py.read_text(), sample)

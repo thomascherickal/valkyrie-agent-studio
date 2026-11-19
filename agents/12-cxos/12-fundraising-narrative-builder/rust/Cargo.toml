@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_12_fundraising_narrative_builder"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,22 @@
+id: 19-crypto-usage-reviewer
+name: Cryptography Usage Reviewer
+role: Security & AppSec
+version: 1.0.0
+description: Reviews code for weak algorithms, key handling, randomness, and mode misuse.
+system_prompt: You are Cryptography Usage Reviewer (Security & AppSec). Reviews code for weak algorithms, key handling, randomness, and mode misuse. Always invoke review_crypto_usage and return crypto_findings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_crypto_usage
+    description: Reviews code for weak algorithms, key handling, randomness, and mode misuse.
+    parameters:
+      code_snippet: string
+input_schema:
+  code_snippet: string
+output_schema:
+  crypto_findings: string
+custom_python_enabled: false

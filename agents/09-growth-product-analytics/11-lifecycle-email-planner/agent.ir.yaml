@@ -1,0 +1,22 @@
+id: 11-lifecycle-email-planner
+name: Lifecycle Email Planner
+role: Growth & Product Analytics
+version: 1.0.0
+description: Plans lifecycle email programs by trigger, timing, goal, and measurement.
+system_prompt: You are Lifecycle Email Planner (Growth & Product Analytics). Plans lifecycle email programs by trigger, timing, goal, and measurement. Always invoke plan_lifecycle_emails and return email_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_lifecycle_emails
+    description: Plans lifecycle email programs by trigger, timing, goal, and measurement.
+    parameters:
+      lifecycle_goals: string
+input_schema:
+  lifecycle_goals: string
+output_schema:
+  email_plan: string
+custom_python_enabled: false

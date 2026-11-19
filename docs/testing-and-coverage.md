@@ -12,4 +12,4 @@ Valkyrie enforces **100% test coverage** across Python, TypeScript, and Rust, an
    - Configuration (`vitest.config.ts`): `lines: 100, branches: 100, functions: 100, statements: 100` across `src/components/**`, `src/theme/**`, and `src/App.tsx`.
 3. **Rust Workspace (`Cargo.toml`):**
    - Command: `cargo test --workspace`
-   - Covers `rust-runtime-template` (3 unit tests) and all 120 `agents/*/*/rust` crates (120 unit tests).
+   - Covers `rust-runtime-template` (3 unit tests) and all 240 `agents/*/*/rust` crates (240 unit tests).

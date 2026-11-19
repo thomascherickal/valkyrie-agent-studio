@@ -1,0 +1,3 @@
+{
+  "traffic_matrix": "Service mesh sends 62% of traffic across zones; Kafka replication 140 TB/month; one analytics job crosses regions"
+}

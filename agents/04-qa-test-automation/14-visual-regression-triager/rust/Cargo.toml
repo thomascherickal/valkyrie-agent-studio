@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_14_visual_regression_triager"
+version = "1.0.0"
+edition = "2021"

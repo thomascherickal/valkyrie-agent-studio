@@ -1,0 +1,22 @@
+id: 20-codebase-onboarding-guide
+name: Codebase Onboarding Guide
+role: Software Engineering
+version: 1.0.0
+description: Writes a first-week onboarding guide for a repository with setup, code map, first task, and norms.
+system_prompt: You are Codebase Onboarding Guide (Software Engineering). Writes a first-week onboarding guide for a repository with setup, code map, first task, and norms. Always invoke write_onboarding_guide and return onboarding_guide.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: write_onboarding_guide
+    description: Writes a first-week onboarding guide for a repository with setup, code map, first task, and norms.
+    parameters:
+      repo_overview: string
+input_schema:
+  repo_overview: string
+output_schema:
+  onboarding_guide: string
+custom_python_enabled: false

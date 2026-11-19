@@ -1,0 +1,22 @@
+id: 15-scd-modeler
+name: Slowly Changing Dimension Modeler
+role: Data Engineering
+version: 1.0.0
+description: Models slowly changing dimensions with type choice, keys, effective dates, and load logic.
+system_prompt: You are Slowly Changing Dimension Modeler (Data Engineering). Models slowly changing dimensions with type choice, keys, effective dates, and load logic. Always invoke model_scd and return scd_design.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: model_scd
+    description: Models slowly changing dimensions with type choice, keys, effective dates, and load logic.
+    parameters:
+      dimension_changes: string
+input_schema:
+  dimension_changes: string
+output_schema:
+  scd_design: string
+custom_python_enabled: false

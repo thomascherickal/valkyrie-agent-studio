@@ -1,0 +1,22 @@
+id: 17-known-issue-matcher
+name: Known Issue Matcher
+role: Technical Support
+version: 1.0.0
+description: Matches a customer symptom report to known issues, workarounds, and fix status.
+system_prompt: You are Known Issue Matcher (Technical Support). Matches a customer symptom report to known issues, workarounds, and fix status. Always invoke match_known_issues and return issue_match.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: match_known_issues
+    description: Matches a customer symptom report to known issues, workarounds, and fix status.
+    parameters:
+      symptom_report: string
+input_schema:
+  symptom_report: string
+output_schema:
+  issue_match: string
+custom_python_enabled: false

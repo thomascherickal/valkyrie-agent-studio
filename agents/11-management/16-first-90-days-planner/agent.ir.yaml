@@ -1,0 +1,22 @@
+id: 16-first-90-days-planner
+name: 30-60-90 Day Planner
+role: Engineering & Product Management
+version: 1.0.0
+description: Plans a new manager or hire's first 90 days with learning goals, relationships, and early wins.
+system_prompt: You are 30-60-90 Day Planner (Engineering & Product Management). Plans a new manager or hire's first 90 days with learning goals, relationships, and early wins. Always invoke plan_first_quarter and return onboarding_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_first_quarter
+    description: Plans a new manager or hire's first 90 days with learning goals, relationships, and early wins.
+    parameters:
+      role_context: string
+input_schema:
+  role_context: string
+output_schema:
+  onboarding_plan: string
+custom_python_enabled: false

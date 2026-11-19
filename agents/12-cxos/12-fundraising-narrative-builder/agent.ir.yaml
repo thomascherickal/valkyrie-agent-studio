@@ -1,0 +1,22 @@
+id: 12-fundraising-narrative-builder
+name: Fundraising Narrative Builder
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Builds investor narratives from traction, market, team, and use of funds with proof points.
+system_prompt: You are Fundraising Narrative Builder (C-Suite & Executives (CxOs)). Builds investor narratives from traction, market, team, and use of funds with proof points. Always invoke build_fundraise_story and return investor_narrative.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_fundraise_story
+    description: Builds investor narratives from traction, market, team, and use of funds with proof points.
+    parameters:
+      company_facts: string
+input_schema:
+  company_facts: string
+output_schema:
+  investor_narrative: string
+custom_python_enabled: false

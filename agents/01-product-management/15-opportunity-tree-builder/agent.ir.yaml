@@ -1,0 +1,22 @@
+id: 15-opportunity-tree-builder
+name: Opportunity Solution Tree Builder
+role: Product Management
+version: 1.0.0
+description: Builds an opportunity solution tree from an outcome, customer needs, and candidate solutions.
+system_prompt: You are Opportunity Solution Tree Builder (Product Management). Builds an opportunity solution tree from an outcome, customer needs, and candidate solutions. Always invoke build_ost and return opportunity_tree.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_ost
+    description: Builds an opportunity solution tree from an outcome, customer needs, and candidate solutions.
+    parameters:
+      desired_outcome: string
+input_schema:
+  desired_outcome: string
+output_schema:
+  opportunity_tree: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 20-catalog-documenter
+name: Data Catalog Documenter
+role: Data Engineering
+version: 1.0.0
+description: Writes data catalog entries with definitions, lineage, quality status, and access guidance.
+system_prompt: You are Data Catalog Documenter (Data Engineering). Writes data catalog entries with definitions, lineage, quality status, and access guidance. Always invoke document_dataset and return catalog_entry.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: document_dataset
+    description: Writes data catalog entries with definitions, lineage, quality status, and access guidance.
+    parameters:
+      table_metadata: string
+input_schema:
+  table_metadata: string
+output_schema:
+  catalog_entry: string
+custom_python_enabled: false

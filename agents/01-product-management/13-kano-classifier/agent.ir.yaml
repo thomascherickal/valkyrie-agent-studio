@@ -1,0 +1,22 @@
+id: 13-kano-classifier
+name: Kano Feature Classifier
+role: Product Management
+version: 1.0.0
+description: Classifies features as must-have, performance, or delighter from paired survey answers.
+system_prompt: You are Kano Feature Classifier (Product Management). Classifies features as must-have, performance, or delighter from paired survey answers. Always invoke classify_kano and return kano_matrix.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: classify_kano
+    description: Classifies features as must-have, performance, or delighter from paired survey answers.
+    parameters:
+      survey_results: string
+input_schema:
+  survey_results: string
+output_schema:
+  kano_matrix: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 14-helm-chart-reviewer
+name: Helm Chart Reviewer
+role: DevOps & SRE
+version: 1.0.0
+description: Reviews Helm values and templates for safe defaults, resource limits, and upgrade risks.
+system_prompt: You are Helm Chart Reviewer (DevOps & SRE). Reviews Helm values and templates for safe defaults, resource limits, and upgrade risks. Always invoke review_helm_values and return chart_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_helm_values
+    description: Reviews Helm values and templates for safe defaults, resource limits, and upgrade risks.
+    parameters:
+      helm_values: string
+input_schema:
+  helm_values: string
+output_schema:
+  chart_review: string
+custom_python_enabled: false

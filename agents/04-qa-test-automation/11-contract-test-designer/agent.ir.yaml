@@ -1,0 +1,22 @@
+id: 11-contract-test-designer
+name: Contract Test Designer
+role: QA & Test Automation
+version: 1.0.0
+description: Designs consumer-driven contract tests between services from their API contracts.
+system_prompt: You are Contract Test Designer (QA & Test Automation). Designs consumer-driven contract tests between services from their API contracts. Always invoke design_contract_tests and return contract_suite.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: design_contract_tests
+    description: Designs consumer-driven contract tests between services from their API contracts.
+    parameters:
+      api_contract: string
+input_schema:
+  api_contract: string
+output_schema:
+  contract_suite: string
+custom_python_enabled: false

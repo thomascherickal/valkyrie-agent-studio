@@ -1,0 +1,22 @@
+id: 11-commitment-coverage-checker
+name: Commitment Coverage Checker
+role: FinOps & Cloud Cost
+version: 1.0.0
+description: Checks reserved capacity and savings plan coverage and utilization against steady usage.
+system_prompt: You are Commitment Coverage Checker (FinOps & Cloud Cost). Checks reserved capacity and savings plan coverage and utilization against steady usage. Always invoke check_commitment_coverage and return coverage_report.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: check_commitment_coverage
+    description: Checks reserved capacity and savings plan coverage and utilization against steady usage.
+    parameters:
+      usage_summary: string
+input_schema:
+  usage_summary: string
+output_schema:
+  coverage_report: string
+custom_python_enabled: false

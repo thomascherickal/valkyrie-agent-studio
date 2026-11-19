@@ -1,0 +1,3 @@
+{
+  "incident_timeline": "Checkout down 47 minutes after a config push at 14:05; rollback delayed by missing runbook; alert fired 9 minutes late"
+}

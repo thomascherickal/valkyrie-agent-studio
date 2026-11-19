@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_19_crypto_usage_reviewer"
+version = "1.0.0"
+edition = "2021"

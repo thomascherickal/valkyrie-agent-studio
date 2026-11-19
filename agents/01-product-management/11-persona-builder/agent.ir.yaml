@@ -1,0 +1,22 @@
+id: 11-persona-builder
+name: Persona Builder
+role: Product Management
+version: 1.0.0
+description: Turns interview and survey notes into evidence-backed persona cards.
+system_prompt: You are Persona Builder (Product Management). Turns interview and survey notes into evidence-backed persona cards. Always invoke synthesize_personas and return persona_cards.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: synthesize_personas
+    description: Turns interview and survey notes into evidence-backed persona cards.
+    parameters:
+      research_notes: string
+input_schema:
+  research_notes: string
+output_schema:
+  persona_cards: string
+custom_python_enabled: false

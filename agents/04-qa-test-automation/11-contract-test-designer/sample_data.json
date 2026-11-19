@@ -1,0 +1,3 @@
+{
+  "api_contract": "Orders service consumes GET /customers/{id} (fields id, email, tier) from Customers; 3 other consumers"
+}

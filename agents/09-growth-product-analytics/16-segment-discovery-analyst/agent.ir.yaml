@@ -1,0 +1,22 @@
+id: 16-segment-discovery-analyst
+name: Segment Discovery Analyst
+role: Growth & Product Analytics
+version: 1.0.0
+description: Finds customer segments from usage patterns and tests which segments retain and pay best.
+system_prompt: You are Segment Discovery Analyst (Growth & Product Analytics). Finds customer segments from usage patterns and tests which segments retain and pay best. Always invoke find_segments and return segment_findings.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: find_segments
+    description: Finds customer segments from usage patterns and tests which segments retain and pay best.
+    parameters:
+      usage_summary: string
+input_schema:
+  usage_summary: string
+output_schema:
+  segment_findings: string
+custom_python_enabled: false

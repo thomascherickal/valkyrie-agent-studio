@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_19_sql_style_reviewer"
+version = "1.0.0"
+edition = "2021"

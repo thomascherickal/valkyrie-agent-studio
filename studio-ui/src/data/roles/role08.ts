@@ -93,6 +93,96 @@ export const ROLE_08: RoleCatalog = {
       "inputKey": "survey_responses",
       "outputKey": "dx_report",
       "sampleInput": "Top pain: setting up Rust toolchain; Top delight: 1-click deploy"
+    },
+    {
+      "id": "11-migration-guide-writer",
+      "name": "Migration Guide Writer",
+      "description": "Writes upgrade guides for breaking changes with before and after code and a safe order of steps.",
+      "tool": "write_migration_guide",
+      "inputKey": "breaking_changes",
+      "outputKey": "migration_guide",
+      "sampleInput": "v3 renames client.send() to client.request(), drops Python 3.8, and changes retries to opt-in"
+    },
+    {
+      "id": "12-error-reference-writer",
+      "name": "Error Reference Writer",
+      "description": "Writes error reference pages with cause, fix, example, and links for each error code.",
+      "tool": "write_error_reference",
+      "inputKey": "error_catalog",
+      "outputKey": "error_reference",
+      "sampleInput": "E1042 rate_limit_exceeded: 429 when more than 600 requests per minute; E2001 invalid_signature: webhook hash mismatch"
+    },
+    {
+      "id": "13-api-example-tester",
+      "name": "API Example Tester",
+      "description": "Plans automated testing of documentation code examples so they stay runnable.",
+      "tool": "test_api_examples",
+      "inputKey": "code_examples",
+      "outputKey": "example_report",
+      "sampleInput": "140 examples in 6 languages, 31 reported broken last quarter, SDK v4 released with renamed methods"
+    },
+    {
+      "id": "14-docs-ia-reviewer",
+      "name": "Docs Information Architecture Reviewer",
+      "description": "Reviews documentation navigation, page types, and search paths against reader tasks.",
+      "tool": "review_docs_ia",
+      "inputKey": "site_map",
+      "outputKey": "ia_review",
+      "sampleInput": "410 pages, 9 top-level sections, 3 pages named Overview, quickstart is 4 clicks from the home page"
+    },
+    {
+      "id": "15-devrel-metrics-reporter",
+      "name": "DevRel Metrics Reporter",
+      "description": "Reports developer relations impact with activation, community, and content metrics tied to goals.",
+      "tool": "report_devrel_metrics",
+      "inputKey": "community_stats",
+      "outputKey": "devrel_report",
+      "sampleInput": "Docs visits 180k, new API keys 2.1k, 38% reach first call, Discord 6.4k members, 14 talks given"
+    },
+    {
+      "id": "16-tech-blog-outliner",
+      "name": "Technical Blog Outliner",
+      "description": "Outlines technical posts with a clear thesis, reader level, sections, and runnable proof.",
+      "tool": "outline_tech_post",
+      "inputKey": "topic_brief",
+      "outputKey": "post_outline",
+      "sampleInput": "How we cut p99 latency 40% by moving session lookups from Postgres to a read-through cache"
+    },
+    {
+      "id": "17-webinar-planner",
+      "name": "Developer Webinar Planner",
+      "description": "Plans developer webinars with topic, run of show, demo safety, promotion, and follow-up.",
+      "tool": "plan_webinar",
+      "inputKey": "webinar_brief",
+      "outputKey": "webinar_plan",
+      "sampleInput": "Live build of a webhook-driven workflow, 45 minutes, target 400 registrants, 2 speakers, recording afterwards"
+    },
+    {
+      "id": "18-sample-app-reviewer",
+      "name": "Sample App Reviewer",
+      "description": "Reviews sample applications for clarity, security, correctness, and ease of running.",
+      "tool": "review_sample_app",
+      "inputKey": "sample_readme",
+      "outputKey": "sample_review",
+      "sampleInput": "README: clone, npm install, add .env with API key, npm start; hard-coded test key in config.js; no tests"
+    },
+    {
+      "id": "19-contributing-guide-writer",
+      "name": "OSS Contribution Guide Writer",
+      "description": "Writes contribution guides with setup, workflow, standards, and review expectations for open source projects.",
+      "tool": "write_contributing_guide",
+      "inputKey": "project_facts",
+      "outputKey": "contributing_guide",
+      "sampleInput": "Rust CLI, 40 contributors, tests run with cargo test, PRs reviewed by 3 maintainers, weekly triage"
+    },
+    {
+      "id": "20-developer-journey-mapper",
+      "name": "Developer Journey Mapper",
+      "description": "Maps the developer journey from discovery to production with friction, drop-off, and fixes.",
+      "tool": "map_developer_journey",
+      "inputKey": "journey_notes",
+      "outputKey": "journey_map",
+      "sampleInput": "Finds us via search, 4 doc pages to first call, key approval takes a day, production needs a security review"
     }
   ]
 };
