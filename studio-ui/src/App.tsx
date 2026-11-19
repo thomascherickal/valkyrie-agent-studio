@@ -8,7 +8,7 @@ import { CodePanel } from "./components/CodePanel";
 import { CreatePanel } from "./components/CreatePanel";
 import { DeployDialog } from "./components/DeployDialog";
 import { DesignPanel } from "./components/DesignPanel";
-import { ProvidersPanel } from "./components/ProvidersPanel";
+import { SecretsPanel } from "./components/SecretsPanel";
 import { MODE_TABS, type ExperienceMode, type TabId } from "./components/modes";
 import { RunPanel } from "./components/RunPanel";
 import { addCustomAgent, customBlueprint, draftFor, findAgent, MODEL, removeCustomAgent, restoreCustomAgents, type Draft, type Patch } from "./components/studioState";
@@ -100,7 +100,7 @@ export function App() {
             <RunPanel key={agent.id} agent={agent} roleId={selection.roleId} ir={ir} draft={draft} onChange={patchDraft} report={report} />
           )}
           {active === "about" && <AboutPanel key={agent.id} roleId={selection.roleId} agentId={agent.id} />}
-          {active === "providers" && <ProvidersPanel />}
+          {active === "secrets" && <SecretsPanel />}
           {active === "create" && <CreatePanel onCreated={onCreated} />}
           {active === "design" && <DesignPanel draft={draft} onChange={patchDraft} />}
           {active === "code" && (

@@ -4,7 +4,7 @@ import { MODE_TABS, TAB_LABELS } from "../components/modes";
 describe("modes", () => {
   it("each level reveals more tabs", () => {
     expect(MODE_TABS.beginner).toEqual(["run", "about", "create"]);
-    expect(MODE_TABS.advanced).toEqual(["run", "about", "create", "design", "code", "providers"]);
+    expect(MODE_TABS.advanced).toEqual(["run", "about", "create", "design", "code", "secrets"]);
     expect(Object.keys(MODE_TABS)).toEqual(["beginner", "advanced"]); // there is no Intermediate mode
   });
   it("About is in every mode, and every tab has a label", () => {

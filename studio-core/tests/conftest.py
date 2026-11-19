@@ -19,3 +19,17 @@ def _custom_agents_in_tmp(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> No
 def _no_ambient_gemini_key(monkeypatch: pytest.MonkeyPatch) -> None:
     for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENCODE_API_KEY"):
         monkeypatch.delenv(name, raising=False)
+
+
+@pytest.fixture(autouse=True)
+def _forget_saved_env():
+    """Keys and choices saved to a test's .env are loaded into the environment: remove them after each test."""
+    yield
+    import os
+
+    from valkyrie import env_file
+    from valkyrie.secrets_store import ALLOWED
+
+    for name in ALLOWED:
+        os.environ.pop(name, None)
+    env_file._FROM_FILE.clear()

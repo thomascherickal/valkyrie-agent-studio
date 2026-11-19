@@ -19,7 +19,7 @@
 
 ## Experience Modes
 - **Beginner Mode:** Visual Agent Builder, 240-Agent Role Tree, Focused Tool & Demo Preview, Subscription Switcher, and Sandbox Console.
-- **Advanced Mode:** Unlocks the **Design** and **Python** tabs (bespoke `run_agent(payload)` logic) and adds the **Providers** tab: which keys are set (never the key), the fallback order with the free models in use, and a **Reload .env** button.
+- **Advanced Mode:** Unlocks the **Design** and **Python** tabs (bespoke `run_agent(payload)` logic) and adds the **Secrets** tab: a masked key field, model and effort drop downs and a Test Key button for Gemini, OpenRouter and OpenCode, the default provider, the fallback order, and Reload .env.
 
 ## Command Centre
 The right-hand pane has Start, Stop and Stop all, a **Problems** list, the agent traces, and the **Trace log**:

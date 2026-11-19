@@ -40,14 +40,21 @@ GEMINI_API_KEY=...        # Gemini 4 Hydrogen, the default for every request
 OPENCODE_API_KEY=...      # fallback 1: OpenCode free models (they need a key)
 OPENROUTER_API_KEY=...    # fallback 2: OpenRouter free models
 ```
-**If Gemini fails, the next provider answers.** A run tries Gemini, then OpenCode free models (`big-pickle`, `deepseek-v4.1-flash-free`, `mimo-v2.6-flash-free`), then OpenRouter free models (`openrouter/free`). A provider with no key is skipped. The **Providers** tab (Advanced) shows which keys are set and the fallback order.
+**If Gemini fails, the next provider answers.** A run tries Gemini, then OpenCode free models (`big-pickle`, `deepseek-v4.1-flash-free`, `mimo-v2.6-flash-free`), then OpenRouter free models (`openrouter/free`). A provider with no key is skipped. The **Secrets** tab (Advanced) is where you manage all of this.
 
 **2. Environment variables.** Export them before starting the API. A variable you export wins over the same name in `.env`.
 ```bash
 export GEMINI_API_KEY=...
 ```
 
-You do not need to restart the API after changing a key: every run re-reads `.env`, and **Reload .env** in the Providers tab does it on demand. Local Ollama needs no key.
+You do not need to restart the API after changing a key: every run re-reads `.env`, and **Reload .env** in the Secrets tab does it on demand. Local Ollama needs no key.
+
+### The Secrets tab (Advanced)
+One card each for **Gemini**, **OpenRouter** and **OpenCode**, plus a **Default provider** drop down:
+- **API key:** shown as its first 10 characters followed by asterisks (a key you type is hidden entirely). Keys are optional: with none set, a banner says output is simulated. Save writes it to `.env` (owner-only access); **Remove key** clears it.
+- **Model:** a drop down filled live from the provider's own catalog, free models first and marked (free). If a catalog cannot be reached, the built-in free models are shown and the note says why. **Effort** (low, medium, high) is Gemini's thinking level.
+- **Test Key:** sends one real request with the key you typed (or the saved one). A green **Test Succeeded**, or a red **Test Failed** with the provider's message and the likely causes listed underneath: an invalid or revoked key, no credits, model access disabled, the model slug not found, a rate or free-usage limit, an outage, or no network.
+- Your model and effort choices are used first by the fallback chain and by the Hybrid `model()` helper.
 
 ### See every step
 The right-hand **Command Centre** has a **Trace log**: every step of every run, live (the request, the key check, the prompt, each provider attempt and its error, the code that ran, each stage, the checks). Click a step to open its full detail. The same steps are written to `logs/trace.jsonl`. Keys are never recorded.
@@ -58,7 +65,7 @@ studio-core/.venv/bin/pip install pyinstaller    # once
 cargo install tauri-cli                          # once
 make package BUNDLES=deb                         # or appimage, msi, dmg (on that system)
 ```
-`make sidecar` builds the API into one executable (`studio-ui/src-tauri/binaries/`), and `make package` has Tauri ship it beside the app. An installed app starts that API itself and keeps what you create (custom agents, edits, logs and your `.env`) in your user folder, for example `~/.local/share/valkyrie-studio/` on Linux. The Providers tab shows the exact path of the `.env`. Set `VALKYRIE_HOME` to use another folder.
+`make sidecar` builds the API into one executable (`studio-ui/src-tauri/binaries/`), and `make package` has Tauri ship it beside the app. An installed app starts that API itself and keeps what you create (custom agents, edits, logs and your `.env`) in your user folder, for example `~/.local/share/valkyrie-studio/` on Linux. The Secrets tab shows the exact path of the `.env`. Set `VALKYRIE_HOME` to use another folder.
 
 ## 4. Explore the Desktop Studio
 1. **Pick an agent:** Search the left sidebar across all 12 roles, or create your own under **Create agent**: describe it in plain English and it appears under **Custom Agents**. Created agents are saved to `custom-agents/` (set `VALKYRIE_CUSTOM_DIR` to move it) with their Python, YAML and Rust files, and they come back the next time you open the studio.
@@ -68,7 +75,7 @@ make package BUNDLES=deb                         # or appimage, msi, dmg (on tha
 3. **About this agent:** the **About this agent** tab explains in bullets what the agent does, the data it needs, the figures it calculates, how each Python version works, and what you still have to add (your systems, thresholds and rules).
 4. **Experience level** (top bar) reveals more tabs:
    - **Beginner:** Run, About this agent and Create agent.
-   - **Advanced:** adds **Design** (system prompt, provider, thinking level), **Python** and **Providers**. There are two modes: Beginner and Advanced.
+   - **Advanced:** adds **Design** (system prompt, provider, thinking level), **Python** and **Secrets**. There are two modes: Beginner and Advanced.
 5. **Python tab:** pick one of the three versions, or one you saved, and edit it. **Check for errors** loads and runs it once and reports problems with the line number. **Save changes** stores your edit (and checks it). **Revert to original** puts a built-in version back. **Save as new implementation** keeps your code as an extra version next to the three built-in ones. The originals are never changed: they are rebuilt from the project files, your edits are saved separately in `agent-edits/` (set `VALKYRIE_EDITS_DIR` to move them), and the original stays visible under the editor. Run uses the **saved** version you pick under **Run with**. Your code may import `typing`, `re`, `json` and `math`.
 6. **Command Centre** (right pane): start or stop the selected agent, or stop all, and watch their traces. Errors from checking, saving and running an agent appear under **Problems**, newest first.
 7. **Theme:** System, Light, or Dark in the top bar.

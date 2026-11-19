@@ -25,6 +25,19 @@ export function silentSocket() {
   vi.stubGlobal("WebSocket", class { onopen = null; onmessage = null; onclose = null; onerror = null; close() {} });
 }
 
+const entry = (id: string, label: string, model: string, effort: string | null = null) =>
+  ({ id, label, env_var: `${id.toUpperCase()}_API_KEY`, key_set: false, preview: "", model, effort });
+/** What GET /api/secrets returns with no keys set. */
+export const secretsState = {
+  env_file: ".env", env_path: "/home/me/.local/share/valkyrie-studio/.env",
+  providers: [], fallback: [{ provider: "gemini", models: ["gemini-4-hydrogen"] }, { provider: "opencode", models: ["big-pickle"] }],
+  secrets: [entry("gemini", "Gemini", "gemini-4-hydrogen", "low"), entry("openrouter", "OpenRouter", "openrouter/free"), entry("opencode", "OpenCode", "big-pickle")],
+  default_provider: "gemini", default_providers: ["gemini", "openrouter", "opencode", "ollama"], efforts: ["low", "medium", "high"], simulated: true,
+};
+export const modelCatalog = {
+  models: [{ id: "big-pickle", label: "Big Pickle", free: true }, { id: "gpt-5", label: "GPT-5", free: false }], source: "live", note: "", efforts: [],
+};
+
 export function polyfillDialog() {
   HTMLDialogElement.prototype.showModal = function () { this.setAttribute("open", ""); };
   HTMLDialogElement.prototype.close = function () { this.removeAttribute("open"); };
@@ -54,6 +67,8 @@ export function appRoutes(path: string, init?: RequestInit) {
   if (path === "/health") return ok(health);
   if (path === "/api/command-centre/traces") return ok({ traces: [] });
   if (path.startsWith("/api/trace/events")) return ok(noTraceEvents);
+  if (path === "/api/secrets") return ok(secretsState);
+  if (path.startsWith("/api/secrets/") && path.endsWith("/models")) return ok(modelCatalog);
   if (path === "/api/agents/run") return ok(llmRun);
   if (path === "/api/agents/deploy-rust") return ok(deployed);
   if (path === "/api/agents/create-from-prompt") return ok(bundle);

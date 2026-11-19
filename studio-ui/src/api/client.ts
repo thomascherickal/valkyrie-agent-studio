@@ -12,9 +12,13 @@ import type {
   ModelSettings,
   Provider,
   Providers,
+  KeyTestResult,
+  ModelCatalog,
   RunResult,
   RunTarget,
   SavedAgent,
+  SecretEntry,
+  SecretsState,
   Trace,
   TraceEvent,
 } from "./types";
@@ -116,5 +120,16 @@ export const stopAll = () => post<{ stopped: number }>("/api/command-centre/admi
 /** Steps recorded after event `after`, and the log file they are also written to. */
 export const listTraceEvents = (after: number) =>
   get<{ events: TraceEvent[]; last_id: number; log_file: string }>(`/api/trace/events?after=${after}`);
+export const getSecrets = () => get<SecretsState>("/api/secrets");
+export const getSecretModels = (provider: string) => get<ModelCatalog>(`/api/secrets/${provider}/models`);
+/** Saves a key, a model or an effort. A field left out is left alone; an empty key removes the key. */
+export const saveSecret = (provider: string, body: { key?: string; model?: string; effort?: string }) =>
+  send<SecretEntry>(`/api/secrets/${provider}`, { ...putJson, body: JSON.stringify(body) });
+/** Test Key: one real request with the typed key (or the saved one when `key` is left out). */
+export const testSecretKey = (provider: string, body: { key?: string; model?: string }) =>
+  post<KeyTestResult>(`/api/secrets/${provider}/test`, body);
+export const setDefaultProvider = (provider: string) =>
+  send<SecretsState>("/api/secrets/default-provider", { ...putJson, body: JSON.stringify({ provider }) });
+
 /** Clears the pane's memory. The log file on disk is kept. */
 export const clearTraceEvents = () => send<{ cleared: number }>("/api/trace/events", { method: "DELETE" });

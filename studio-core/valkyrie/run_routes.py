@@ -52,7 +52,7 @@ def _sandbox(code: str, payload: dict[str, Any], label: str) -> SandboxResult:
     out = result.output
     tracing.step("sandbox.end", "the code returned", "ok", ms_taken=result.latency_ms, output_keys=sorted(out))
     for stage in out.get("stages", []):
-        tracing.step("stage", f"stage {stage.get('stage')}", **{k: v for k, v in stage.items() if k != "stage"})
+        tracing.step("stage", f"stage {stage.get('stage')}", **stage)
     for key in ("implementation", "completeness", "missing", "metrics", "model_used", "review", "confidence"):
         if key in out:
             tracing.step("result", f"{key}", value=out[key])
