@@ -14,8 +14,8 @@
 
 | Language | Source Files | Total Lines |
 | :--- | ---: | ---: |
-| Python | 593 | 15,685 |
-| Markdown | 307 | 11,273 |
+| Python | 595 | 15,795 |
+| Markdown | 307 | 11,276 |
 | TypeScript (`.ts`/`.tsx`) | 86 | 6,313 |
 | Rust | 248 | 5,769 |
 | YAML | 241 | 5,301 |
@@ -24,4 +24,4 @@
 | CSS | 6 | 627 |
 | SVG | 240 | 242 |
 | HTML | 1 | 20 |
-| **Total** | **2,213** | **47,564** |
+| **Total** | **2,215** | **47,677** |
