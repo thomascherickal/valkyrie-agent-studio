@@ -15,7 +15,7 @@ const tab = (name: string) => fireEvent.click(screen.getByText(name, { selector:
 const edit = (v: string) => fireEvent.change(source(), { target: { value: v } });
 const runWith = () => screen.getByLabelText("Run with") as HTMLSelectElement;
 
-function mount(routes: typeof appRoutes = appRoutes, level = "intermediate") {
+function mount(routes: typeof appRoutes = appRoutes, level = "advanced") {
   const f = stubFetch(routes);
   render(<ThemeProvider><App /></ThemeProvider>);
   fireEvent.change(screen.getByLabelText("Experience Mode"), { target: { value: level } });
@@ -23,7 +23,7 @@ function mount(routes: typeof appRoutes = appRoutes, level = "intermediate") {
 }
 
 describe("App Python tab", () => {
-  it("is visible at Intermediate, and an unsaved edit survives switching tabs without reloading", async () => {
+  it("is visible at Advanced, and an unsaved edit survives switching tabs without reloading", async () => {
     const f = mount();
     tab("Python");
     await waitFor(() => expect(source().value).toBe(PRD));

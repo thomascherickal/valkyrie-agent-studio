@@ -19,8 +19,7 @@
 
 ## Experience Modes
 - **Beginner Mode:** Visual Agent Builder, 240-Agent Role Tree, Focused Tool & Demo Preview, Subscription Switcher, and Sandbox Console.
-- **Intermediate Mode:** Unlocks `CustomPythonEditor.tsx` for bespoke `run_agent(payload)` logic.
-- **Advanced Mode:** Adds the **Providers** tab: which keys are set (never the key), the fallback order with the free models in use, and a **Reload .env** button.
+- **Advanced Mode:** Unlocks the **Design** and **Python** tabs (bespoke `run_agent(payload)` logic) and adds the **Providers** tab: which keys are set (never the key), the fallback order with the free models in use, and a **Reload .env** button.
 
 ## Command Centre
 The right-hand pane has Start, Stop and Stop all, a **Problems** list, the agent traces, and the **Trace log**:

@@ -68,7 +68,7 @@ make package BUNDLES=deb                         # or appimage, msi, dmg (on tha
 3. **About this agent:** the **About this agent** tab explains in bullets what the agent does, the data it needs, the figures it calculates, how each Python version works, and what you still have to add (your systems, thresholds and rules).
 4. **Experience level** (top bar) reveals more tabs:
    - **Beginner:** Run, About this agent and Create agent.
-   - **Intermediate and Advanced:** add **Design** (system prompt, provider, thinking level) and **Python**.
+   - **Advanced:** adds **Design** (system prompt, provider, thinking level), **Python** and **Providers**. There are two modes: Beginner and Advanced.
 5. **Python tab:** pick one of the three versions, or one you saved, and edit it. **Check for errors** loads and runs it once and reports problems with the line number. **Save changes** stores your edit (and checks it). **Revert to original** puts a built-in version back. **Save as new implementation** keeps your code as an extra version next to the three built-in ones. The originals are never changed: they are rebuilt from the project files, your edits are saved separately in `agent-edits/` (set `VALKYRIE_EDITS_DIR` to move them), and the original stays visible under the editor. Run uses the **saved** version you pick under **Run with**. Your code may import `typing`, `re`, `json` and `math`.
 6. **Command Centre** (right pane): start or stop the selected agent, or stop all, and watch their traces. Errors from checking, saving and running an agent appear under **Problems**, newest first.
 7. **Theme:** System, Light, or Dark in the top bar.

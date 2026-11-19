@@ -20,7 +20,7 @@ describe("App Problems list", () => {
     stubFetch(appRoutes);
     render(<ThemeProvider><App /></ThemeProvider>);
     expect(problems().getByText("No errors from checking, saving or running.")).toBeTruthy();
-    fireEvent.change(screen.getByLabelText("Experience Mode"), { target: { value: "intermediate" } });
+    fireEvent.change(screen.getByLabelText("Experience Mode"), { target: { value: "advanced" } });
     tab("Python");
     await waitFor(() => expect(source().value).toBe(PRD));
 

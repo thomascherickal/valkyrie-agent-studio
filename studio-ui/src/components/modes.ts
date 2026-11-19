@@ -1,4 +1,4 @@
-export type ExperienceMode = "beginner" | "intermediate" | "advanced";
+export type ExperienceMode = "beginner" | "advanced";
 export type TabId = "run" | "about" | "create" | "design" | "code" | "providers";
 
 export const TAB_LABELS: Record<TabId, string> = {
@@ -13,6 +13,5 @@ export const TAB_LABELS: Record<TabId, string> = {
 /** Each experience level reveals more of the studio. */
 export const MODE_TABS: Record<ExperienceMode, TabId[]> = {
   beginner: ["run", "about", "create"],
-  intermediate: ["run", "about", "create", "design", "code"],
-  advanced: ["run", "about", "create", "design", "code", "providers"],
+  advanced: ["run", "about", "create", "design", "code", "providers"], // Design and Python are Advanced only
 };
