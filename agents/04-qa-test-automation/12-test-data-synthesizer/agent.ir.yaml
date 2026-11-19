@@ -1,0 +1,22 @@
+id: 12-test-data-synthesizer
+name: Test Data Synthesizer
+role: QA & Test Automation
+version: 1.0.0
+description: Plans realistic, privacy-safe test data from schema rules, distributions, and edge profiles.
+system_prompt: You are Test Data Synthesizer (QA & Test Automation). Plans realistic, privacy-safe test data from schema rules, distributions, and edge profiles. Always invoke synthesize_test_data and return data_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: synthesize_test_data
+    description: Plans realistic, privacy-safe test data from schema rules, distributions, and edge profiles.
+    parameters:
+      schema_rules: string
+input_schema:
+  schema_rules: string
+output_schema:
+  data_plan: string
+custom_python_enabled: false

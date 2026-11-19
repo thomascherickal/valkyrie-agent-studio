@@ -1,0 +1,22 @@
+id: 15-device-matrix-planner
+name: Mobile Device Matrix Planner
+role: QA & Test Automation
+version: 1.0.0
+description: Builds a mobile test matrix from usage analytics, risk, and testing capacity.
+system_prompt: You are Mobile Device Matrix Planner (QA & Test Automation). Builds a mobile test matrix from usage analytics, risk, and testing capacity. Always invoke build_device_matrix and return device_matrix.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_device_matrix
+    description: Builds a mobile test matrix from usage analytics, risk, and testing capacity.
+    parameters:
+      usage_analytics: string
+input_schema:
+  usage_analytics: string
+output_schema:
+  device_matrix: string
+custom_python_enabled: false

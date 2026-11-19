@@ -1,0 +1,22 @@
+id: 20-security-test-case-writer
+name: Security Test Case Writer
+role: QA & Test Automation
+version: 1.0.0
+description: Writes security test cases for authentication, authorization, input handling, and abuse paths.
+system_prompt: You are Security Test Case Writer (QA & Test Automation). Writes security test cases for authentication, authorization, input handling, and abuse paths. Always invoke write_security_tests and return security_cases.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: write_security_tests
+    description: Writes security test cases for authentication, authorization, input handling, and abuse paths.
+    parameters:
+      feature_flow: string
+input_schema:
+  feature_flow: string
+output_schema:
+  security_cases: string
+custom_python_enabled: false

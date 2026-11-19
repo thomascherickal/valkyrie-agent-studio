@@ -1,0 +1,22 @@
+id: 17-feature-store-reviewer
+name: Feature Store Reviewer
+role: Data Engineering
+version: 1.0.0
+description: Reviews feature definitions for training and serving skew, leakage, freshness, and reuse.
+system_prompt: You are Feature Store Reviewer (Data Engineering). Reviews feature definitions for training and serving skew, leakage, freshness, and reuse. Always invoke review_feature_store and return store_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_feature_store
+    description: Reviews feature definitions for training and serving skew, leakage, freshness, and reuse.
+    parameters:
+      feature_specs: string
+input_schema:
+  feature_specs: string
+output_schema:
+  store_review: string
+custom_python_enabled: false

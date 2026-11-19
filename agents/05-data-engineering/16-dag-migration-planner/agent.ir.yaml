@@ -1,0 +1,22 @@
+id: 16-dag-migration-planner
+name: Orchestrator Migration Planner
+role: Data Engineering
+version: 1.0.0
+description: Plans migration of legacy jobs to a modern orchestrator with parity checks and cutover waves.
+system_prompt: You are Orchestrator Migration Planner (Data Engineering). Plans migration of legacy jobs to a modern orchestrator with parity checks and cutover waves. Always invoke plan_dag_migration and return migration_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_dag_migration
+    description: Plans migration of legacy jobs to a modern orchestrator with parity checks and cutover waves.
+    parameters:
+      legacy_jobs: string
+input_schema:
+  legacy_jobs: string
+output_schema:
+  migration_plan: string
+custom_python_enabled: false

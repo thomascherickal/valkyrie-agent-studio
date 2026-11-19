@@ -1,0 +1,22 @@
+id: 14-visual-regression-triager
+name: Visual Regression Triager
+role: QA & Test Automation
+version: 1.0.0
+description: Triages screenshot diffs into real regressions, intended changes, and flaky rendering.
+system_prompt: You are Visual Regression Triager (QA & Test Automation). Triages screenshot diffs into real regressions, intended changes, and flaky rendering. Always invoke triage_visual_diffs and return visual_triage.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: triage_visual_diffs
+    description: Triages screenshot diffs into real regressions, intended changes, and flaky rendering.
+    parameters:
+      screenshot_diffs: string
+input_schema:
+  screenshot_diffs: string
+output_schema:
+  visual_triage: string
+custom_python_enabled: false

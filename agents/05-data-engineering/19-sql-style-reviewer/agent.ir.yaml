@@ -1,0 +1,22 @@
+id: 19-sql-style-reviewer
+name: SQL Style Reviewer
+role: Data Engineering
+version: 1.0.0
+description: Reviews SQL for readability, correctness traps, join risks, and maintainable structure.
+system_prompt: You are SQL Style Reviewer (Data Engineering). Reviews SQL for readability, correctness traps, join risks, and maintainable structure. Always invoke review_sql_style and return sql_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_sql_style
+    description: Reviews SQL for readability, correctness traps, join risks, and maintainable structure.
+    parameters:
+      sql_excerpt: string
+input_schema:
+  sql_excerpt: string
+output_schema:
+  sql_review: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 11-cdc-pipeline-designer
+name: CDC Pipeline Designer
+role: Data Engineering
+version: 1.0.0
+description: Designs change data capture pipelines from operational databases into the warehouse.
+system_prompt: You are CDC Pipeline Designer (Data Engineering). Designs change data capture pipelines from operational databases into the warehouse. Always invoke design_cdc_flow and return cdc_design.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: design_cdc_flow
+    description: Designs change data capture pipelines from operational databases into the warehouse.
+    parameters:
+      source_tables: string
+input_schema:
+  source_tables: string
+output_schema:
+  cdc_design: string
+custom_python_enabled: false

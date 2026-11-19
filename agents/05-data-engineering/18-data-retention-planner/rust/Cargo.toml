@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_18_data_retention_planner"
+version = "1.0.0"
+edition = "2021"

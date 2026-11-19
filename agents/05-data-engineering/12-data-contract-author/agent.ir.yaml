@@ -1,0 +1,22 @@
+id: 12-data-contract-author
+name: Data Contract Author
+role: Data Engineering
+version: 1.0.0
+description: Drafts data contracts with schema, semantics, quality rules, ownership, and change process.
+system_prompt: You are Data Contract Author (Data Engineering). Drafts data contracts with schema, semantics, quality rules, ownership, and change process. Always invoke draft_data_contract and return contract_doc.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: draft_data_contract
+    description: Drafts data contracts with schema, semantics, quality rules, ownership, and change process.
+    parameters:
+      dataset_spec: string
+input_schema:
+  dataset_spec: string
+output_schema:
+  contract_doc: string
+custom_python_enabled: false

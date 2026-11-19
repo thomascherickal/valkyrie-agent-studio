@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_11_cdc_pipeline_designer"
+version = "1.0.0"
+edition = "2021"

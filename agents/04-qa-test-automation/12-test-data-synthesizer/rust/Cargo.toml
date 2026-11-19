@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_12_test_data_synthesizer"
+version = "1.0.0"
+edition = "2021"

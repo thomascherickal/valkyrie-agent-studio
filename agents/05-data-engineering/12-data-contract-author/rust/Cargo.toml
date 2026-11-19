@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_12_data_contract_author"
+version = "1.0.0"
+edition = "2021"

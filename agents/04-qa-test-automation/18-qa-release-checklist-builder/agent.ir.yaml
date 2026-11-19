@@ -1,0 +1,22 @@
+id: 18-qa-release-checklist-builder
+name: QA Release Checklist Builder
+role: QA & Test Automation
+version: 1.0.0
+description: Builds release checklists from scope, risk, and past escapes with clear sign-off gates.
+system_prompt: You are QA Release Checklist Builder (QA & Test Automation). Builds release checklists from scope, risk, and past escapes with clear sign-off gates. Always invoke build_release_checklist and return qa_checklist.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: build_release_checklist
+    description: Builds release checklists from scope, risk, and past escapes with clear sign-off gates.
+    parameters:
+      release_scope: string
+input_schema:
+  release_scope: string
+output_schema:
+  qa_checklist: string
+custom_python_enabled: false

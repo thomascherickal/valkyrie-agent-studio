@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_19_l10n_test_planner"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,22 @@
+id: 13-mutation-test-reviewer
+name: Mutation Test Reviewer
+role: QA & Test Automation
+version: 1.0.0
+description: Reviews mutation testing results and turns surviving mutants into targeted tests.
+system_prompt: You are Mutation Test Reviewer (QA & Test Automation). Reviews mutation testing results and turns surviving mutants into targeted tests. Always invoke review_mutation_survivors and return survivor_actions.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_mutation_survivors
+    description: Reviews mutation testing results and turns surviving mutants into targeted tests.
+    parameters:
+      mutation_report: string
+input_schema:
+  mutation_report: string
+output_schema:
+  survivor_actions: string
+custom_python_enabled: false
