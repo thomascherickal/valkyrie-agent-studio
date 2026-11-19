@@ -35,7 +35,7 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
         "metrics": ["Share of the table a typical query reads|query_days / days_kept|{:.1%}", "Data read per typical query (GB)|table_tb * 1000 * query_days / days_kept|{:,.0f}", "Partitions at one per day|days_kept|{:,.0f}"],
     },
     "05-data-engineering/14-dedup-strategy-designer": {
-        "fields": ["rows_day|Rows per day|number|50000000", "dup_rate|Duplicate rate (0 to 1)|number|0.034", "window_h|Dedup window (hours)|number|48", "key|Natural key|text|event_id plus source", "cost_gb|Storage and compute cost per GB processed (USD)|number|0.02"],
+        "fields": ["rows_day|Rows per day|number|50000000", "dup_rate|Duplicate rate (0 to 1)|number|0.034", "window_h|Dedup window (hours)|number|48", "key|Natural key|text|event_id plus source", "row_bytes|Average bytes per row|number|300"],
         "sections": [
             ["Problem", "Report: {input}", "Natural key: {key}. Window: {window_h} hours.", "Duplicates come from retries, replays, overlapping extracts and the same entity entered twice. Each has a different fix."],
             ["Exact duplicates", "Deduplicate on the natural key within a time window using a row number over the key ordered by ingest time, or a merge with the key as the match condition.", "Do it as early as possible, before aggregates and joins multiply the error."],
@@ -43,7 +43,7 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
             ["Fuzzy matching", "For people and companies, normalise (case, spaces, punctuation), block by a cheap key such as postcode and compare candidate pairs with a similarity score. Send mid-score pairs to review.", "Prefer merging with a reversible link table over destroying records."],
             ["Survivorship and checks", "Choose which values win: latest, most complete or from the most trusted source. Test that counts before and after match the duplicate rate.", "Alert when the duplicate rate moves by more than a third."],
         ],
-        "metrics": ["Duplicate rows per day|rows_day * dup_rate|{:,.0f}", "Wasted processing per day (USD)|rows_day * dup_rate * 0.0000005 * cost_gb * 1000|${:,.2f}"],
+        "metrics": ["Duplicate rows per day|rows_day * dup_rate|{:,.0f}", "Storage wasted per day (GB)|rows_day * dup_rate * row_bytes / 1000000000|{:,.1f}"],
     },
     "05-data-engineering/15-scd-modeler": {
         "fields": ["dimension|Dimension|text|Customer", "rows|Rows in the dimension|number|2500000", "change_rate|Share of rows that change per month (0 to 1)|number|0.08", "months|Months of history kept|number|36", "tracked_cols|Columns whose history you track|number|4"],
