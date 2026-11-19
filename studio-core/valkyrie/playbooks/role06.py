@@ -24,7 +24,7 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
         "metrics": ["Adjusted risk (CVSS x exposure)|cvss * exposure|{:.2f}", "Share of raw severity that applies|exposure|{:.0%}"],
     },
     "06-security-appsec/03-iam-least-privilege": {
-        "fields": ["principal|Role or principal|text|analytics-reader (assumed by the BI service)", "needed_actions|Actions actually used|list|s3:GetObject, s3:ListBucket", "resources|Resources needed|list|arn:aws:s3:::analytics-prod-curated, arn:aws:s3:::analytics-prod-curated/*", "current_actions|Actions currently granted|number|140", "condition|Condition to add|text|aws:SourceVpce equals the BI VPC endpoint"],
+        "fields": ["principal|Role or principal|text|analytics-reader (assumed by the BI service)", "needed_actions|Actions actually used|list|s3:GetObject, s3:ListBucket", "resources|Resources needed|list|arn:aws:s3:::analytics-prod-curated, arn:aws:s3:::analytics-prod-curated/*", "current_actions|Actions currently granted|number|140", "needed_count|Number of actions actually needed|number|2", "condition|Condition to add|text|aws:SourceVpce equals the BI VPC endpoint"],
         "sections": [
             ["Policy under review", "Policy: {input}", "Principal: {principal}. Currently grants about {current_actions} actions."],
             ["Used actions", "*{needed_actions}", "Derive the list from CloudTrail or IAM Access Analyzer last-accessed data over 90 days, not from guesswork."],
@@ -32,7 +32,7 @@ PLAYBOOKS: dict[str, dict[str, list]] = {
             ["Hardening", "Add a Condition: {condition}. Consider aws:PrincipalOrgID, aws:SecureTransport and a permissions boundary. Add an explicit Deny for destructive actions on production data.", "Avoid NotAction and iam:PassRole with wildcards; PassRole plus compute creation is a privilege escalation path."],
             ["Rollout", "Test in a non-production account with the IAM policy simulator, deploy the narrow policy alongside the old one, watch AccessDenied for 2 weeks, then remove the wide policy.", "Schedule a quarterly access review."],
         ],
-        "metrics": ["Permission reduction|1 - 2 / current_actions|{:.0%}"],
+        "metrics": ["Permission reduction|1 - needed_count / current_actions|{:.0%}"],
     },
     "06-security-appsec/04-secret-leak-scanner": {
         "fields": ["secret_type|Secret type|text|Google Gemini API key", "repo_visibility|Repository visibility|text|Private repository, 14 collaborators", "exposed_hours|Hours since the commit|number|6", "rotate_sla_hours|Rotation SLA (hours)|number|1", "owner|Key owner|text|Platform team"],

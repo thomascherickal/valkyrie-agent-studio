@@ -25,19 +25,19 @@ Keep this file current. Tick what is done, add what you find, then pick up the n
 - [x] **Provider keys and `.env`:** the API reads `GEMINI_API_KEY`, `OPENROUTER_API_KEY` and `OPENCODE_API_KEY` from the environment or the repo's `.env`. Without a key, runs are simulated.
 - [x] **`.gitignore`:** `target/`, `.venv/`, `node_modules/`, `dist/`, `.env*` (but not `.env.example`), `custom-agents/` and `agent-edits/` are ignored.
 - [x] **Test tooling:** `make test-all` runs `python -m pytest`, so a venv symlinked into a git worktree cannot import another checkout's code.
+- [x] **No hidden constants in formulas:** the IAM auditor has a `needed_count` field (was a fixed 2) and the Rust-port advisor a `week_cost` field (was a fixed 4,000 USD per engineer-week); the examples keep the old values.
 
 ## Recommended Next Steps
 1. **Needs the user: live provider check.** Run once with a real `GEMINI_API_KEY`, and confirm the OpenCode endpoint (`https://opencode.ai/zen/v1`) and a free Model ID for OpenRouter and OpenCode. No live call has been made to any hosted provider.
 2. **Give the Hybrid version a real model.** `call_model` is a stub because the sandbox has no network. Offer a safe, server-side helper (for example a `model(prompt)` function the sandbox can call that uses the configured provider and key) so Hybrid works without editing code.
-3. **Two playbook formulas hold a constant that should be a field.** The IAM auditor's "Permission reduction" uses a fixed 2 as the number of needed actions, and the Rust-port advisor's payback uses a fixed 4,000 USD per engineer-week. Add a data field for each.
-4. **Review the playbooks with the people who own each domain.** They are expert-written starting points. Thresholds and wording should be adjusted to each team's standards (the About tab lists what to add).
-5. **Interpret free text, not only fill templates.** The playbooks use the data you supply; they do not extract data from a pasted document. Add parsers (for example pull RICE numbers out of a backlog table) for the agents where it matters most.
-6. **Deploy to Rust ignores the Python versions.** It transpiles the agent's IR only, so edited Python does not change the generated crate. Decide whether it should, or label it.
-7. **Run uses the saved version.** Unsaved edits in the editor are not run (a hint says so). Offer "Run with my unsaved edits".
-8. **Stale edits after regeneration.** Creating a custom agent with an id that already exists replaces its original but keeps its saved edits. Drop them on regenerate, or warn.
-9. **Delete a custom agent.** Saved agents can be created and restored but not removed. Add `DELETE /api/agents/custom/{id}` and a Delete button.
-10. **Stream traces.** `/ws/traces` exists but the Command Centre only polls the REST list. Use the WebSocket for live traces.
-11. **Bundle the API for installers.** The auto-start finds the repo at compile time, so it works for `desktop:start` and dev builds only. A packaged installer needs the API shipped as a Tauri sidecar (for example a PyInstaller binary).
-12. **Pick up key changes without a restart.** Keys are read once at startup, so editing `.env` needs an API restart.
-13. **Cap the health retry.** The GUI retries forever at a fixed interval. Add a cap or backoff if the offline noise matters.
-14. **Give Advanced its own tabs.** Advanced currently shows the same tabs as Intermediate.
+3. **Review the playbooks with the people who own each domain.** They are expert-written starting points. Thresholds and wording should be adjusted to each team's standards (the About tab lists what to add).
+4. **Interpret free text, not only fill templates.** The playbooks use the data you supply; they do not extract data from a pasted document. Add parsers (for example pull RICE numbers out of a backlog table) for the agents where it matters most.
+5. **Deploy to Rust ignores the Python versions.** It transpiles the agent's IR only, so edited Python does not change the generated crate. Decide whether it should, or label it.
+6. **Run uses the saved version.** Unsaved edits in the editor are not run (a hint says so). Offer "Run with my unsaved edits".
+7. **Stale edits after regeneration.** Creating a custom agent with an id that already exists replaces its original but keeps its saved edits. Drop them on regenerate, or warn.
+8. **Delete a custom agent.** Saved agents can be created and restored but not removed. Add `DELETE /api/agents/custom/{id}` and a Delete button.
+9. **Stream traces.** `/ws/traces` exists but the Command Centre only polls the REST list. Use the WebSocket for live traces.
+10. **Bundle the API for installers.** The auto-start finds the repo at compile time, so it works for `desktop:start` and dev builds only. A packaged installer needs the API shipped as a Tauri sidecar (for example a PyInstaller binary).
+11. **Pick up key changes without a restart.** Keys are read once at startup, so editing `.env` needs an API restart.
+12. **Cap the health retry.** The GUI retries forever at a fixed interval. Add a cap or backoff if the offline noise matters.
+13. **Give Advanced its own tabs.** Advanced currently shows the same tabs as Intermediate.
