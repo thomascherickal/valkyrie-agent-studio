@@ -100,6 +100,21 @@ export interface RunTarget {
   roleId: string;
   agentId: string;
   impl: string;
+  /** Source to run instead of the saved one: what is in the editor now, saved or not. */
+  code?: string;
+}
+
+export interface ProviderStatus {
+  id: string;
+  env_var: string;
+  key_set: boolean;
+}
+
+/** Which providers have a key. Never contains a key itself. `changed` lists what a reload updated. */
+export interface Providers {
+  env_file: string;
+  providers: ProviderStatus[];
+  changed?: string[];
 }
 
 /** An agent saved by the API under Custom Agents. */

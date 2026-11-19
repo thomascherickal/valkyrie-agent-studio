@@ -66,6 +66,10 @@ class LLMRouter:
             return self.api_key
         return os.environ.get(HOSTED_COMPAT[provider][1]) if provider in HOSTED_COMPAT else None
 
+    def has_key(self, provider: str) -> bool:
+        """True when a call to this provider can be made: it has a key, or it is local Ollama."""
+        return provider == "ollama" or bool(self._key(provider))
+
     def build_payload(self, config: ModelConfig, system_prompt: str, user_prompt: str) -> dict[str, Any]:
         """Build provider-specific request payload."""
         if config.provider != "gemini":

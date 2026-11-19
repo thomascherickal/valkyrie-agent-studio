@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import time
+from types import SimpleNamespace
 import typing
 
 import pytest
@@ -22,10 +23,13 @@ def test_sandbox_helpers_directly() -> None:
     with pytest.raises(ImportError):
         _sandbox_import("re", level=1)
 
-    tracer = _deadline_tracer(time.perf_counter() + 60)
-    assert tracer(None, "line", None) is tracer
+    mine = SimpleNamespace(f_code=SimpleNamespace(co_filename="<valkyrie-sandbox>"))
+    other = SimpleNamespace(f_code=SimpleNamespace(co_filename="httpx.py"))
+    tracer = _deadline_tracer([time.perf_counter() + 60])
+    assert tracer(mine, "call", None) is tracer and tracer(other, "call", None) is None
     with pytest.raises(SandboxTimeout):
-        _deadline_tracer(0.0)(None, "line", None)
+        _deadline_tracer([0.0])(mine, "line", None)
+    assert _deadline_tracer([0.0])(other, "call", None) is None  # not timed even when late
 
 
 def test_run_custom_python_success() -> None:

@@ -26,7 +26,7 @@ describe("small components", () => {
   it("Tabs", () => {
     const onChange = vi.fn();
     render(<Tabs tabs={MODE_TABS.advanced} active="design" onChange={onChange} />);
-    expect(screen.getAllByRole("tab")).toHaveLength(5);
+    expect(screen.getAllByRole("tab")).toHaveLength(6);
     expect(screen.getByText("Design").getAttribute("aria-selected")).toBe("true");
     fireEvent.click(screen.getByText("Python"));
     expect(onChange).toHaveBeenCalledWith("code");

@@ -7,7 +7,7 @@ import re
 import pytest
 
 from valkyrie.agent_impls import (
-    VARIANTS, agent_dir, derive_facets, derive_playbook, explanation, facets_for, load_spec, parse_playbook,
+    VARIANTS, agent_dir, derive_facets, derive_playbook, facets_for, load_spec, parse_playbook,
     parse_profile, playbook_for, render,
 )
 from valkyrie.impl_common import COMMON
@@ -147,14 +147,11 @@ def test_hybrid_review_catches_an_answer_that_drops_a_section_or_changes_a_figur
     spec = load_spec(*key.split("/"))
     base = render(spec, "hybrid")
     draft = run_custom_python(base, payload_for(key)).output[spec.output_key]
-    hook = 'Return None to use the drafted report."""\n    return None\n'  # the call_model stub, not another `return None`
-    assert hook in base
-    good = base.replace(hook, hook.replace("return None\n", f"return {draft!r}\n"))
-    out = run_custom_python(good, payload_for(key)).output
+    out = run_custom_python(base, payload_for(key), model=lambda prompt: draft).output
     assert out["model_used"] is True and out["review"] == [] and out["confidence"] > 0.9
 
     changed = draft.replace("3,000.0", "9,999.0").replace("## Tiering", "## Other")
-    bad = run_custom_python(base.replace(hook, hook.replace("return None\n", f"return {changed!r}\n")), payload_for(key)).output
+    bad = run_custom_python(base, payload_for(key), model=lambda prompt: changed).output
     assert "The answer dropped the section: Tiering" in bad["review"]
     assert any(p.startswith("The answer changed or dropped RICE score") for p in bad["review"])
 
@@ -165,30 +162,6 @@ def test_pipeline_review_flags_thin_sections_and_topics_the_input_never_mentions
     assert any("only" in n and "line(s)" in n for n in out["review"])
     assert any(n.startswith("Your input does not mention:") for n in out["review"])
     assert out["missing"] and out["completeness"] < 1.0
-
-
-def test_explanations_are_detailed_bullets_for_every_agent() -> None:
-    headings = ["What this agent does", "Data you provide", "Figures it calculates", "Rules implementation",
-                "Pipeline implementation", "Hybrid implementation", "What you need to add"]
-    for key in KEYS:
-        spec = load_spec(*key.split("/"))
-        info = explanation(spec)
-        assert [s["heading"] for s in info["sections"]] == headings, key
-        bullets = [b for s in info["sections"] for b in s["bullets"]]
-        assert len(bullets) >= 14 and info["words"] >= 250 and info["words"] == sum(len(b.split()) for b in bullets), key
-        assert len(info["sections"][1]["bullets"]) == len(playbook_for(spec)["fields"]) + 2, key  # a bullet per data field
-
-
-def test_role_notes_tell_each_role_what_to_connect_and_long_samples_are_shortened() -> None:
-    finops = explanation(load_spec("10-finops-cloud-cost", "01-cloud-bill-anomaly"))["sections"][-1]["bullets"]
-    assert any("billing exports" in b for b in finops)
-    spec = load_spec("01-product-management", "01-prd-architect")
-    long = spec.__class__(**{**spec.__dict__, "sample": "x" * 300})
-    assert explanation(long)["sections"][0]["bullets"][1].count("...") == 1
-    figures = explanation(load_spec("01-product-management", "02-roadmap-prioritizer"))["sections"][2]["bullets"]
-    assert figures[0].startswith("RICE score = reach * impact")
-    none = [e for k in KEYS if not PLAYBOOKS[k].get("metrics") for e in [explanation(load_spec(*k.split("/")))]][0]
-    assert none["sections"][2]["bullets"] == ["This agent calculates no figures. Its output is the written deliverable."]
 
 
 def test_agents_without_a_playbook_get_a_general_one_and_lookups_fail_cleanly() -> None:

@@ -6,19 +6,19 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
-from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from valkyrie.agent_generator_routes import router as agent_generator_router
 from valkyrie.agent_impl_routes import resolve_code, router as agent_impl_router
-from valkyrie.command_centre import CommandCentre
-from valkyrie.command_centre_routes import router as command_centre_router
-
+from valkyrie.command_centre_routes import router as command_centre_router, stream_router
 from valkyrie.env_file import load_env_file
 from valkyrie.eval_gate import evaluate_agent_output
 from valkyrie.ir_schema import AgentIR, load_ir_from_yaml
 from valkyrie.llm_router import LLMRouter
+from valkyrie.model_helper import server_model
+from valkyrie.provider_routes import router as provider_router
 from valkyrie.python_runner import run_custom_python
 from valkyrie.rust_transpiler import transpile_ir_to_rust
 
@@ -38,6 +38,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(command_centre_router)
+app.include_router(stream_router)
+app.include_router(provider_router)
 app.include_router(agent_generator_router)
 app.include_router(agent_impl_router)
 
@@ -53,6 +55,8 @@ class RunRequest(BaseModel):
     role_id: str | None = None
     agent_id: str | None = None
     impl: str | None = None
+    # Source of that implementation as it is in the editor, saved or not. When given it is run instead.
+    code: str | None = None
 
 
 class DeployRequest(BaseModel):
@@ -70,6 +74,7 @@ def health() -> dict[str, str]:
 @app.post("/api/agents/run")
 def run_agent_endpoint(req: RunRequest) -> dict[str, Any]:
     """Run an agent via Gemini 4 Hydrogen (Low) or custom Python, then evaluate."""
+    load_env_file()  # keys you changed in .env are used without a restart
     try:
         ir: AgentIR = load_ir_from_yaml(req.ir_yaml)
     except Exception as exc:  # noqa: BLE001
@@ -78,8 +83,8 @@ def run_agent_endpoint(req: RunRequest) -> dict[str, Any]:
     if req.impl:
         if not (req.role_id and req.agent_id):
             raise HTTPException(status_code=400, detail="Running an implementation needs role_id and agent_id")
-        code = resolve_code(req.role_id, req.agent_id, req.impl)
-        impl_res = run_custom_python(code, req.payload)
+        code = resolve_code(req.role_id, req.agent_id, req.impl) if req.code is None else req.code
+        impl_res = run_custom_python(code, req.payload, model=server_model)
         if not impl_res.ok:
             raise HTTPException(status_code=400, detail=f"{req.impl}: {impl_res.error}")
         return {
@@ -91,7 +96,7 @@ def run_agent_endpoint(req: RunRequest) -> dict[str, Any]:
         }
 
     if ir.custom_python_enabled and req.custom_python:
-        py_res = run_custom_python(req.custom_python, req.payload)
+        py_res = run_custom_python(req.custom_python, req.payload, model=server_model)
         if not py_res.ok:
             raise HTTPException(status_code=400, detail=py_res.error or "Python execution failed")
         return {
@@ -141,21 +146,10 @@ def deploy_rust_endpoint(req: DeployRequest) -> dict[str, str]:
 
 @app.get("/api/agents")
 def list_agents_catalog() -> dict[str, Any]:
-    """List all 12 roles and 120 agents from the agents/ directory."""
+    """List every role and agent found in the agents/ directory."""
     agents_root = Path(__file__).resolve().parents[2] / "agents"
     roles: list[dict[str, Any]] = []
     for role_dir in sorted(p for p in agents_root.iterdir() if p.is_dir()):
         agents = [{"id": a.name, "name": a.name} for a in sorted(role_dir.iterdir()) if a.is_dir()]
         roles.append({"id": role_dir.name, "name": role_dir.name, "agents": agents})
     return {"roles": roles}
-
-
-@app.websocket("/ws/traces")
-async def stream_traces(websocket: WebSocket) -> None:
-    """Stream CommandCentre agent traces over WebSocket."""
-    await websocket.accept()
-    cc = CommandCentre()
-    trace = cc.start_agent("01-prd-architect")
-    await websocket.send_json({"agent_id": trace.agent_id, "state": trace.state, "steps": trace.steps})
-    await websocket.close()
-

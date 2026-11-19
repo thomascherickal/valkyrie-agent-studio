@@ -21,6 +21,24 @@ describe("api client", () => {
     expect(bodies[3]).toContain('"name":null');
     expect(bodies[4]).toContain('"name":"n"');
   });
+  it("sends unsaved code only when asked, and calls delete and the provider endpoints", async () => {
+    const f = stubFetch(() => ok({}));
+    const target = { roleId: "r", agentId: "a", impl: "rules" };
+    await api.runAgent("ir", "p", {}, target);
+    await api.runAgent("ir", "p", {}, { ...target, code: "" });
+    await api.runAgent("ir", "p", {}, { ...target, code: "x = 1" });
+    const body = (i: number) => JSON.parse(f.mock.calls[i][1]!.body as string);
+    expect(body(0)).not.toHaveProperty("code");
+    expect(body(1).code).toBe("");
+    expect(body(2)).toMatchObject({ role_id: "r", agent_id: "a", impl: "rules", code: "x = 1" });
+    f.mockClear();
+    await api.deleteCustomAgent("mine");
+    await api.getProviders();
+    await api.reloadProviders();
+    expect(f.mock.calls.map(([u, i]) => `${i?.method ?? "GET"} ${u.replace("http://localhost:8000", "")}`)).toEqual([
+      "DELETE /api/agents/custom/mine", "GET /api/providers", "POST /api/providers/reload",
+    ]);
+  });
   it("uses detail, status fallback, and offline message", async () => {
     stubFetch(() => fail(400, "bad thing"));
     await expect(api.getHealth()).rejects.toThrow("bad thing");

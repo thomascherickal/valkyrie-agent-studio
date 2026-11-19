@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { listTraces, startAgent, stopAgent, stopAll } from "../api/client";
 import type { Problem } from "../api/types";
 import { useAsync } from "../hooks/useAsync";
+import { useTraceStream } from "../hooks/useTraceStream";
 import { AsyncNotice } from "./AsyncNotice";
 
 // Module scope keeps the function identity stable, so useAsync's `run` does not change between renders.
@@ -21,6 +22,8 @@ interface TracePanelProps {
 
 export function TracePanel({ agentId, online, problems, onClearProblems }: TracePanelProps) {
   const { state, run } = useAsync(refresh);
+  const live = useTraceStream(online);
+  const traces = live ?? (state.kind === "done" ? state.data : null);
   useEffect(() => {
     run();
   }, [run, online]);
@@ -54,10 +57,10 @@ export function TracePanel({ agentId, online, problems, onClearProblems }: Trace
         )}
       </section>
       <AsyncNotice state={state} working="Loading traces…" />
-      {state.kind === "done" && state.data.length === 0 && <p className="empty">No agents have run yet.</p>}
-      {state.kind === "done" && (
+      {traces && traces.length === 0 && <p className="empty">No agents have run yet.</p>}
+      {traces && (
         <ul aria-label="Agent traces">
-          {state.data.map((t) => (
+          {traces.map((t) => (
             <li key={t.agent_id}>
               <strong>{t.agent_id}</strong> <span className="badge" data-state={t.state}>{t.state}</span>
               <span className="steps">{t.steps.join(" → ")}</span>

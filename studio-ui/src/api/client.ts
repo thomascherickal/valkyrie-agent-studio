@@ -11,6 +11,7 @@ import type {
   ImplMeta,
   ModelSettings,
   Provider,
+  Providers,
   RunResult,
   RunTarget,
   SavedAgent,
@@ -70,6 +71,7 @@ export const runAgent = (irYaml: string, prompt: string, payload: Record<string,
     prompt,
     payload,
     ...(target && { role_id: target.roleId, agent_id: target.agentId, impl: target.impl }),
+    ...(target?.code !== undefined && { code: target.code }),
   });
 
 const agentPath = (roleId: string, agentId: string) => `/api/agents/${roleId}/${agentId}`;
@@ -99,6 +101,11 @@ export const createFromPrompt = (prompt: string, name: string) =>
   post<GeneratedBundle>("/api/agents/create-from-prompt", { prompt, name: name || null });
 
 export const listCustomAgents = () => get<{ agents: SavedAgent[] }>("/api/agents/custom");
+export const deleteCustomAgent = (id: string) => send<{ deleted: string }>(`/api/agents/custom/${id}`, { method: "DELETE" });
+
+export const getProviders = () => get<Providers>("/api/providers");
+/** Re-reads the .env file, so a key you just pasted is used without restarting the API. */
+export const reloadProviders = () => post<Providers>("/api/providers/reload");
 
 export const listTraces =() => get<{ traces: Trace[] }>("/api/command-centre/traces");
 export const startAgent = (id: string) => post<Trace>(`/api/command-centre/start/${id}`);

@@ -50,6 +50,9 @@ def test_load_sets_missing_values_and_never_overrides_the_real_environment(tmp_p
     assert os.environ["NEW_ONE"] == "from-file"
     assert os.environ["ALREADY_SET"] == "from-shell"
     assert "BLANK" not in os.environ
+    assert load_env_file(tmp_path / "gone.env") == ["NEW_ONE"]  # a vanished file unsets what it loaded, not the shell's
+    assert "NEW_ONE" not in os.environ and os.environ["ALREADY_SET"] == "from-shell"
+    del os.environ["ALREADY_SET"]
 
 
 def test_a_missing_file_is_fine(tmp_path: Path) -> None:

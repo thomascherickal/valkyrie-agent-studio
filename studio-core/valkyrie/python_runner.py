@@ -15,7 +15,7 @@ import sys
 import time
 from types import ModuleType, SimpleNamespace
 import typing
-from typing import Any
+from typing import Any, Callable
 
 FORBIDDEN_TOKENS = ("import os", "import subprocess", "open(", "__import__", "eval(", "exec(")
 TIME_LIMIT_S = 5.0
@@ -88,27 +88,53 @@ def _describe(exc: BaseException, line: int | None) -> str:
     return f"{type(exc).__name__}: {text}{where}"
 
 
-def _deadline_tracer(deadline: float) -> Any:
-    """Stop code that runs past the deadline. It replaces any tracer while sandboxed code runs."""
+def _model_call(model: Callable[[str], str | None] | None, deadline: list[float]) -> Callable[[str], str | None]:
+    """The `model(prompt)` the sandbox sees: text or None. A slow call does not eat the code's time limit."""
+
+    def call(prompt: str) -> str | None:
+        started = time.perf_counter()
+        try:
+            text = model(str(prompt)) if model else None
+        except Exception:  # noqa: BLE001  ponytail: a failed call is "no answer", so Hybrid falls back to its draft
+            text = None
+        deadline[0] += time.perf_counter() - started
+        return text if isinstance(text, str) and text.strip() else None
+
+    return call
+
+
+def _deadline_tracer(deadline: list[float]) -> Any:
+    """Stop code that runs past the deadline (a one-item list so model calls can extend it). Replaces any tracer."""
 
     def tracer(frame: Any, event: str, arg: Any) -> Any:
-        if time.perf_counter() > deadline:
+        if event == "call" and frame.f_code.co_filename != _FILENAME:
+            return None  # helper code (like the model call) is not the user's loop, so it is not timed
+        if time.perf_counter() > deadline[0]:
             raise SandboxTimeout("The code ran past the time limit")
         return tracer
 
     return tracer
 
 
-def run_custom_python(source: str, payload: dict[str, Any], time_limit: float = TIME_LIMIT_S) -> SandboxResult:
-    """Execute custom Python `run_agent(payload)` in a restricted namespace, with a time limit."""
+def run_custom_python(
+    source: str,
+    payload: dict[str, Any],
+    time_limit: float = TIME_LIMIT_S,
+    model: Callable[[str], str | None] | None = None,
+) -> SandboxResult:
+    """Execute custom Python `run_agent(payload)` in a restricted namespace, with a time limit.
+
+    The code can call `model(prompt)`: it returns the model's text, or None when there is no model or no key.
+    """
     start = time.perf_counter()
     previous_trace = sys.gettrace()
     try:
         validate_python_source(source)
-        builtins = {**_BUILTINS, "__import__": _sandbox_import, "__build_class__": __build_class__}
+        deadline = [time.perf_counter() + time_limit]
+        builtins = {**_BUILTINS, "__import__": _sandbox_import, "__build_class__": __build_class__, "model": _model_call(model, deadline)}
         namespace: dict[str, Any] = {"__builtins__": builtins, "__name__": "agent"}
         code = compile(source, _FILENAME, "exec")
-        sys.settrace(_deadline_tracer(time.perf_counter() + time_limit))
+        sys.settrace(_deadline_tracer(deadline))
         exec(code, namespace, namespace)
         fn = namespace.get("run_agent")
         if not callable(fn):

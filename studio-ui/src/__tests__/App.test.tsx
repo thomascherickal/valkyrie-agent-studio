@@ -22,7 +22,7 @@ describe("App modes and tabs", () => {
     mode("beginner");
     expect(screen.getByRole("button", { name: "Run agent" })).toBeTruthy();
     mode("advanced");
-    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python"]);
+    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python", "Providers"]);
     fireEvent.click(screen.getByText("Design"));
     fireEvent.change(screen.getByLabelText("System Prompt"), { target: { value: "custom" } });
     expect((screen.getByLabelText("System Prompt") as HTMLTextAreaElement).value).toBe("custom");
