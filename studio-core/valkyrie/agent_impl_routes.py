@@ -14,6 +14,7 @@ import re
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
+from valkyrie import tracing
 from valkyrie.agent_explanation import explanation
 from valkyrie.agent_impls import REPO, VARIANTS, AgentSpec, load_spec, playbook_for, render
 from valkyrie.python_runner import run_custom_python, validate_python_source
@@ -126,6 +127,7 @@ def save_implementation(role_id: str, agent_id: str, impl: str, body: CodeBody) 
     else:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(body.code)
+    tracing.step("editor.save", f"saved {impl} for {spec.agent_id}", agent=spec.agent_id, impl=impl, chars=len(body.code))
     return _view(spec, impl)
 
 
@@ -136,8 +138,10 @@ def revert_or_delete_implementation(role_id: str, agent_id: str, impl: str) -> d
     current = _view(spec, impl)
     if current["kind"] == "saved":
         _saved_file(spec, impl).unlink()  # type: ignore[union-attr]
+        tracing.step("editor.delete", f"deleted saved version {impl} of {spec.agent_id}", agent=spec.agent_id, impl=impl)
         return {"deleted": impl}
     (_folder(spec) / f"{impl}.py").unlink(missing_ok=True)
+    tracing.step("editor.revert", f"reverted {impl} of {spec.agent_id} to the original", agent=spec.agent_id, impl=impl)
     return _view(spec, impl)
 
 
@@ -166,6 +170,8 @@ def check_code(role_id: str, agent_id: str, body: CodeBody) -> dict[str, object]
     except HTTPException as exc:
         return {"ok": False, "error": exc.detail, "line": None, "warnings": []}
     result = run_custom_python(body.code, {spec.input_key: spec.sample})
+    tracing.step("editor.check", "checked the code with the sample input", "ok" if result.ok else "error", agent=spec.agent_id,
+                 error=result.error, line=result.line, ms_taken=result.latency_ms)
     if not result.ok:
         return {"ok": False, "error": result.error, "line": result.line, "warnings": []}
     warnings = [] if spec.output_key in result.output else [f"The result has no \"{spec.output_key}\" key."]

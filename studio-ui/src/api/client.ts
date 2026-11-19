@@ -16,6 +16,7 @@ import type {
   RunTarget,
   SavedAgent,
   Trace,
+  TraceEvent,
 } from "./types";
 
 export const DEFAULT_SETTINGS: ModelSettings = { provider: "gemini", thinkingLevel: DEFAULT_THINKING, hostedModel: "" };
@@ -111,3 +112,9 @@ export const listTraces =() => get<{ traces: Trace[] }>("/api/command-centre/tra
 export const startAgent = (id: string) => post<Trace>(`/api/command-centre/start/${id}`);
 export const stopAgent = (id: string) => post<Trace>(`/api/command-centre/stop/${id}`);
 export const stopAll = () => post<{ stopped: number }>("/api/command-centre/admin/stop-all");
+
+/** Steps recorded after event `after`, and the log file they are also written to. */
+export const listTraceEvents = (after: number) =>
+  get<{ events: TraceEvent[]; last_id: number; log_file: string }>(`/api/trace/events?after=${after}`);
+/** Clears the pane's memory. The log file on disk is kept. */
+export const clearTraceEvents = () => send<{ cleared: number }>("/api/trace/events", { method: "DELETE" });

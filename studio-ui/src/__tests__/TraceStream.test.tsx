@@ -1,7 +1,7 @@
 import { act, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { TracePanel } from "../components/TracePanel";
-import { ok, stubFetch } from "./helpers";
+import { ok, stubTraces } from "./helpers";
 
 class FakeSocket {
   static all: FakeSocket[] = [];
@@ -20,6 +20,8 @@ class FakeSocket {
   }
 }
 
+const stateSockets = () => FakeSocket.all.filter((s) => s.url.endsWith("/ws/traces"));
+
 beforeEach(() => {
   FakeSocket.all = [];
   vi.stubGlobal("WebSocket", FakeSocket);
@@ -31,10 +33,10 @@ const trace = (state: string, steps: string[]) => [{ agent_id: "ag", state, step
 
 describe("live traces", () => {
   it("shows what the socket sends as it changes, and falls back to the REST list when it closes", async () => {
-    stubFetch(() => ok({ traces: trace("stopped", ["from rest"]) }));
+    stubTraces(() => ok({ traces: trace("stopped", ["from rest"]) }));
     render(<TracePanel {...props} online />);
     await screen.findByText("from rest");
-    const socket = FakeSocket.all[0];
+    const socket = stateSockets()[0];
     expect(socket.url).toBe("ws://localhost:8000/ws/traces");
     act(() => socket.send(trace("running", ["a", "b"])));
     expect(screen.getByText("a → b")).toBeTruthy();
@@ -49,13 +51,13 @@ describe("live traces", () => {
     expect(screen.getByText("from rest")).toBeTruthy();
   });
   it("does not connect until the API is online, and closes the socket when the panel goes away", async () => {
-    stubFetch(() => ok({ traces: [] }));
+    stubTraces(() => ok({ traces: [] }));
     const { rerender, unmount } = render(<TracePanel {...props} online={false} />);
-    expect(FakeSocket.all).toHaveLength(0);
+    expect(stateSockets()).toHaveLength(0);
     rerender(<TracePanel {...props} online />);
-    expect(FakeSocket.all).toHaveLength(1);
+    expect(stateSockets()).toHaveLength(1);
     unmount();
-    expect(FakeSocket.all[0].closed).toBe(true);
-    expect(FakeSocket.all[0].onclose).toBeNull();
+    expect(stateSockets()[0].closed).toBe(true);
+    expect(stateSockets()[0].onclose).toBeNull();
   });
 });

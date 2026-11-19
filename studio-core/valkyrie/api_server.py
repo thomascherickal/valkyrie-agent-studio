@@ -11,16 +11,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from valkyrie.agent_generator_routes import router as agent_generator_router
-from valkyrie.agent_impl_routes import resolve_code, router as agent_impl_router
+from valkyrie.agent_impl_routes import router as agent_impl_router
 from valkyrie.command_centre_routes import router as command_centre_router, stream_router
 from valkyrie.env_file import load_env_file
-from valkyrie.eval_gate import evaluate_agent_output
-from valkyrie.ir_schema import AgentIR, load_ir_from_yaml
-from valkyrie.llm_router import LLMRouter
-from valkyrie.model_helper import server_model
+from valkyrie.ir_schema import load_ir_from_yaml
 from valkyrie.provider_routes import router as provider_router
-from valkyrie.python_runner import run_custom_python
+from valkyrie.run_routes import router as run_router
+from valkyrie.trace_routes import router as trace_router
 from valkyrie.rust_transpiler import transpile_ir_to_rust
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncGenerator[None]:
@@ -40,23 +39,10 @@ app.add_middleware(
 app.include_router(command_centre_router)
 app.include_router(stream_router)
 app.include_router(provider_router)
+app.include_router(run_router)
+app.include_router(trace_router)
 app.include_router(agent_generator_router)
 app.include_router(agent_impl_router)
-
-
-class RunRequest(BaseModel):
-    """Payload to execute an agent in the sandbox console."""
-
-    ir_yaml: str
-    prompt: str
-    custom_python: str | None = None
-    payload: dict[str, Any] = {}
-    # To run one of an agent's Python implementations, name it: its saved edit, or its original, is used.
-    role_id: str | None = None
-    agent_id: str | None = None
-    impl: str | None = None
-    # Source of that implementation as it is in the editor, saved or not. When given it is run instead.
-    code: str | None = None
 
 
 class DeployRequest(BaseModel):
@@ -69,62 +55,6 @@ class DeployRequest(BaseModel):
 def health() -> dict[str, str]:
     """Healthcheck endpoint."""
     return {"status": "ok", "default_model": "gemini-4-hydrogen", "thinking_level": "low"}
-
-
-@app.post("/api/agents/run")
-def run_agent_endpoint(req: RunRequest) -> dict[str, Any]:
-    """Run an agent via Gemini 4 Hydrogen (Low) or custom Python, then evaluate."""
-    load_env_file()  # keys you changed in .env are used without a restart
-    try:
-        ir: AgentIR = load_ir_from_yaml(req.ir_yaml)
-    except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
-
-    if req.impl:
-        if not (req.role_id and req.agent_id):
-            raise HTTPException(status_code=400, detail="Running an implementation needs role_id and agent_id")
-        code = resolve_code(req.role_id, req.agent_id, req.impl) if req.code is None else req.code
-        impl_res = run_custom_python(code, req.payload, model=server_model)
-        if not impl_res.ok:
-            raise HTTPException(status_code=400, detail=f"{req.impl}: {impl_res.error}")
-        return {
-            "mode": "python",
-            "impl": req.impl,
-            "output": impl_res.output,
-            "latency_ms": impl_res.latency_ms,
-            "cost_usd": 0.0,
-        }
-
-    if ir.custom_python_enabled and req.custom_python:
-        py_res = run_custom_python(req.custom_python, req.payload, model=server_model)
-        if not py_res.ok:
-            raise HTTPException(status_code=400, detail=py_res.error or "Python execution failed")
-        return {
-            "mode": "python",
-            "output": py_res.output,
-            "latency_ms": py_res.latency_ms,
-            "cost_usd": 0.0,
-        }
-
-    router = LLMRouter()
-    llm_res = router.invoke(ir.model_config_spec, ir.system_prompt, req.prompt)
-    eval_report = evaluate_agent_output(
-        ir=ir,
-        output={k: llm_res.content for k in ir.output_schema},
-        latency_ms=12.5,
-        cost_usd=llm_res.cost_usd,
-    )
-    return {
-        "mode": "llm",
-        "model": llm_res.model,
-        "thinking_level": llm_res.thinking_level,
-        "content": llm_res.content,
-        "input_tokens": llm_res.input_tokens,
-        "output_tokens": llm_res.output_tokens,
-        "cost_usd": llm_res.cost_usd,
-        "eval_passed": eval_report.passed,
-        "eval_reasons": eval_report.reasons,
-    }
 
 
 @app.post("/api/agents/deploy-rust")

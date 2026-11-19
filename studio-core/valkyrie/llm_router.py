@@ -67,8 +67,8 @@ class LLMRouter:
         return os.environ.get(HOSTED_COMPAT[provider][1]) if provider in HOSTED_COMPAT else None
 
     def has_key(self, provider: str) -> bool:
-        """True when a call to this provider can be made: it has a key, or it is local Ollama."""
-        return provider == "ollama" or bool(self._key(provider))
+        """True when a call to this provider can be made: it has a key, is local Ollama, or a test transport is set."""
+        return provider == "ollama" or self.transport is not None or bool(self._key(provider))
 
     def build_payload(self, config: ModelConfig, system_prompt: str, user_prompt: str) -> dict[str, Any]:
         """Build provider-specific request payload."""
@@ -82,15 +82,14 @@ class LLMRouter:
                 "temperature": config.temperature,
                 "max_tokens": config.max_tokens,
             }
+        # Gemini's REST API has no top-level thinking fields: the level goes in generationConfig.thinkingConfig.
         return {
-            "model": config.model,
-            "thinking_level": config.thinking_level,
-            "reasoning_effort": config.thinking_level,
             "system_instruction": {"parts": [{"text": system_prompt}]},
             "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
             "generationConfig": {
                 "temperature": config.temperature,
                 "maxOutputTokens": config.max_tokens,
+                "thinkingConfig": {"thinkingLevel": config.thinking_level},
             },
         }
 
@@ -112,7 +111,7 @@ class LLMRouter:
             )
 
         payload = self.build_payload(config, system_prompt, user_prompt)
-        with httpx.Client(transport=self.transport, timeout=15.0) as client:
+        with httpx.Client(transport=self.transport, timeout=60.0) as client:
             if config.provider != "gemini":
                 base = config.ollama_base_url if config.provider == "ollama" else HOSTED_COMPAT[config.provider][0]
                 headers = {"Authorization": f"Bearer {key}"} if key else {}
@@ -134,11 +133,9 @@ class LLMRouter:
                     cost_usd=0.0,
                 )
 
-            url = (
-                f"https://generativelanguage.googleapis.com/v1beta/models/"
-                f"{config.model}:generateContent?key={self.api_key or ''}"
-            )
-            resp = client.post(url, json=payload)
+            # The key goes in a header, never in the URL, so it cannot show up in a logged address or an error.
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{config.model}:generateContent"
+            resp = client.post(url, json=payload, headers={"x-goog-api-key": self.api_key or ""})
             resp.raise_for_status()
             data = resp.json()
             text = data["candidates"][0]["content"]["parts"][0]["text"]

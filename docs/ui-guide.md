@@ -20,4 +20,10 @@
 ## Experience Modes
 - **Beginner Mode:** Visual Agent Builder, 240-Agent Role Tree, Focused Tool & Demo Preview, Subscription Switcher, and Sandbox Console.
 - **Intermediate Mode:** Unlocks `CustomPythonEditor.tsx` for bespoke `run_agent(payload)` logic.
-- **Advanced Mode:** Unlocks `CommandCentre.tsx` with Start, Stop, Admin Stop All, and live visual step traces.
+- **Advanced Mode:** Adds the **Providers** tab: which keys are set (never the key), the fallback order with the free models in use, and a **Reload .env** button.
+
+## Command Centre
+The right-hand pane has Start, Stop and Stop all, a **Problems** list, the agent traces, and the **Trace log**:
+- Every step of every run appears live, newest first: time since the run started, status (info, ok, warn, error), stage and message. Click a step to open its full recorded detail (the payload, the code size, each provider attempt and its error, token counts, the model's answer, the checks).
+- Filter by **Run** or **Status**, **Copy** what is shown, or **Clear** the pane. The same steps are also written to `logs/trace.jsonl`, which Clear does not touch.
+- The pane follows the `/ws/trace` WebSocket and polls the REST list if the socket is not available. Secrets are removed before a step is recorded.

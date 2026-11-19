@@ -35,3 +35,6 @@ studio-ui/src-tauri/gen/
 !.env.example
 custom-agents/
 agent-edits/
+
+# Trace log written by the API
+logs/

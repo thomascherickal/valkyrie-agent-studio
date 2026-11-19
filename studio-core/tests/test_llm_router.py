@@ -31,13 +31,17 @@ def test_router_reads_key_from_environment(monkeypatch: pytest.MonkeyPatch) -> N
 
     seen: list[str] = []
 
+    headers: list[str] = []
+
     def handler(request: httpx.Request) -> httpx.Response:
         seen.append(str(request.url))
+        headers.append(request.headers["x-goog-api-key"])
         body = {"candidates": [{"content": {"parts": [{"text": "ok"}]}}]}
         return httpx.Response(200, json=body)
 
     LLMRouter(transport=httpx.MockTransport(handler)).invoke(ModelConfig(), "S", "U")
-    assert "gemini-4-hydrogen:generateContent?key=env-key" in seen[0]
+    assert seen[0].endswith("gemini-4-hydrogen:generateContent") and "env-key" not in seen[0]  # never in the address
+    assert headers == ["env-key"]
 
 
 def _compat_reply(request: httpx.Request, seen: list[httpx.Request]) -> httpx.Response:
@@ -96,6 +100,9 @@ def test_router_mock_http_gemini_and_ollama() -> None:
         )
 
     gemini_router = LLMRouter(api_key="test-key", transport=httpx.MockTransport(gemini_handler))
+    payload = gemini_router.build_payload(ModelConfig(thinking_level="high"), "Sys", "User")
+    assert set(payload) == {"system_instruction", "contents", "generationConfig"}  # the API rejects unknown top-level fields
+    assert payload["generationConfig"]["thinkingConfig"] == {"thinkingLevel": "high"}
     g_res = gemini_router.invoke(ModelConfig(), "Sys", "User")
     assert g_res.content == "Gemini OK"
     assert g_res.cached_tokens == 20

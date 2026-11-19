@@ -6,6 +6,7 @@ import asyncio
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
+from valkyrie import tracing
 from valkyrie.command_centre import CommandCentre
 
 router = APIRouter(prefix="/api/command-centre", tags=["command-centre"])
@@ -28,6 +29,7 @@ def get_traces() -> dict[str, list[dict[str, object]]]:
 def start_agent_route(agent_id: str) -> dict[str, object]:
     """Start an agent via Command Centre."""
     t = _centre.start_agent(agent_id)
+    tracing.step("command-centre.start", f"started {agent_id}", agent_id=agent_id, steps=t.steps)
     return {"agent_id": t.agent_id, "state": t.state, "steps": t.steps}
 
 
@@ -35,13 +37,16 @@ def start_agent_route(agent_id: str) -> dict[str, object]:
 def stop_agent_route(agent_id: str) -> dict[str, object]:
     """Stop an agent via Command Centre."""
     t = _centre.stop_agent(agent_id)
+    tracing.step("command-centre.stop", f"stopped {agent_id}", agent_id=agent_id, steps=t.steps)
     return {"agent_id": t.agent_id, "state": t.state, "steps": t.steps}
 
 
 @router.post("/admin/stop-all")
 def admin_stop_all_route() -> dict[str, int]:
     """Admin action to stop all running agents."""
-    return {"stopped": _centre.admin_stop_all()}
+    stopped = _centre.admin_stop_all()
+    tracing.step("command-centre.stop-all", f"stopped {stopped} running agent(s)", stopped=stopped)
+    return {"stopped": stopped}
 
 
 @stream_router.websocket("/ws/traces")

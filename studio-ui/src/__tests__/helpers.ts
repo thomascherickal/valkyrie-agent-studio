@@ -12,6 +12,19 @@ export function stubFetch(handler: (path: string, init?: RequestInit) => unknown
   return f;
 }
 
+/** An empty trace log, for tests that are about something else. */
+export const noTraceEvents = { events: [], last_id: 0, log_file: "/tmp/trace.jsonl" };
+
+/** stubFetch that answers the trace log's request with an empty log and hands everything else to `handler`. */
+export function stubTraces(handler: (path: string, init?: RequestInit) => unknown) {
+  return stubFetch((path, init) => (path.startsWith("/api/trace/events") ? ok(noTraceEvents) : handler(path, init)));
+}
+
+/** A WebSocket that never connects, so tests do not depend on a real socket. */
+export function silentSocket() {
+  vi.stubGlobal("WebSocket", class { onopen = null; onmessage = null; onclose = null; onerror = null; close() {} });
+}
+
 export function polyfillDialog() {
   HTMLDialogElement.prototype.showModal = function () { this.setAttribute("open", ""); };
   HTMLDialogElement.prototype.close = function () { this.removeAttribute("open"); };
@@ -40,6 +53,7 @@ export function appRoutes(path: string, init?: RequestInit) {
   if (found) return found;
   if (path === "/health") return ok(health);
   if (path === "/api/command-centre/traces") return ok({ traces: [] });
+  if (path.startsWith("/api/trace/events")) return ok(noTraceEvents);
   if (path === "/api/agents/run") return ok(llmRun);
   if (path === "/api/agents/deploy-rust") return ok(deployed);
   if (path === "/api/agents/create-from-prompt") return ok(bundle);
