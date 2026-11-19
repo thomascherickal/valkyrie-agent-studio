@@ -1,0 +1,22 @@
+id: 13-experiment-backlog-ranker
+name: Experiment Backlog Ranker
+role: Growth & Product Analytics
+version: 1.0.0
+description: Ranks growth experiments by impact, confidence, and effort with traffic and runtime checks.
+system_prompt: You are Experiment Backlog Ranker (Growth & Product Analytics). Ranks growth experiments by impact, confidence, and effort with traffic and runtime checks. Always invoke rank_experiments and return ranked_backlog.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: rank_experiments
+    description: Ranks growth experiments by impact, confidence, and effort with traffic and runtime checks.
+    parameters:
+      experiment_ideas: string
+input_schema:
+  experiment_ideas: string
+output_schema:
+  ranked_backlog: string
+custom_python_enabled: false

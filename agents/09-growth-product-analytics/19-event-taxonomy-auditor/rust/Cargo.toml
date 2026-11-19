@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_19_event_taxonomy_auditor"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,22 @@
+id: 12-ltv-cac-modeler
+name: LTV to CAC Modeler
+role: Growth & Product Analytics
+version: 1.0.0
+description: Models customer lifetime value against acquisition cost with payback and sensitivity to churn.
+system_prompt: You are LTV to CAC Modeler (Growth & Product Analytics). Models customer lifetime value against acquisition cost with payback and sensitivity to churn. Always invoke model_ltv_cac and return ltv_cac_readout.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: model_ltv_cac
+    description: Models customer lifetime value against acquisition cost with payback and sensitivity to churn.
+    parameters:
+      unit_inputs: string
+input_schema:
+  unit_inputs: string
+output_schema:
+  ltv_cac_readout: string
+custom_python_enabled: false

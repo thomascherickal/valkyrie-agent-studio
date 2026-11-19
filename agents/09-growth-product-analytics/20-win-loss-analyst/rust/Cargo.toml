@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_20_win_loss_analyst"
+version = "1.0.0"
+edition = "2021"

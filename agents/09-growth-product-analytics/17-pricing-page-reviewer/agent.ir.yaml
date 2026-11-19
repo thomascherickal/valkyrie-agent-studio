@@ -1,0 +1,22 @@
+id: 17-pricing-page-reviewer
+name: Pricing Page Reviewer
+role: Growth & Product Analytics
+version: 1.0.0
+description: Reviews pricing pages for clarity, anchoring, plan fit, objections, and conversion risks.
+system_prompt: You are Pricing Page Reviewer (Growth & Product Analytics). Reviews pricing pages for clarity, anchoring, plan fit, objections, and conversion risks. Always invoke review_pricing_page and return pricing_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_pricing_page
+    description: Reviews pricing pages for clarity, anchoring, plan fit, objections, and conversion risks.
+    parameters:
+      page_copy: string
+input_schema:
+  page_copy: string
+output_schema:
+  pricing_review: string
+custom_python_enabled: false

@@ -1,0 +1,22 @@
+id: 19-event-taxonomy-auditor
+name: Event Taxonomy Auditor
+role: Growth & Product Analytics
+version: 1.0.0
+description: Audits analytics event names and properties for consistency, coverage, and tracking debt.
+system_prompt: You are Event Taxonomy Auditor (Growth & Product Analytics). Audits analytics event names and properties for consistency, coverage, and tracking debt. Always invoke audit_event_names and return taxonomy_audit.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: audit_event_names
+    description: Audits analytics event names and properties for consistency, coverage, and tracking debt.
+    parameters:
+      event_list: string
+input_schema:
+  event_list: string
+output_schema:
+  taxonomy_audit: string
+custom_python_enabled: false

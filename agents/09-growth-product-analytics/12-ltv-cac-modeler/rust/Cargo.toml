@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_12_ltv_cac_modeler"
+version = "1.0.0"
+edition = "2021"
