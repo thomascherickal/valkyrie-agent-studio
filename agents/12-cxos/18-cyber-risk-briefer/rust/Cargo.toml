@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_18_cyber_risk_briefer"
+version = "1.0.0"
+edition = "2021"

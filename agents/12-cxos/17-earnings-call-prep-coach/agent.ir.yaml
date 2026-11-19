@@ -1,0 +1,22 @@
+id: 17-earnings-call-prep-coach
+name: Earnings Call Prep Coach
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Prepares earnings calls with messages, tough questions, disclosure checks, and rehearsal plans.
+system_prompt: You are Earnings Call Prep Coach (C-Suite & Executives (CxOs)). Prepares earnings calls with messages, tough questions, disclosure checks, and rehearsal plans. Always invoke prep_earnings_call and return qa_prep.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: prep_earnings_call
+    description: Prepares earnings calls with messages, tough questions, disclosure checks, and rehearsal plans.
+    parameters:
+      quarter_results: string
+input_schema:
+  quarter_results: string
+output_schema:
+  qa_prep: string
+custom_python_enabled: false

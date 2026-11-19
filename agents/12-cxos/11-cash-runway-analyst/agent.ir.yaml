@@ -1,0 +1,22 @@
+id: 11-cash-runway-analyst
+name: Cash Runway Analyst
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Projects cash runway under base, downside, and upside cases with clear decision triggers.
+system_prompt: You are Cash Runway Analyst (C-Suite & Executives (CxOs)). Projects cash runway under base, downside, and upside cases with clear decision triggers. Always invoke project_runway and return runway_scenarios.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: project_runway
+    description: Projects cash runway under base, downside, and upside cases with clear decision triggers.
+    parameters:
+      cash_position: string
+input_schema:
+  cash_position: string
+output_schema:
+  runway_scenarios: string
+custom_python_enabled: false

@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_19_esg_metrics_reporter"
+version = "1.0.0"
+edition = "2021"

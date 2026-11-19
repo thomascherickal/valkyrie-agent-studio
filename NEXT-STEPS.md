@@ -3,12 +3,12 @@
 Keep this file current. Tick what is done, add what you find, then pick up the next open step that does not need the user (see "Autonomous Delivery" in `CLAUDE.md`).
 
 ## Verification Checklist (All Green)
-- [x] `studio-core`: `pytest` (84 passed, 100.00% branch & statement coverage).
+- [x] `studio-core`: `pytest` (85 passed, 100.00% branch & statement coverage).
 - [x] `command-centre`: `pytest` (1 passed, 100.00% branch & statement coverage).
 - [x] `studio-ui`: `npm run desktop:build` (Vite + Tauri v2 Rust Shell) + `vitest run --coverage` (134 tests, 100% statements, branches, functions, lines).
-- [x] `Cargo.toml` workspace: `cargo test --workspace` (122 crates: `rust-runtime-template`, `valkyrie-studio-tauri`, and 120 agent crates; 131 tests).
+- [x] `Cargo.toml` workspace: `cargo test --workspace` (242 crates: `rust-runtime-template`, `valkyrie-studio-tauri`, and 240 agent crates).
 - [x] `valkyrie-studio-tauri`: end-to-end API start/stop, `cargo test -p valkyrie-studio-tauri -- --ignored` (needs `studio-core/.venv`).
-- [x] `agents/`: 12 roles × 10 focused agents = 120 blueprints with `ROLE.md`, `AGENT.md`, `agent.ir.yaml`, `agent.py`, `test_agent.py`, `sample_data.json`, `demo.svg`, and `rust/`. All 120 also have a playbook and three generated Python versions, and all 360 are run in the sandbox by a test.
+- [x] `agents/`: 12 roles × 20 focused agents = 240 blueprints with `ROLE.md`, `AGENT.md`, `agent.ir.yaml`, `agent.py`, `test_agent.py`, `sample_data.json`, `demo.svg`, and `rust/`. All 240 also have a playbook and three generated Python versions, and all 720 are run in the sandbox by a test.
 
 ## Done
 - [x] **Finished agents that only need data:** every agent has a playbook (`studio-core/valkyrie/playbooks/role01.py` to `role12.py`): the extra data fields it needs (label, kind, worked example), the sections of its deliverable (real domain guidance mixed with your data), and formulas for numeric agents (RICE, margins, burn rates and so on, evaluated by a small parser with no `eval`). A line that needs a blank field is left out, and the report ends with **Data still needed**. A test runs all 360 Python versions with only the example data and requires a complete report with nothing missing.
@@ -35,6 +35,8 @@ Keep this file current. Tick what is done, add what you find, then pick up the n
 - [x] **Health retry:** the GUI backs off (1.5 s up to 15 s), stops after 12 retries and shows **Retry connection**.
 - [x] **Deploy to Rust is labelled:** the dialog says the crate is built from the agent's definition, not from edited Python.
 - [x] **Modularity:** `explanation` moved to `agent_explanation.py`, storage paths to `storage.py`, the trace stream to `command_centre_routes.py`, and the CSS split in two, so every file is under 200 lines.
+
+- [x] **20 agents per role:** ids 11 to 20 of every role (120 new agents) have the same files, playbook (data fields, five guidance sections, formulas with no hidden constants) and profile as the first ten. Playbooks and profiles now live in per-role packages (`playbooks/roleNN/core.py` and `extra.py`, `profiles/roleNN.py`), and a test keeps the UI catalog, `ROLE.md` and the `agents/` folders in step.
 
 ## Recommended Next Steps
 1. **Needs the user: live provider check.** `.env` has empty placeholders for `GEMINI_API_KEY`, `OPENROUTER_API_KEY` and `OPENCODE_API_KEY`. Paste a Gemini key after the `=`, reload keys in the Providers tab, then run Hybrid once. Confirm the OpenCode endpoint (`https://opencode.ai/zen/v1`) and a free Model ID for OpenRouter and OpenCode. No live call has been made to any hosted provider.

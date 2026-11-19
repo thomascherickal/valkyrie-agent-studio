@@ -18,6 +18,6 @@
   - Uses native `<dialog>` controlled via `showModal()` and `close()`, with `overscroll-behavior: contain` on `dialog:modal` and `dialog::backdrop`.
 
 ## Experience Modes
-- **Beginner Mode:** Visual Agent Builder, 120-Agent Role Tree, Focused Tool & Demo Preview, Subscription Switcher, and Sandbox Console.
+- **Beginner Mode:** Visual Agent Builder, 240-Agent Role Tree, Focused Tool & Demo Preview, Subscription Switcher, and Sandbox Console.
 - **Intermediate Mode:** Unlocks `CustomPythonEditor.tsx` for bespoke `run_agent(payload)` logic.
 - **Advanced Mode:** Unlocks `CommandCentre.tsx` with Start, Stop, Admin Stop All, and live visual step traces.

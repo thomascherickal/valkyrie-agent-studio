@@ -93,6 +93,96 @@ export const ROLE_12: RoleCatalog = {
       "inputKey": "exec_inputs",
       "outputKey": "weekly_brief_md",
       "sampleInput": "Pipeline $1.4M, Uptime 99.98%, 2 senior offers accepted"
+    },
+    {
+      "id": "11-cash-runway-analyst",
+      "name": "Cash Runway Analyst",
+      "description": "Projects cash runway under base, downside, and upside cases with clear decision triggers.",
+      "tool": "project_runway",
+      "inputKey": "cash_position",
+      "outputKey": "runway_scenarios",
+      "sampleInput": "Cash 14.2M, net burn 780k a month, 9% monthly growth in revenue, 2 enterprise deals pending, hiring plan adds 600k"
+    },
+    {
+      "id": "12-fundraising-narrative-builder",
+      "name": "Fundraising Narrative Builder",
+      "description": "Builds investor narratives from traction, market, team, and use of funds with proof points.",
+      "tool": "build_fundraise_story",
+      "inputKey": "company_facts",
+      "outputKey": "investor_narrative",
+      "sampleInput": "B2B workflow SaaS, 4.1M ARR growing 160% a year, 118% net retention, raising 20M Series B, 24 months of runway wanted"
+    },
+    {
+      "id": "13-board-risk-register-keeper",
+      "name": "Board Risk Register Keeper",
+      "description": "Maintains a board-level risk register with likelihood, impact, owners, and mitigations.",
+      "tool": "rank_board_risks",
+      "inputKey": "risk_list",
+      "outputKey": "risk_register",
+      "sampleInput": "Top risks: key customer concentration, regulatory change in EU, cloud outage, loss of CTO, pricing pressure"
+    },
+    {
+      "id": "14-executive-pricing-strategist",
+      "name": "Executive Pricing Strategist",
+      "description": "Frames pricing strategy decisions with value, competition, margin, and customer impact.",
+      "tool": "assess_pricing_strategy",
+      "inputKey": "pricing_context",
+      "outputKey": "pricing_brief",
+      "sampleInput": "Considering a 12% price rise on the Team plan; competitors flat; 4% monthly churn risk if the rise lands badly"
+    },
+    {
+      "id": "15-partnership-evaluator",
+      "name": "Partnership Evaluator",
+      "description": "Evaluates partnership proposals on strategic fit, economics, dependency, and exit terms.",
+      "tool": "score_partnership",
+      "inputKey": "partnership_terms",
+      "outputKey": "partner_memo",
+      "sampleInput": "Channel partner offers access to 800 mid-market accounts for 25% revenue share; exclusivity 2 years; co-marketing"
+    },
+    {
+      "id": "16-exec-search-planner",
+      "name": "Executive Hiring Planner",
+      "description": "Plans executive searches with scorecard, sourcing, process, references, and offer strategy.",
+      "tool": "plan_exec_search",
+      "inputKey": "role_need",
+      "outputKey": "search_plan",
+      "sampleInput": "Need a VP Sales for a 6M to 25M ARR journey; enterprise motion new; current head of sales leaving in 3 months"
+    },
+    {
+      "id": "17-earnings-call-prep-coach",
+      "name": "Earnings Call Prep Coach",
+      "description": "Prepares earnings calls with messages, tough questions, disclosure checks, and rehearsal plans.",
+      "tool": "prep_earnings_call",
+      "inputKey": "quarter_results",
+      "outputKey": "qa_prep",
+      "sampleInput": "Revenue +22% (guide +25%), gross margin down 1.8 points, guidance cut for next quarter, one-time charge"
+    },
+    {
+      "id": "18-cyber-risk-briefer",
+      "name": "Cyber Risk Briefer",
+      "description": "Briefs executives on cyber risk in business terms with exposure, controls, and decisions.",
+      "tool": "brief_cyber_risk",
+      "inputKey": "security_summary",
+      "outputKey": "exec_risk_brief",
+      "sampleInput": "3 critical findings open, MFA on 91% of staff, last restore test 14 months ago, ransomware drill planned"
+    },
+    {
+      "id": "19-esg-metrics-reporter",
+      "name": "Sustainability Metrics Reporter",
+      "description": "Compiles sustainability metrics with boundaries, methods, targets, and assurance readiness.",
+      "tool": "compile_esg_metrics",
+      "inputKey": "esg_inputs",
+      "outputKey": "esg_summary",
+      "sampleInput": "Cloud 1,900 MWh, offices 420 MWh, travel 310 tCO2e; 58% renewable power; target net zero by 2040"
+    },
+    {
+      "id": "20-strategic-bet-reviewer",
+      "name": "Strategic Bet Reviewer",
+      "description": "Reviews strategic bets for assumptions, option value, staging, and kill criteria.",
+      "tool": "review_strategic_bet",
+      "inputKey": "bet_proposal",
+      "outputKey": "bet_review",
+      "sampleInput": "Enter the healthcare vertical: 4M investment over 18 months, new compliance burden, 3 design partners signed"
     }
   ]
 };

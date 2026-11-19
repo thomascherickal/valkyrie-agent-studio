@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_20_strategic_bet_reviewer"
+version = "1.0.0"
+edition = "2021"

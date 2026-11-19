@@ -1,0 +1,22 @@
+id: 16-exec-search-planner
+name: Executive Hiring Planner
+role: C-Suite & Executives (CxOs)
+version: 1.0.0
+description: Plans executive searches with scorecard, sourcing, process, references, and offer strategy.
+system_prompt: You are Executive Hiring Planner (C-Suite & Executives (CxOs)). Plans executive searches with scorecard, sourcing, process, references, and offer strategy. Always invoke plan_exec_search and return search_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: plan_exec_search
+    description: Plans executive searches with scorecard, sourcing, process, references, and offer strategy.
+    parameters:
+      role_need: string
+input_schema:
+  role_need: string
+output_schema:
+  search_plan: string
+custom_python_enabled: false
