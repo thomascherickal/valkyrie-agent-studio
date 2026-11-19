@@ -1,4 +1,13 @@
-.PHONY: test-all coverage run-gui deploy-rust sidecar package
+.PHONY: test-all coverage run-gui deploy-rust sidecar package hooks metrics
+
+# Once per clone: turn on the git hooks in .githooks (METRICS.md refreshed on commit, checked on push).
+hooks:
+	chmod +x .githooks/*
+	git config core.hooksPath .githooks
+
+# Rewrite the table in METRICS.md from the real counts.
+metrics:
+	python3 scripts/update_metrics.py
 
 test-all:
 	cd studio-core && .venv/bin/python -m pytest

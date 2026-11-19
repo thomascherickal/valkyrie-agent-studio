@@ -47,6 +47,8 @@ Keep this file current. Tick what is done, add what you find, then pick up the n
 - [x] **Branches merged:** every branch is in `main` (PRs #7 to #12), including the project skills under `.claude/skills/`. Some of those skill files are over 200 lines (for example `validate-findings.cjs`); they are tooling, not project source.
 - [x] **OpenCode key checked:** the key in `.env` is valid (a wrong key gets 401, this one lists 41 models) but OpenCode answers HTTP 429 `FreeUsageLimitError` for every free model, and paid models answer 403 (model access disabled) or 402 (no balance). The chain falls through to OpenRouter, and the trace shows each attempt.
 
+- [x] **Git hooks enforce the tracking rule:** `.githooks/pre-commit` rewrites the `METRICS.md` table (`scripts/update_metrics.py`) and refuses a commit that does not include `NEXT-STEPS.md`; `.githooks/pre-push` refuses a push while the table is stale. `make hooks` turns them on (once per clone), `make metrics` rewrites the table by hand, `SKIP_TRACKING=1` skips them once.
+
 ## Recommended Next Steps
 1. **Needs the user: OpenCode free quota or credits.** The key works, but OpenCode's free quota is used up (HTTP 429) and the account has no credits. Wait for the free quota to reset, or top up credits and enable model access in the OpenCode console, then confirm that a forced Gemini failure is answered by an OpenCode free model.
 2. **Review the playbooks with the people who own each domain.** They are expert-written starting points. Thresholds and wording should be adjusted to each team's standards (the About tab lists what to add).
