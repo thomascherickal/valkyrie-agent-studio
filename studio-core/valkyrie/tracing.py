@@ -111,7 +111,7 @@ class Tracer:
         self.agent = agent
         self.started = time.perf_counter()
 
-    def step(self, stage: str, message: str, status: str = "info", **detail: Any) -> dict[str, Any]:
+    def step(self, stage: str, message: str, status: str = "info", /, **detail: Any) -> dict[str, Any]:
         elapsed = round((time.perf_counter() - self.started) * 1000, 1)
         return STORE.add(self.run, self.agent, stage, message, status, elapsed, redact(detail))
 
@@ -130,6 +130,9 @@ def traced_run(agent: str) -> Iterator[Tracer]:
         _CURRENT.reset(token)
 
 
-def step(stage: str, message: str, status: str = "info", **detail: Any) -> dict[str, Any]:
-    """Record a step in the current run, or under the run "system" when there is none (a button, not a run)."""
+def step(stage: str, message: str, status: str = "info", /, **detail: Any) -> dict[str, Any]:
+    """Record a step in the current run, or under the run "system" when there is none (a button, not a run).
+
+    The first three arguments are positional only, so a detail field may have any name (even stage, message or status).
+    """
     return (_CURRENT.get() or Tracer("system", run="system")).step(stage, message, status, **detail)

@@ -16,6 +16,7 @@ from valkyrie.env_file import load_env_file
 from valkyrie.ir_schema import load_ir_from_yaml
 from valkyrie.provider_routes import router as provider_router
 from valkyrie.run_routes import router as run_router
+from valkyrie.secrets_routes import router as secrets_router
 from valkyrie.storage import agents_dir
 from valkyrie.trace_routes import router as trace_router
 from valkyrie.rust_transpiler import transpile_ir_to_rust
@@ -39,6 +40,7 @@ app.add_middleware(
 app.include_router(command_centre_router)
 app.include_router(stream_router)
 app.include_router(provider_router)
+app.include_router(secrets_router)
 app.include_router(run_router)
 app.include_router(trace_router)
 app.include_router(agent_generator_router)

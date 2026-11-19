@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api/providers", tags=["providers"])
 KEY_VARS = {"gemini": "GEMINI_API_KEY", **{name: var for name, (_, var) in HOSTED_COMPAT.items()}}
 
 
-def _status() -> dict[str, object]:
+def status() -> dict[str, object]:
     router_ = LLMRouter()
     return {
         "env_file": env_file_path().name,
@@ -27,12 +27,12 @@ def _status() -> dict[str, object]:
 @router.get("")
 def providers() -> dict[str, object]:
     """For each provider: the variable that holds its key and whether a key is set (never its value)."""
-    return _status()
+    return status()
 
 
 @router.post("/reload")
 def reload_keys() -> dict[str, object]:
     """Re-read the .env file, so a key you just pasted is used without restarting the API."""
     changed = load_env_file()
-    tracing.step("providers.reload", ".env re-read from the Providers tab", names_changed=changed, providers=_status()["providers"])
-    return {**_status(), "changed": changed}
+    tracing.step("providers.reload", ".env re-read from the Providers tab", names_changed=changed, providers=status()["providers"])
+    return {**status(), "changed": changed}

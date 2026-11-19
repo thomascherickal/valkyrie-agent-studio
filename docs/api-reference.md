@@ -16,6 +16,10 @@ FastAPI application defined in `studio-core/valkyrie/api_server.py`. Routers liv
 | `GET/DELETE` | `/api/agents/custom`, `/api/agents/custom/{id}` | List saved custom agents, or delete one with its edits. |
 | `GET` | `/api/providers` | For each provider: the variable that holds its key and whether a key is set. Never returns a key. |
 | `POST` | `/api/providers/reload` | Re-reads `.env` so a pasted key is used without a restart. Returns the names that changed. |
+| `GET` | `/api/secrets` | Each provider's masked key (first 10 characters, then asterisks), chosen model and effort, the default provider, the fallback order, the `.env` path, and `simulated` (true when no key is set). Never returns a key. |
+| `PUT` | `/api/secrets/{provider}` | Save a `key` (empty removes it), a `model` or an `effort` (Gemini only) to `.env`. Returns the masked entry. `PUT /api/secrets/default-provider` sets the provider `model()` uses. |
+| `GET` | `/api/secrets/{provider}/models` | The model slugs the provider offers: live from its catalog (cached ten minutes), free models first; the built-in free models when it cannot be reached. |
+| `POST` | `/api/secrets/{provider}/test` | Test Key: one real request with the `key` in the body (or the saved key) and a `model`. Returns `{ok, status, ms, message, causes}`; `causes` lists the likely reasons when it failed. |
 | `GET/POST` | `/api/command-centre/traces`, `/start/{id}`, `/stop/{id}`, `/admin/stop-all` | Command Centre state and controls. |
 | `GET/DELETE` | `/api/trace/events?after=<id>&run=<run>` | The step-by-step trace: every step of every run and action, with secrets removed. `last_id` says where to continue. `DELETE` clears the pane's memory; the JSONL log file (`logs/trace.jsonl`, or `VALKYRIE_LOG_DIR`) is kept. |
 | `WS` | `/ws/trace?after=<id>` | Streams each new trace step as it happens, so the Command Centre trace log is live. |

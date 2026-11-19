@@ -14,6 +14,7 @@ import httpx
 from valkyrie import tracing
 from valkyrie.ir_schema import ModelConfig
 from valkyrie.llm_router import LLMResponse, LLMRouter
+from valkyrie.selection import chosen_model, selected_effort, selected_model
 
 # Free models, in the order they are tried. Override with a comma list in VALKYRIE_OPENCODE_MODELS or
 # VALKYRIE_OPENROUTER_MODELS. ponytail: static defaults; the catalogs change, so keep them in step with the live lists.
@@ -39,13 +40,14 @@ def free_models(provider: str) -> tuple[str, ...]:
 
 
 def candidates(primary: ModelConfig) -> list[ModelConfig]:
-    """The configurations to try, in order: your choice first, then the rest of the chain with free models."""
+    """The configurations to try, in order: your choice first, then the rest of the chain with your chosen or free models."""
     found = [primary]
     for provider in CHAIN:
-        if provider == "gemini":
-            found.append(primary.model_copy(update={"provider": "gemini", "model": ModelConfig().model}))
-        else:
-            found.extend(primary.model_copy(update={"provider": provider, "model": m}) for m in free_models(provider))
+        if provider == "gemini":  # the model and effort chosen in the Secrets tab, else the defaults
+            found.append(primary.model_copy(update={"provider": "gemini", "model": selected_model("gemini"), "thinking_level": selected_effort(primary.thinking_level)}))
+        else:  # the model you chose comes first, then the free models
+            models = [m for m in (chosen_model(provider), *free_models(provider)) if m]
+            found.extend(primary.model_copy(update={"provider": provider, "model": m}) for m in models)
     seen: set[tuple[str, str]] = set()
     return [c for c in found if not ((c.provider, c.model) in seen or seen.add((c.provider, c.model)))]
 

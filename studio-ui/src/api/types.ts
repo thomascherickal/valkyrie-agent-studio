@@ -161,3 +161,5 @@ export interface Trace {
   state: string;
   steps: string[];
 }
+
+export type * from "./secretTypes";

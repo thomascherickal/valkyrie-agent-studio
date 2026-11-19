@@ -17,7 +17,7 @@ describe("App modes and tabs", () => {
     expect(tabs()).toEqual(["Run", "About this agent", "Create agent"]);
     expect(screen.getAllByRole("option", { name: /Beginner|Intermediate|Advanced/ }).map((o) => o.textContent)).toEqual(["Beginner", "Advanced"]);
     mode("advanced");
-    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python", "Providers"]);
+    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python", "Secrets"]);
     fireEvent.click(screen.getByText("Python"));
     expect(screen.getByLabelText("Python Source")).toBeTruthy();
     mode("beginner");
