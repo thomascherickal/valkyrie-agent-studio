@@ -10,6 +10,7 @@ def _custom_agents_in_tmp(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> No
     """Created agents are saved to disk, so tests must never write into the repo."""
     monkeypatch.setenv("VALKYRIE_CUSTOM_DIR", str(tmp_path / "custom-agents"))
     monkeypatch.setenv("VALKYRIE_EDITS_DIR", str(tmp_path / "agent-edits"))
+    monkeypatch.setenv("VALKYRIE_LOG_DIR", str(tmp_path / "logs"))
     # The API loads this file at startup. Point it at nothing so a real .env never leaks into tests.
     monkeypatch.setenv("VALKYRIE_ENV_FILE", str(tmp_path / "no-such.env"))
 

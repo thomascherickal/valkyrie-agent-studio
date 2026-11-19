@@ -8,6 +8,11 @@ afterEach(() => vi.unstubAllGlobals());
 const status = (keySet: boolean[], changed?: string[]) => ({
   env_file: ".env",
   providers: ["gemini", "openrouter", "opencode"].map((id, i) => ({ id, env_var: `${id.toUpperCase()}_API_KEY`, key_set: keySet[i] })),
+  fallback: [
+    { provider: "gemini", models: ["gemini-4-hydrogen"] },
+    { provider: "opencode", models: ["big-pickle", "mimo-free"] },
+    { provider: "openrouter", models: ["openrouter/free"] },
+  ],
   ...(changed && { changed }),
 });
 
@@ -18,6 +23,7 @@ describe("ProvidersPanel", () => {
     render(<ProvidersPanel />);
     await screen.findByText("OPENROUTER_API_KEY");
     expect(screen.getAllByText("no key")).toHaveLength(3);
+    expect(screen.getByRole("list", { name: "Fallback order" }).textContent).toBe("gemini: gemini-4-hydrogenopencode: big-pickle, mimo-freeopenrouter: openrouter/free");
     keys = [true, false, false];
     fireEvent.click(screen.getByRole("button", { name: "Reload .env" }));
     await screen.findByText("Updated: GEMINI_API_KEY.");

@@ -32,6 +32,9 @@ def test_providers_report_which_keys_are_set_without_revealing_them(monkeypatch:
     assert [(p["id"], p["env_var"], p["key_set"]) for p in body["providers"]] == [
         ("gemini", "GEMINI_API_KEY", False), ("openrouter", "OPENROUTER_API_KEY", False), ("opencode", "OPENCODE_API_KEY", False),
     ]
+    assert [(f["provider"], f["models"][0]) for f in body["fallback"]] == [
+        ("gemini", "gemini-4-hydrogen"), ("opencode", "big-pickle"), ("openrouter", "openrouter/free"),
+    ]
     env = tmp_path / "keys.env"
     env.write_text("OPENCODE_API_KEY=secret-value\n")
     monkeypatch.setenv("VALKYRIE_ENV_FILE", str(env))

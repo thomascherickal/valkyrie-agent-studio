@@ -114,6 +114,8 @@ export interface ProviderStatus {
 export interface Providers {
   env_file: string;
   providers: ProviderStatus[];
+  /** The order a run falls back in, with the models each provider tries (free models for the hosted fallbacks). */
+  fallback: { provider: string; models: string[] }[];
   changed?: string[];
 }
 
@@ -136,6 +138,20 @@ export interface GeneratedBundle {
   test_agent_py: string;
   agent_md: string;
   main_rs: string;
+}
+
+/** One recorded step of a run (or of a button press, under the run "system"). Secrets are already removed. */
+export interface TraceEvent {
+  id: number;
+  at: string;
+  run: string;
+  agent: string;
+  stage: string;
+  message: string;
+  status: "info" | "ok" | "warn" | "error";
+  /** Milliseconds since the run started. */
+  ms: number;
+  detail: Record<string, unknown>;
 }
 
 export interface Trace {

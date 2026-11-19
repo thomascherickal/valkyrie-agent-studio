@@ -4,6 +4,7 @@ import type { Problem } from "../api/types";
 import { useAsync } from "../hooks/useAsync";
 import { useTraceStream } from "../hooks/useTraceStream";
 import { AsyncNotice } from "./AsyncNotice";
+import { TraceLog } from "./TraceLog";
 
 // Module scope keeps the function identity stable, so useAsync's `run` does not change between renders.
 const refresh = async (action?: () => Promise<unknown>) => {
@@ -56,6 +57,7 @@ export function TracePanel({ agentId, online, problems, onClearProblems }: Trace
           </>
         )}
       </section>
+      <TraceLog online={online} />
       <AsyncNotice state={state} working="Loading traces…" />
       {traces && traces.length === 0 && <p className="empty">No agents have run yet.</p>}
       {traces && (

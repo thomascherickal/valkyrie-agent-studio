@@ -1,0 +1,84 @@
+/* Trace log: every step of every run in the Command Centre, newest first. */
+.trace-log h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.trace-log .actions {
+  align-items: end;
+}
+
+.trace-log .actions label {
+  display: grid;
+  gap: 0.15rem;
+  font-size: 0.8rem;
+}
+
+.steps-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 32rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.steps-list > li {
+  display: block;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+
+.steps-list > li[data-status="ok"] {
+  border-left-color: var(--ok);
+}
+
+.steps-list > li[data-status="warn"] {
+  border-left-color: var(--accent);
+}
+
+.steps-list > li[data-status="error"] {
+  border-left-color: var(--danger);
+}
+
+.step summary {
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.step .ms {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.step .badge[data-status="ok"] {
+  color: var(--ok);
+}
+
+.step .badge[data-status="warn"] {
+  color: var(--accent);
+}
+
+.step .badge[data-status="error"] {
+  color: var(--danger);
+}
+
+.step pre {
+  margin: 0.4rem 0 0;
+  padding: 0.5rem;
+  max-height: 16rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

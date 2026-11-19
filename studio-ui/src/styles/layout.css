@@ -4,7 +4,7 @@
   height: 100%;
   grid-template:
     "bar bar bar" auto
-    "browser main traces" minmax(0, 1fr) / 17rem minmax(0, 1fr) 21rem;
+    "browser main traces" minmax(0, 1fr) / 17rem minmax(0, 1fr) 30rem;
 }
 
 .titlebar {

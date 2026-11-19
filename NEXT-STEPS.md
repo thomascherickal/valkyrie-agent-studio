@@ -3,9 +3,9 @@
 Keep this file current. Tick what is done, add what you find, then pick up the next open step that does not need the user (see "Autonomous Delivery" in `CLAUDE.md`).
 
 ## Verification Checklist (All Green)
-- [x] `studio-core`: `pytest` (85 passed, 100.00% branch & statement coverage).
+- [x] `studio-core`: `pytest` (114 passed, 100.00% branch & statement coverage).
 - [x] `command-centre`: `pytest` (1 passed, 100.00% branch & statement coverage).
-- [x] `studio-ui`: `npm run desktop:build` (Vite + Tauri v2 Rust Shell) + `vitest run --coverage` (134 tests, 100% statements, branches, functions, lines).
+- [x] `studio-ui`: `npm run desktop:build` (Vite + Tauri v2 Rust Shell) + `vitest run --coverage` (145 tests, 100% statements, branches, functions, lines).
 - [x] `Cargo.toml` workspace: `cargo test --workspace` (242 crates: `rust-runtime-template`, `valkyrie-studio-tauri`, and 240 agent crates).
 - [x] `valkyrie-studio-tauri`: end-to-end API start/stop, `cargo test -p valkyrie-studio-tauri -- --ignored` (needs `studio-core/.venv`).
 - [x] `agents/`: 12 roles × 20 focused agents = 240 blueprints with `ROLE.md`, `AGENT.md`, `agent.ir.yaml`, `agent.py`, `test_agent.py`, `sample_data.json`, `demo.svg`, and `rust/`. All 240 also have a playbook and three generated Python versions, and all 720 are run in the sandbox by a test.
@@ -38,7 +38,11 @@ Keep this file current. Tick what is done, add what you find, then pick up the n
 
 - [x] **20 agents per role:** ids 11 to 20 of every role (120 new agents) have the same files, playbook (data fields, five guidance sections, formulas with no hidden constants) and profile as the first ten. Playbooks and profiles now live in per-role packages (`playbooks/roleNN/core.py` and `extra.py`, `profiles/roleNN.py`), and a test keeps the UI catalog, `ROLE.md` and the `agents/` folders in step.
 
+- [x] **Provider fallback:** a run asks Gemini first, then OpenCode free models (`big-pickle`, `deepseek-v4.1-flash-free`, `mimo-v2.6-flash-free`), then OpenRouter free models (`openrouter/free`, `google/gemma-4-31b-it:free`). Providers with no key are skipped, an empty or failed answer moves on, and all-failed returns 502 with each reason. The Hybrid `model()` helper uses the same chain. Override the lists with `VALKYRIE_OPENCODE_MODELS` and `VALKYRIE_OPENROUTER_MODELS`.
+- [x] **Full step tracing:** every run and every action is recorded step by step (`tracing.py`), kept in memory, appended to `logs/trace.jsonl`, streamed over `/ws/trace` and shown in the Command Centre **Trace log** with run and status filters, expandable detail, copy and clear. Keys are redacted before anything is stored or sent.
+- [x] **Live provider check (Gemini and OpenRouter):** verified with the saved keys. It found and fixed a real bug: the Gemini request carried `thinking_level` and `reasoning_effort` as top-level fields, which the API rejects (HTTP 400); the level now goes in `generationConfig.thinkingConfig`, and Gemini's key travels in a header instead of the URL. A Hybrid run now uses the real model and its review step passes.
+
 ## Recommended Next Steps
-1. **Needs the user: live provider check.** `.env` has empty placeholders for `GEMINI_API_KEY`, `OPENROUTER_API_KEY` and `OPENCODE_API_KEY`. Paste a Gemini key after the `=`, reload keys in the Providers tab, then run Hybrid once. Confirm the OpenCode endpoint (`https://opencode.ai/zen/v1`) and a free Model ID for OpenRouter and OpenCode. No live call has been made to any hosted provider.
+1. **Needs the user: an OpenCode key.** Gemini and OpenRouter are verified live. OpenCode's free models answer HTTP 429 (free usage limit) without a key, so the OpenCode fallback is skipped until `OPENCODE_API_KEY` is set in `.env`. Paste one, press Reload .env in the Providers tab, and confirm that a forced Gemini failure falls back to an OpenCode free model.
 2. **Review the playbooks with the people who own each domain.** They are expert-written starting points. Thresholds and wording should be adjusted to each team's standards (the About tab lists what to add).
 3. **Bundle the API for installers.** The auto-start finds the repo at compile time, so it works for `desktop:start` and dev builds only. A packaged installer needs the API shipped as a Tauri sidecar (for example a PyInstaller binary). PyInstaller is not installed in `studio-core/.venv`.

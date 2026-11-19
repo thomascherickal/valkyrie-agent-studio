@@ -63,7 +63,8 @@ def test_server_model_does_nothing_without_a_key_and_uses_the_provider_with_one(
 
     def fake(self: LLMRouter, config, system: str, prompt: str) -> SimpleNamespace:  # noqa: ANN001
         seen.append((config.provider, config.model))
-        return SimpleNamespace(content="written by a model")
+        return SimpleNamespace(content="written by a model", provider=config.provider, model=config.model, input_tokens=1,
+                               output_tokens=1, cost_usd=0.0)
 
     monkeypatch.setattr(LLMRouter, "invoke", fake)
     monkeypatch.setenv("GEMINI_API_KEY", "k")
@@ -97,3 +98,19 @@ def test_blank_fields_are_read_from_the_pasted_text_and_supplied_data_wins() -> 
     assert run_custom_python(code, {spec.input_key: "Backlog item: SSO"}).output["completeness"] == 0.0
     own = run_custom_python(code, {spec.input_key: text, "reach": "100"}).output
     assert own["metrics"] != res["metrics"]
+
+
+def test_model_returns_none_and_traces_why_when_no_provider_answers(monkeypatch: pytest.MonkeyPatch) -> None:
+    from valkyrie import model_helper
+    from valkyrie.fallback import AllProvidersFailed
+    from valkyrie.tracing import STORE
+
+    def boom(*args: object) -> None:
+        raise AllProvidersFailed([{"provider": "gemini", "model": "m", "error": "HTTP 500"}])
+
+    STORE.clear()
+    monkeypatch.setenv("GEMINI_API_KEY", "k")
+    monkeypatch.setattr(model_helper, "invoke_with_fallback", boom)
+    assert server_model("my prompt") is None
+    assert [(e["stage"], e["status"]) for e in STORE.since()] == [("model.call", "info"), ("model.none", "warn")]
+    assert STORE.since()[0]["detail"]["prompt"] == "my prompt"

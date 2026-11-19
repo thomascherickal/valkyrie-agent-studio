@@ -30,6 +30,19 @@ export function ProvidersPanel() {
           ))}
         </ul>
       )}
+      {latest && (
+        <>
+          <h3>If a provider fails, the next one answers</h3>
+          <ol aria-label="Fallback order">
+            {latest.fallback.map((f) => (
+              <li key={f.provider}>
+                <strong>{f.provider}</strong>: {f.models.join(", ")}
+              </li>
+            ))}
+          </ol>
+          <p className="hint">OpenCode and OpenRouter use their free models. A provider with no key is skipped, and every step is shown in the Command Centre trace log.</p>
+        </>
+      )}
       <div className="actions">
         <button type="button" className="primary" disabled={reload.state.kind === "loading"} onClick={() => reload.run()}>
           Reload .env

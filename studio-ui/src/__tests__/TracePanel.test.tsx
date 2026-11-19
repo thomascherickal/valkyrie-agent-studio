@@ -1,9 +1,10 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Problem } from "../api/types";
 import { TracePanel } from "../components/TracePanel";
-import { fail, ok, stubFetch } from "./helpers";
+import { fail, ok, silentSocket, stubTraces } from "./helpers";
 
+beforeEach(silentSocket);
 afterEach(() => vi.unstubAllGlobals());
 
 const none: Problem[] = [];
@@ -12,7 +13,7 @@ const props = { agentId: "ag", problems: none, onClearProblems: () => {} };
 describe("TracePanel", () => {
   it("shows empty message, then traces, and actions POST then refresh", async () => {
     let traces: unknown[] = [];
-    const f = stubFetch((p) => (p.endsWith("/traces") ? ok({ traces }) : ok({})));
+    const f = stubTraces((p) => (p.endsWith("/traces") ? ok({ traces }) : ok({})));
     render(<TracePanel {...props} online />);
     await screen.findByText("No agents have run yet.");
     traces = [{ agent_id: "ag", state: "running", steps: ["a", "b"] }];
@@ -31,16 +32,16 @@ describe("TracePanel", () => {
   });
   it("reloads when the API comes online", async () => {
     let up = false;
-    const f = stubFetch(() => (up ? ok({ traces: [{ agent_id: "ag", state: "running", steps: ["x"] }] }) : fail(500)));
+    const f = stubTraces(() => (up ? ok({ traces: [{ agent_id: "ag", state: "running", steps: ["x"] }] }) : fail(500)));
     const { rerender } = render(<TracePanel {...props} online={false} />);
     await screen.findByRole("alert");
     up = true;
     rerender(<TracePanel {...props} online />);
     await screen.findByText("x");
-    expect(f).toHaveBeenCalledTimes(2);
+    expect(f.mock.calls.filter(([url]) => url.endsWith("/traces"))).toHaveLength(2);
   });
   it("shows errors", async () => {
-    stubFetch(() => fail(500));
+    stubTraces(() => fail(500));
     render(<TracePanel {...props} online />);
     await screen.findByRole("alert");
   });
@@ -52,7 +53,7 @@ describe("TracePanel problems", () => {
   const section = () => within(screen.getByRole("region", { name: "Problems" }));
 
   it("says there are none, with a zero count and no Clear button", async () => {
-    stubFetch(() => ok({ traces: [] }));
+    stubTraces(() => ok({ traces: [] }));
     render(<TracePanel {...props} online />);
     expect(section().getByText("No errors from checking, saving or running.")).toBeTruthy();
     expect(section().getByRole("heading").textContent).toBe("Problems 0");
@@ -60,7 +61,7 @@ describe("TracePanel problems", () => {
     await screen.findByText("No agents have run yet.");
   });
   it("lists each problem with its stage, agent, implementation, time and message, and clears them", async () => {
-    stubFetch(() => ok({ traces: [] }));
+    stubTraces(() => ok({ traces: [] }));
     const onClear = vi.fn();
     render(<TracePanel {...props} online problems={[problem(2, "check", "line 3 bad"), problem(1, "save", "not allowed")]} onClearProblems={onClear} />);
     expect(section().getByRole("heading").textContent).toBe("Problems 2");

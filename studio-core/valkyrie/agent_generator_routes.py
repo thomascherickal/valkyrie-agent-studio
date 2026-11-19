@@ -8,6 +8,7 @@ import re
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
+from valkyrie import tracing
 from valkyrie.agent_generator import generate_agent_from_english, write_generated_agent
 from valkyrie.ir_schema import load_ir_from_yaml
 from valkyrie.storage import custom_agents_dir, delete_custom_agent, drop_custom_edits
@@ -31,6 +32,7 @@ def create_agent_from_prompt(req: CreateFromPromptRequest) -> dict[str, object]:
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     write_generated_agent(bundle, custom_agents_dir())
+    tracing.step("agent.create", f"created custom agent {bundle.agent_id}", agent_id=bundle.agent_id, name=bundle.name)
     drop_custom_edits(bundle.agent_id)  # a regenerated agent starts from its new original, not an old edit
     return asdict(bundle)
 
@@ -52,4 +54,5 @@ def delete_agent(agent_id: str) -> dict[str, str]:
         raise HTTPException(status_code=400, detail="Invalid agent id")
     if not delete_custom_agent(agent_id):
         raise HTTPException(status_code=404, detail=f"No custom agent {agent_id}")
+    tracing.step("agent.delete", f"deleted custom agent {agent_id}", agent_id=agent_id)
     return {"deleted": agent_id}

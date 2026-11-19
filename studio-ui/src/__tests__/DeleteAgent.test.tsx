@@ -69,7 +69,7 @@ describe("deleting a created agent in the app", () => {
     expect(screen.getByRole("heading", { name: "Gen Agent" })).toBeTruthy();
   });
   it("shows the Providers tab only at Advanced", () => {
-    stubFetch((p, init) => (p === "/api/providers" ? ok({ env_file: ".env", providers: [] }) : appRoutes(p, init)));
+    stubFetch((p, init) => (p === "/api/providers" ? ok({ env_file: ".env", providers: [], fallback: [] }) : appRoutes(p, init)));
     mount();
     expect(screen.queryByRole("tab", { name: "Providers" })).toBeNull();
     fireEvent.change(screen.getByLabelText("Experience Mode"), { target: { value: "advanced" } });
