@@ -38,7 +38,6 @@ export function Titlebar({ health, theme, onTheme, mode, onMode, onDeploy, gaveU
         Experience
         <select aria-label="Experience Mode" value={mode} onChange={(e) => onMode(e.target.value as ExperienceMode)}>
           <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
           <option value="advanced">Advanced</option>
         </select>
       </label>

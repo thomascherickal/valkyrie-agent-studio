@@ -15,14 +15,14 @@ describe("App modes and tabs", () => {
     stubFetch(appRoutes);
     mount();
     expect(tabs()).toEqual(["Run", "About this agent", "Create agent"]);
-    mode("intermediate");
-    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python"]);
+    expect(screen.getAllByRole("option", { name: /Beginner|Intermediate|Advanced/ }).map((o) => o.textContent)).toEqual(["Beginner", "Advanced"]);
+    mode("advanced");
+    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python", "Providers"]);
     fireEvent.click(screen.getByText("Python"));
     expect(screen.getByLabelText("Python Source")).toBeTruthy();
     mode("beginner");
     expect(screen.getByRole("button", { name: "Run agent" })).toBeTruthy();
     mode("advanced");
-    expect(tabs()).toEqual(["Run", "About this agent", "Create agent", "Design", "Python", "Providers"]);
     fireEvent.click(screen.getByText("Design"));
     fireEvent.change(screen.getByLabelText("System Prompt"), { target: { value: "custom" } });
     expect((screen.getByLabelText("System Prompt") as HTMLTextAreaElement).value).toBe("custom");
@@ -52,7 +52,7 @@ describe("App flow", () => {
   it("selecting an agent resets the draft", () => {
     stubFetch(appRoutes);
     mount();
-    mode("intermediate");
+    mode("advanced");
     fireEvent.click(screen.getByText("Design"));
     fireEvent.change(screen.getByLabelText("System Prompt"), { target: { value: "edited" } });
     const other = screen.getAllByRole("button").find((b) => b.getAttribute("aria-current") === "false")!;

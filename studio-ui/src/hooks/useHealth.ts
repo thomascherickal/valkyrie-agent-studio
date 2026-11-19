@@ -4,7 +4,7 @@ import { useAsync } from "./useAsync";
 
 export const HEALTH_RETRY_MS = 1500;
 export const HEALTH_MAX_DELAY_MS = 15000;
-export const HEALTH_MAX_TRIES = 12;
+export const HEALTH_MAX_TRIES = 3;
 
 /** Wait before retry number `tries` (0 is the first): 1.5 s, 3 s, 6 s, 12 s, then 15 s at most. */
 export const retryDelay = (tries: number) => Math.min(HEALTH_RETRY_MS * 2 ** tries, HEALTH_MAX_DELAY_MS);

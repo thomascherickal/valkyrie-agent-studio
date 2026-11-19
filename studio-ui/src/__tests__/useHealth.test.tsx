@@ -18,7 +18,8 @@ describe("health retry", () => {
   it("waits longer after each failure, up to a cap", () => {
     expect([0, 1, 2, 3].map(retryDelay)).toEqual([1500, 3000, 6000, 12000]);
     expect(retryDelay(4)).toBe(HEALTH_MAX_DELAY_MS);
-    expect(retryDelay(HEALTH_MAX_TRIES)).toBe(HEALTH_MAX_DELAY_MS);
+    expect(retryDelay(10)).toBe(HEALTH_MAX_DELAY_MS);
+    expect(HEALTH_MAX_TRIES).toBe(3); // the studio stops after three retries
   });
   it("stops after the cap, offers Retry, and starts over once the API is back", async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
