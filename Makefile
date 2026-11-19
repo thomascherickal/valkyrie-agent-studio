@@ -1,9 +1,13 @@
-.PHONY: test-all coverage run-gui deploy-rust sidecar package hooks metrics
+.PHONY: test-all coverage run-gui deploy-rust sidecar package hooks metrics clean-worktrees
 
 # Once per clone: turn on the git hooks in .githooks (METRICS.md refreshed on commit, checked on push).
 hooks:
 	chmod +x .githooks/*
 	git config core.hooksPath .githooks
+
+# Remove stale worktrees (folder gone) and local branches already merged into main. Add DRY=1 to only list them.
+clean-worktrees:
+	python3 scripts/clean_worktrees.py $(if $(DRY),--dry-run,)
 
 # Rewrite the table in METRICS.md from the real counts.
 metrics:
