@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_17_known_issue_matcher"
+version = "1.0.0"
+edition = "2021"

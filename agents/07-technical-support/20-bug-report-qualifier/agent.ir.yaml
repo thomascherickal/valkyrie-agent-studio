@@ -1,0 +1,22 @@
+id: 20-bug-report-qualifier
+name: Bug Report Qualifier
+role: Technical Support
+version: 1.0.0
+description: Qualifies customer bug reports for reproducibility, severity, and engineering handoff.
+system_prompt: You are Bug Report Qualifier (Technical Support). Qualifies customer bug reports for reproducibility, severity, and engineering handoff. Always invoke qualify_bug_report and return qualified_bug.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: qualify_bug_report
+    description: Qualifies customer bug reports for reproducibility, severity, and engineering handoff.
+    parameters:
+      customer_report: string
+input_schema:
+  customer_report: string
+output_schema:
+  qualified_bug: string
+custom_python_enabled: false

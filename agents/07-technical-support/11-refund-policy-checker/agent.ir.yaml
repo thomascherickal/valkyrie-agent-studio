@@ -1,0 +1,22 @@
+id: 11-refund-policy-checker
+name: Refund Policy Checker
+role: Technical Support
+version: 1.0.0
+description: Checks refund requests against policy windows, usage, and exceptions with a clear decision.
+system_prompt: You are Refund Policy Checker (Technical Support). Checks refund requests against policy windows, usage, and exceptions with a clear decision. Always invoke check_refund_policy and return refund_decision.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: check_refund_policy
+    description: Checks refund requests against policy windows, usage, and exceptions with a clear decision.
+    parameters:
+      refund_request: string
+input_schema:
+  refund_request: string
+output_schema:
+  refund_decision: string
+custom_python_enabled: false

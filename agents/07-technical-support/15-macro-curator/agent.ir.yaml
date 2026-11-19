@@ -1,0 +1,22 @@
+id: 15-macro-curator
+name: Support Macro Curator
+role: Technical Support
+version: 1.0.0
+description: Curates support macros by usage, quality, and outcome, and retires stale ones.
+system_prompt: You are Support Macro Curator (Technical Support). Curates support macros by usage, quality, and outcome, and retires stale ones. Always invoke curate_macros and return macro_plan.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: curate_macros
+    description: Curates support macros by usage, quality, and outcome, and retires stale ones.
+    parameters:
+      macro_usage: string
+input_schema:
+  macro_usage: string
+output_schema:
+  macro_plan: string
+custom_python_enabled: false

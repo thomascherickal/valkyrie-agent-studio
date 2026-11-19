@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_12_support_reply_drafter"
+version = "1.0.0"
+edition = "2021"

@@ -1,0 +1,22 @@
+id: 16-csat-feedback-analyst
+name: CSAT Feedback Analyst
+role: Technical Support
+version: 1.0.0
+description: Analyzes CSAT scores and comments for themes, drivers, and agent coaching signals.
+system_prompt: You are CSAT Feedback Analyst (Technical Support). Analyzes CSAT scores and comments for themes, drivers, and agent coaching signals. Always invoke analyze_csat and return csat_insights.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: analyze_csat
+    description: Analyzes CSAT scores and comments for themes, drivers, and agent coaching signals.
+    parameters:
+      csat_comments: string
+input_schema:
+  csat_comments: string
+output_schema:
+  csat_insights: string
+custom_python_enabled: false

@@ -1,0 +1,4 @@
+[package]
+name = "valkyrie_14_outage_comms_writer"
+version = "1.0.0"
+edition = "2021"
