@@ -3,9 +3,9 @@
 ## Test Coverage & Build Gate
 | Component | Test Suite / Build | Coverage | Status |
 | :--- | :--- | :--- | :--- |
-| `studio-core` (Python) | `pytest` (168 passed) | 100.00% (stmts and branches) | Green |
+| `studio-core` (Python) | `pytest` (183 passed) | 100.00% (stmts and branches) | Green |
 | `command-centre` (Python) | `pytest` (1 passed) | 100.00% (40 stmts, 6 branches) | Green |
-| `studio-ui` (TypeScript + Tauri v2) | `desktop:build` + `vitest` (156 passed, 37 files) | 100.00% (stmts, branch, funcs, lines) | Green |
+| `studio-ui` (TypeScript + Tauri v2) | `desktop:build` + `vitest` (168 passed, 38 files) | 100.00% (stmts, branch, funcs, lines) | Green |
 | `Cargo.toml` Workspace (Rust) | `cargo test --workspace` (242 crates incl. `valkyrie-studio-tauri`, 12 shell tests) | 100.00% | Green |
 | `agents/` (12 Roles × 20) | 240 focused Python + 240 Rust crates; 240 playbooks; all 720 generated Python versions run in the sandbox with only their example data; the UI catalog and `agents/` folders are checked against each other | 100% populated & verified | Green |
 
@@ -14,9 +14,9 @@
 
 | Language | Source Files | Total Lines |
 | :--- | ---: | ---: |
-| Python | 606 | 16,795 |
-| Markdown | 307 | 11,299 |
-| TypeScript (`.ts`/`.tsx`) | 89 | 6,688 |
+| Python | 611 | 17,161 |
+| Markdown | 307 | 11,308 |
+| TypeScript (`.ts`/`.tsx`) | 93 | 7,075 |
 | Rust | 248 | 5,769 |
 | YAML | 241 | 5,301 |
 | JSON | 247 | 1,275 |
@@ -24,4 +24,4 @@
 | CSS | 7 | 682 |
 | SVG | 240 | 242 |
 | HTML | 1 | 20 |
-| **Total** | **2,231** | **49,133** |
+| **Total** | **2,240** | **49,895** |

@@ -21,6 +21,9 @@
 - **Beginner Mode:** Visual Agent Builder, 240-Agent Role Tree, Focused Tool & Demo Preview, Subscription Switcher, and Sandbox Console.
 - **Advanced Mode:** Unlocks the **Design** and **Python** tabs (bespoke `run_agent(payload)` logic) and adds the **Secrets** tab: a masked key field, model and effort drop downs and a Test Key button for Gemini, OpenRouter and OpenCode, the default provider, the fallback order, and Reload .env.
 
+## Deploy to Rust
+**Deploy to Rust** first opens a verification box. Every Python version of the agent is compiled and run on six kinds of input, and the box lists any problem by version, input and line. Problems block the deploy. When all versions pass, a warning explains that the Rust crate is built from the agent's definition, not from its Python, and you can **Continue and deploy to Rust**, or **Save verified agent…**: a second box asks for a name and saves a verified copy (with your edits) under Custom Agents.
+
 ## Command Centre
 The right-hand pane has Start, Stop and Stop all, a **Problems** list, the agent traces, and the **Trace log**:
 - Every step of every run appears live, newest first: time since the run started, status (info, ok, warn, error), stage and message. Click a step to open its full recorded detail (the payload, the code size, each provider attempt and its error, token counts, the model's answer, the checks).

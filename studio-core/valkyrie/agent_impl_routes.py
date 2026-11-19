@@ -84,6 +84,16 @@ def _meta(spec: AgentSpec) -> list[dict[str, object]]:
     return items
 
 
+def implementation_labels(spec: AgentSpec) -> list[tuple[str, str]]:
+    """(id, label) of every Python version of the agent: the built-in three, then the ones you saved."""
+    return [(str(m["id"]), str(m["label"])) for m in _meta(spec)]
+
+
+def code_of(spec: AgentSpec, impl: str) -> str:
+    """The code of one version: your saved edit, or the original."""
+    return str(_view(spec, impl)["code"])
+
+
 def resolve_code(role_id: str, agent_id: str, impl: str) -> str:
     """The code to run for an implementation: your saved edit, or the original. Used by Run."""
     return _view(_spec(role_id, agent_id), impl)["code"]  # type: ignore[return-value]

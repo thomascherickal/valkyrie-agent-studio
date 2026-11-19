@@ -39,6 +39,9 @@ def test_created_agents_are_saved_and_listed() -> None:
         "name": "Billing Watch",
         "description": "Summarize billing spikes",
         "tool": "run_billing_watch",
+        "input_key": "task_input",
+        "output_key": "result",
+        "sample": "Sample request for Billing Watch",
     }
     saved = custom_agents_dir() / "billing-watch"
     assert (saved / "agent.py").is_file() and (saved / "rust" / "src" / "main.rs").is_file()

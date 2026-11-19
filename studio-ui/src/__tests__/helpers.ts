@@ -38,6 +38,23 @@ export const modelCatalog = {
   models: [{ id: "big-pickle", label: "Big Pickle", free: true }, { id: "gpt-5", label: "GPT-5", free: false }], source: "live", note: "", efforts: [],
 };
 
+const check = (impl: string, label: string, problems: unknown[] = [], warnings: string[] = []) =>
+  ({ impl, label, ok: problems.length === 0, runs: 6, problems, warnings });
+const versions = [["rules", "Rules"], ["pipeline", "Pipeline"], ["hybrid", "Hybrid (model + rules)"]];
+/** What POST .../verify returns when every version passes. */
+export const verifyPass = { agent: "Gen Agent", ok: true, checks: versions.map(([i, l]) => check(i, l)), problem_count: 0, warning_count: 0 };
+export const verifyFail = {
+  agent: "Gen Agent", ok: false, problem_count: 2, warning_count: 0,
+  checks: [
+    check("rules", "Rules", [{ stage: "run", payload: "no data", message: "KeyError: 'x' (line 2)", line: 2 }, { stage: "blocked", payload: null, message: "Forbidden construct: open(", line: null }]),
+    check("pipeline", "Pipeline"), check("hybrid", "Hybrid (model + rules)"),
+  ],
+};
+export const verifiedAgent = {
+  id: "verified-copy", name: "Verified Copy", description: "Does things", tool: "do_things", input_key: "profile_stats", output_key: "port_blueprint",
+  sample: "a sample", role_id: "custom-agents", edits_copied: false,
+};
+
 export function polyfillDialog() {
   HTMLDialogElement.prototype.showModal = function () { this.setAttribute("open", ""); };
   HTMLDialogElement.prototype.close = function () { this.removeAttribute("open"); };
@@ -67,6 +84,8 @@ export function appRoutes(path: string, init?: RequestInit) {
   if (path === "/health") return ok(health);
   if (path === "/api/command-centre/traces") return ok({ traces: [] });
   if (path.startsWith("/api/trace/events")) return ok(noTraceEvents);
+  if (path.endsWith("/verify")) return ok(verifyPass);
+  if (path.endsWith("/save-verified")) return ok(verifiedAgent);
   if (path === "/api/secrets") return ok(secretsState);
   if (path.startsWith("/api/secrets/") && path.endsWith("/models")) return ok(modelCatalog);
   if (path === "/api/agents/run") return ok(llmRun);
