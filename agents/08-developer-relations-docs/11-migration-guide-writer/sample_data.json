@@ -1,0 +1,3 @@
+{
+  "breaking_changes": "v3 renames client.send() to client.request(), drops Python 3.8, and changes retries to opt-in"
+}

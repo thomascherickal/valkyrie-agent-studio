@@ -1,6 +1,6 @@
 # Developer Relations & Docs
 
-Developer Relations & Docs suite of 10 focused autonomous agents in Valkyrie AI Agent Studio.
+Developer Relations & Docs suite of 20 focused autonomous agents in Valkyrie AI Agent Studio.
 
 ## Engine Policy
 - **Default:** `gemini-4-hydrogen` (`thinking_level: low`, `high` optional per agent)
@@ -17,3 +17,13 @@ Developer Relations & Docs suite of 10 focused autonomous agents in Valkyrie AI 
 - `08-cfp-abstract-writer` — **CFP Abstract Writer**: Crafts sharp conference talk abstracts with concrete takeaways. (Tool: `polish_cfp_abstract`)
 - `09-hackathon-kit-builder` — **Hackathon Kit Builder**: Packages starter prompts, sample datasets, and judging rubrics. (Tool: `assemble_kit_manifest`)
 - `10-dev-survey-analyst` — **Dev Survey Analyst**: Quantifies DX friction points across onboarding, docs, and SDKs. (Tool: `summarize_dx_metrics`)
+- `11-migration-guide-writer` — **Migration Guide Writer**: Writes upgrade guides for breaking changes with before and after code and a safe order of steps. (Tool: `write_migration_guide`)
+- `12-error-reference-writer` — **Error Reference Writer**: Writes error reference pages with cause, fix, example, and links for each error code. (Tool: `write_error_reference`)
+- `13-api-example-tester` — **API Example Tester**: Plans automated testing of documentation code examples so they stay runnable. (Tool: `test_api_examples`)
+- `14-docs-ia-reviewer` — **Docs Information Architecture Reviewer**: Reviews documentation navigation, page types, and search paths against reader tasks. (Tool: `review_docs_ia`)
+- `15-devrel-metrics-reporter` — **DevRel Metrics Reporter**: Reports developer relations impact with activation, community, and content metrics tied to goals. (Tool: `report_devrel_metrics`)
+- `16-tech-blog-outliner` — **Technical Blog Outliner**: Outlines technical posts with a clear thesis, reader level, sections, and runnable proof. (Tool: `outline_tech_post`)
+- `17-webinar-planner` — **Developer Webinar Planner**: Plans developer webinars with topic, run of show, demo safety, promotion, and follow-up. (Tool: `plan_webinar`)
+- `18-sample-app-reviewer` — **Sample App Reviewer**: Reviews sample applications for clarity, security, correctness, and ease of running. (Tool: `review_sample_app`)
+- `19-contributing-guide-writer` — **OSS Contribution Guide Writer**: Writes contribution guides with setup, workflow, standards, and review expectations for open source projects. (Tool: `write_contributing_guide`)
+- `20-developer-journey-mapper` — **Developer Journey Mapper**: Maps the developer journey from discovery to production with friction, drop-off, and fixes. (Tool: `map_developer_journey`)

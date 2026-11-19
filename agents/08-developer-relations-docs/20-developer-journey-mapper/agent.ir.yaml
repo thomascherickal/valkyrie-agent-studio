@@ -1,0 +1,22 @@
+id: 20-developer-journey-mapper
+name: Developer Journey Mapper
+role: Developer Relations & Docs
+version: 1.0.0
+description: Maps the developer journey from discovery to production with friction, drop-off, and fixes.
+system_prompt: You are Developer Journey Mapper (Developer Relations & Docs). Maps the developer journey from discovery to production with friction, drop-off, and fixes. Always invoke map_developer_journey and return journey_map.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: map_developer_journey
+    description: Maps the developer journey from discovery to production with friction, drop-off, and fixes.
+    parameters:
+      journey_notes: string
+input_schema:
+  journey_notes: string
+output_schema:
+  journey_map: string
+custom_python_enabled: false

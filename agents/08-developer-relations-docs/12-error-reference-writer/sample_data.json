@@ -1,0 +1,3 @@
+{
+  "error_catalog": "E1042 rate_limit_exceeded: 429 when more than 600 requests per minute; E2001 invalid_signature: webhook hash mismatch"
+}

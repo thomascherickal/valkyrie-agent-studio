@@ -1,0 +1,22 @@
+id: 16-tech-blog-outliner
+name: Technical Blog Outliner
+role: Developer Relations & Docs
+version: 1.0.0
+description: Outlines technical posts with a clear thesis, reader level, sections, and runnable proof.
+system_prompt: You are Technical Blog Outliner (Developer Relations & Docs). Outlines technical posts with a clear thesis, reader level, sections, and runnable proof. Always invoke outline_tech_post and return post_outline.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: outline_tech_post
+    description: Outlines technical posts with a clear thesis, reader level, sections, and runnable proof.
+    parameters:
+      topic_brief: string
+input_schema:
+  topic_brief: string
+output_schema:
+  post_outline: string
+custom_python_enabled: false

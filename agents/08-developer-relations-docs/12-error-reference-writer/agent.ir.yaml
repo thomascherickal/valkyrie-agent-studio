@@ -1,0 +1,22 @@
+id: 12-error-reference-writer
+name: Error Reference Writer
+role: Developer Relations & Docs
+version: 1.0.0
+description: Writes error reference pages with cause, fix, example, and links for each error code.
+system_prompt: You are Error Reference Writer (Developer Relations & Docs). Writes error reference pages with cause, fix, example, and links for each error code. Always invoke write_error_reference and return error_reference.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: write_error_reference
+    description: Writes error reference pages with cause, fix, example, and links for each error code.
+    parameters:
+      error_catalog: string
+input_schema:
+  error_catalog: string
+output_schema:
+  error_reference: string
+custom_python_enabled: false

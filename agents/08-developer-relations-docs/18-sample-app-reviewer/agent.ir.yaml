@@ -1,0 +1,22 @@
+id: 18-sample-app-reviewer
+name: Sample App Reviewer
+role: Developer Relations & Docs
+version: 1.0.0
+description: Reviews sample applications for clarity, security, correctness, and ease of running.
+system_prompt: You are Sample App Reviewer (Developer Relations & Docs). Reviews sample applications for clarity, security, correctness, and ease of running. Always invoke review_sample_app and return sample_review.
+model_config_spec:
+  provider: gemini
+  model: gemini-4-hydrogen
+  thinking_level: low
+  temperature: 0.2
+  max_tokens: 4096
+tools:
+  - name: review_sample_app
+    description: Reviews sample applications for clarity, security, correctness, and ease of running.
+    parameters:
+      sample_readme: string
+input_schema:
+  sample_readme: string
+output_schema:
+  sample_review: string
+custom_python_enabled: false
