@@ -14,7 +14,7 @@ from typing import Any
 
 from valkyrie.impl_hybrid import TEMPLATE as HYBRID
 from valkyrie.impl_pipeline import TEMPLATE as PIPELINE
-from valkyrie.impl_profiles import PROFILES
+from valkyrie.profiles import PROFILES
 from valkyrie.impl_rules import TEMPLATE as RULES
 from valkyrie.ir_schema import load_ir_from_yaml
 from valkyrie.playbooks import PLAYBOOKS

@@ -11,7 +11,7 @@ from valkyrie.agent_impls import (
     parse_profile, playbook_for, render,
 )
 from valkyrie.impl_common import COMMON
-from valkyrie.impl_profiles import PROFILES
+from valkyrie.profiles import PROFILES
 from valkyrie.playbooks import PLAYBOOKS
 from valkyrie.python_runner import FORBIDDEN_TOKENS, run_custom_python
 
