@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { buildIr, deleteCustomAgent, deployRust, listCustomAgents } from "./api/client";
-import type { GeneratedBundle, Problem } from "./api/types";
+import type { GeneratedBundle, Problem, VerifiedAgent } from "./api/types";
 import { AboutPanel } from "./components/AboutPanel";
 import { AgentBrowser } from "./components/AgentBrowser";
 import { AgentSummary } from "./components/AgentSummary";
@@ -15,6 +15,7 @@ import { addCustomAgent, customBlueprint, draftFor, findAgent, MODEL, removeCust
 import { Tabs } from "./components/Tabs";
 import { Titlebar } from "./components/Titlebar";
 import { TracePanel } from "./components/TracePanel";
+import { VerifyDialog } from "./components/VerifyDialog";
 import { AGENT_CATALOG } from "./data/agentCatalog";
 import { useAsync } from "./hooks/useAsync";
 import { useHealth } from "./hooks/useHealth";
@@ -36,6 +37,7 @@ export function App() {
 
   const health = useHealth();
   const deploy = useAsync(deployRust);
+  const [verifying, setVerifying] = useState(false);
 
   // Agents created in earlier sessions come back from the API once it is online.
   const saved = useAsync(listCustomAgents);
@@ -72,6 +74,14 @@ export function App() {
     select(rest[0].id, rest[0].agents[0].id);
   };
 
+  // A verified copy is saved under Custom Agents: add it there and select it.
+  const onVerifiedSaved = (a: VerifiedAgent) => {
+    const created = customBlueprint(a);
+    setRoles((prev) => addCustomAgent(prev, created));
+    setSelection({ roleId: "custom-agents", agentId: created.id });
+    setDraft(draftFor(created));
+  };
+
   const onCreated = (b: GeneratedBundle) => {
     const created = customBlueprint({ id: b.agent_id, name: b.name, description: b.description, tool: b.tool_name });
     setRoles((prev) => addCustomAgent(prev, created));
@@ -89,7 +99,7 @@ export function App() {
         onTheme={setThemeMode}
         mode={mode}
         onMode={setMode}
-        onDeploy={() => deploy.run(ir)}
+        onDeploy={() => setVerifying(true)}
       />
       <AgentBrowser roles={roles} selectedAgentId={agent.id} onSelect={select} />
       <main className="workspace">
@@ -117,6 +127,15 @@ export function App() {
         </div>
       </main>
       <TracePanel agentId={agent.id} online={online} problems={problems} onClearProblems={() => setProblems([])} />
+      <VerifyDialog
+        open={verifying}
+        roleId={selection.roleId}
+        agentId={agent.id}
+        agentName={agent.name}
+        onClose={() => setVerifying(false)}
+        onDeploy={() => deploy.run(ir)}
+        onSaved={onVerifiedSaved}
+      />
       <DeployDialog state={deploy.state} onClose={deploy.reset} />
     </div>
   );

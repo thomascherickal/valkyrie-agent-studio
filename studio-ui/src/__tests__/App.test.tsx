@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { App, HEALTH_RETRY_MS } from "../App";
 import { ThemeProvider } from "../theme/ThemeProvider";
-import { appRoutes, fail, polyfillDialog, stubFetch } from "./helpers";
+import { appRoutes, fail, ok, polyfillDialog, stubFetch, verifyFail } from "./helpers";
 
 beforeAll(polyfillDialog);
 afterEach(() => vi.unstubAllGlobals());
@@ -67,9 +67,30 @@ describe("App flow", () => {
     await screen.findByText(/Created Gen Agent/);
     expect(screen.getByText("Custom Agents", { selector: "summary" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Gen Agent" })).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: "Deploy to Rust" }));
+    fireEvent.click(screen.getByRole("button", { name: "Deploy to Rust" })); // verification comes first
+    fireEvent.click(await screen.findByRole("button", { name: "Continue and deploy to Rust" }));
     await screen.findByText("Deployed to Rust: crate-x");
     fireEvent.click(screen.getByText("Close"));
-    await waitFor(() => expect(document.querySelector("dialog")!.open).toBe(false));
+    await waitFor(() => expect(Array.from(document.querySelectorAll("dialog")).every((d) => !d.open)).toBe(true));
+  });
+  it("a verified agent saved from the deploy box joins Custom Agents with its own input and is selected", async () => {
+    stubFetch(appRoutes);
+    mount();
+    fireEvent.click(screen.getByRole("button", { name: "Deploy to Rust" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Save verified agent…" }));
+    fireEvent.click(screen.getByRole("button", { name: "Save" }));
+    await screen.findByRole("heading", { name: "Verified Copy" });
+    expect(screen.getByText("Custom Agents", { selector: "summary" })).toBeTruthy();
+    expect(screen.getByText("profile_stats")).toBeTruthy(); // the copy keeps the original agent's input name
+    expect(screen.queryByText("Deployed to Rust: crate-x")).toBeNull(); // saving does not deploy
+    await waitFor(() => expect(Array.from(document.querySelectorAll("dialog")).every((d) => !d.open)).toBe(true));
+  });
+  it("a failed verification blocks the deploy and leaves the agent alone", async () => {
+    const f = stubFetch((p, init) => (p.endsWith("/verify") ? ok(verifyFail) : appRoutes(p, init)));
+    mount();
+    fireEvent.click(screen.getByRole("button", { name: "Deploy to Rust" }));
+    await screen.findByRole("list", { name: "Problems found" });
+    expect(screen.queryByRole("button", { name: "Continue and deploy to Rust" })).toBeNull();
+    expect(f.mock.calls.some(([url]) => String(url).endsWith("/deploy-rust"))).toBe(false);
   });
 });

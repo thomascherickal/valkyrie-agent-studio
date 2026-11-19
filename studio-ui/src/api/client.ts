@@ -21,6 +21,8 @@ import type {
   SecretsState,
   Trace,
   TraceEvent,
+  VerifiedAgent,
+  VerifyResult,
 } from "./types";
 
 export const DEFAULT_SETTINGS: ModelSettings = { provider: "gemini", thinkingLevel: DEFAULT_THINKING, hostedModel: "" };
@@ -120,6 +122,12 @@ export const stopAll = () => post<{ stopped: number }>("/api/command-centre/admi
 /** Steps recorded after event `after`, and the log file they are also written to. */
 export const listTraceEvents = (after: number) =>
   get<{ events: TraceEvent[]; last_id: number; log_file: string }>(`/api/trace/events?after=${after}`);
+/** Checks every Python version of the agent: syntax, blocked code, and runs on awkward input. */
+export const verifyAgent = (roleId: string, agentId: string) => post<VerifyResult>(`${agentPath(roleId, agentId)}/verify`);
+/** Verifies again on the server, then saves a copy under Custom Agents with this name. */
+export const saveVerified = (roleId: string, agentId: string, name: string) =>
+  post<VerifiedAgent>(`${agentPath(roleId, agentId)}/save-verified`, { name });
+
 export const getSecrets = () => get<SecretsState>("/api/secrets");
 export const getSecretModels = (provider: string) => get<ModelCatalog>(`/api/secrets/${provider}/models`);
 /** Saves a key, a model or an effort. A field left out is left alone; an empty key removes the key. */

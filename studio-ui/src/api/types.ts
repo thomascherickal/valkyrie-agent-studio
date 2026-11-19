@@ -127,6 +127,10 @@ export interface SavedAgent {
   name: string;
   description: string;
   tool: string;
+  /** What the agent reads and returns. Agents made from English use task_input and result, so these may be absent. */
+  input_key?: string;
+  output_key?: string;
+  sample?: string;
 }
 
 export interface GeneratedBundle {
@@ -163,3 +167,4 @@ export interface Trace {
 }
 
 export type * from "./secretTypes";
+export type * from "./verifyTypes";

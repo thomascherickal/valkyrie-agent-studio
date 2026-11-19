@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 from valkyrie import tracing
 from valkyrie.agent_generator import generate_agent_from_english, write_generated_agent
-from valkyrie.ir_schema import load_ir_from_yaml
+from valkyrie.agent_impls import CUSTOM_ROLE_ID, load_spec
 from valkyrie.storage import custom_agents_dir, delete_custom_agent, drop_custom_edits
 
 router = APIRouter(prefix="/api/agents", tags=["agent-generator"])
@@ -39,11 +39,12 @@ def create_agent_from_prompt(req: CreateFromPromptRequest) -> dict[str, object]:
 
 @router.get("/custom")
 def list_custom_agents() -> dict[str, list[dict[str, str]]]:
-    """List the agents saved by create-from-prompt, so the GUI can restore them after a restart."""
+    """List the saved custom agents (created from English, or saved copies), so the GUI can restore them after a restart."""
     agents: list[dict[str, str]] = []
     for ir_file in sorted(custom_agents_dir().glob("*/agent.ir.yaml")):
-        ir = load_ir_from_yaml(ir_file.read_text())
-        agents.append({"id": ir.id, "name": ir.name, "description": ir.description, "tool": ir.tools[0].name})
+        spec = load_spec(CUSTOM_ROLE_ID, ir_file.parent.name)
+        agents.append({"id": spec.agent_id, "name": spec.name, "description": spec.description, "tool": spec.tool,
+                       "input_key": spec.input_key, "output_key": spec.output_key, "sample": spec.sample})
     return {"agents": agents}
 
 

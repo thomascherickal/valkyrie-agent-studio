@@ -75,10 +75,13 @@ export const findAgent = (roles: RoleCatalog[], roleId: string, agentId: string)
 };
 
 export const customBlueprint = (a: SavedAgent): AgentBlueprint => ({
-  ...a,
-  inputKey: "task_input",
-  outputKey: "result",
-  sampleInput: a.description,
+  id: a.id,
+  name: a.name,
+  description: a.description,
+  tool: a.tool,
+  inputKey: a.input_key ?? "task_input",
+  outputKey: a.output_key ?? "result",
+  sampleInput: a.sample ?? a.description,
 });
 
 /** Puts agents saved by the API back into the "Custom Agents" role. */

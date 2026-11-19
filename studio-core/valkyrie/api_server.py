@@ -18,6 +18,7 @@ from valkyrie.provider_routes import router as provider_router
 from valkyrie.run_routes import router as run_router
 from valkyrie.secrets_routes import router as secrets_router
 from valkyrie.storage import agents_dir
+from valkyrie.verify_routes import router as verify_router
 from valkyrie.trace_routes import router as trace_router
 from valkyrie.rust_transpiler import transpile_ir_to_rust
 
@@ -41,6 +42,7 @@ app.include_router(command_centre_router)
 app.include_router(stream_router)
 app.include_router(provider_router)
 app.include_router(secrets_router)
+app.include_router(verify_router)
 app.include_router(run_router)
 app.include_router(trace_router)
 app.include_router(agent_generator_router)

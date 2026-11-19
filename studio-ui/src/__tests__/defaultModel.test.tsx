@@ -17,6 +17,7 @@ describe("default model requirement", () => {
     fireEvent.click(screen.getByRole("button", { name: "Run agent" }));
     await screen.findByText("Eval passed");
     fireEvent.click(screen.getByRole("button", { name: "Deploy to Rust" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Continue and deploy to Rust" })); // verification comes first
     await screen.findByText(/Deployed to Rust/);
     const bodies = f.mock.calls.map((c) => c[1]?.body).filter((b): b is string => typeof b === "string" && b.includes("ir_yaml"));
     expect(bodies.length).toBeGreaterThanOrEqual(2);

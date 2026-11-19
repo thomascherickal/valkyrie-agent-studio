@@ -56,6 +56,9 @@ One card each for **Gemini**, **OpenRouter** and **OpenCode**, plus a **Default 
 - **Test Key:** sends one real request with the key you typed (or the saved one). A green **Test Succeeded**, or a red **Test Failed** with the provider's message and the likely causes listed underneath: an invalid or revoked key, no credits, model access disabled, the model slug not found, a rate or free-usage limit, an outage, or no network.
 - Your model and effort choices are used first by the fallback chain and by the Hybrid `model()` helper.
 
+### Deploy to Rust, with a check first
+Click **Deploy to Rust** and the studio first verifies the agent: every Python version must compile, avoid blocked code and run without errors on six kinds of input (the sample, no data, blank fields, very long text, unicode, and text where numbers belong). Any problem blocks the deploy and is listed with the version, the input and the line. If everything passes you see a warning (the Rust crate is built from the agent's definition, not from your Python) and can continue, or choose **Save verified agent…** to keep a verified copy, with your edits, under Custom Agents.
+
 ### See every step
 The right-hand **Command Centre** has a **Trace log**: every step of every run, live (the request, the key check, the prompt, each provider attempt and its error, the code that ran, each stage, the checks). Click a step to open its full detail. The same steps are written to `logs/trace.jsonl`. Keys are never recorded.
 
