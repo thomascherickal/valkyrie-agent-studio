@@ -10,18 +10,18 @@
 | `agents/` (12 Roles × 20) | 240 focused Python + 240 Rust crates; 240 playbooks; all 720 generated Python versions run in the sandbox with only their example data; the UI catalog and `agents/` folders are checked against each other | 100% populated & verified | Green |
 
 ## Source Files & Line Counts by Language
-*(Excludes generated dependencies/artifacts ignored by `.gitignore`, `package-lock.json`, and `Cargo.lock`.)*
+*(Excludes generated dependencies/artifacts ignored by `.gitignore`, `package-lock.json`, and `Cargo.lock`. Reproduce with `python3 scripts/count_loc.py`, which counts tracked and untracked files by extension.)*
 
 | Language | Source Files | Total Lines |
 | :--- | ---: | ---: |
-| Python | 592 | 15,651 |
+| Python | 593 | 15,685 |
+| Markdown | 307 | 11,273 |
 | TypeScript (`.ts`/`.tsx`) | 86 | 6,313 |
 | Rust | 248 | 5,769 |
 | YAML | 241 | 5,301 |
-| Markdown | 266 | 4,313 |
+| JSON | 246 | 1,272 |
 | TOML | 245 | 1,062 |
-| JSON | 245 | 811 |
 | CSS | 6 | 627 |
 | SVG | 240 | 242 |
 | HTML | 1 | 20 |
-| **Total** | **2,170** | **40,109** |
+| **Total** | **2,213** | **47,564** |
