@@ -82,10 +82,8 @@ def test_catalog_and_websocket_traces() -> None:
     assert len(roles) == 12
     assert sum(len(r["agents"]) for r in roles) == 120
 
-    with client.websocket_connect("/ws/traces") as ws:
-        data = ws.receive_json()
-        assert data["agent_id"] == "01-prd-architect"
-        assert data["state"] == "running"
+    with client.websocket_connect("/ws/traces") as ws:  # the live stream: see tests/test_streams.py
+        assert "traces" in ws.receive_json()
 
 
 def test_cors_allows_gui_origins() -> None:

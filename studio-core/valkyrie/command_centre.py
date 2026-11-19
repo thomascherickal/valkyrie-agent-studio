@@ -18,7 +18,7 @@ class AgentTrace:
 
 
 class CommandCentre:
-    """Centralized lifecycle, monitoring, and admin controller for all 120 agents."""
+    """Centralized lifecycle, monitoring, and admin controller for every agent."""
 
     def __init__(self) -> None:
         self._agents: dict[str, AgentTrace] = {}

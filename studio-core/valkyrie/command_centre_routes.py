@@ -1,24 +1,27 @@
-"""FastAPI router exposing Command Centre start, stop, traces, and admin endpoints."""
+"""FastAPI router exposing Command Centre start, stop, traces, and admin endpoints, and the live trace stream."""
 
 from __future__ import annotations
 
-from fastapi import APIRouter
+import asyncio
+
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from valkyrie.command_centre import CommandCentre
 
 router = APIRouter(prefix="/api/command-centre", tags=["command-centre"])
+stream_router = APIRouter(tags=["command-centre"])
 _centre = CommandCentre()
+STREAM_CHECK_S = 0.25
+
+
+def _snapshot() -> list[dict[str, object]]:
+    return [{"agent_id": t.agent_id, "state": t.state, "steps": list(t.steps)} for t in _centre.list_traces()]
 
 
 @router.get("/traces")
 def get_traces() -> dict[str, list[dict[str, object]]]:
     """List visual traces for all managed agents."""
-    return {
-        "traces": [
-            {"agent_id": t.agent_id, "state": t.state, "steps": t.steps}
-            for t in _centre.list_traces()
-        ]
-    }
+    return {"traces": _snapshot()}
 
 
 @router.post("/start/{agent_id}")
@@ -40,3 +43,21 @@ def admin_stop_all_route() -> dict[str, int]:
     """Admin action to stop all running agents."""
     return {"stopped": _centre.admin_stop_all()}
 
+
+@stream_router.websocket("/ws/traces")
+async def stream_traces(websocket: WebSocket) -> None:
+    """Send the traces now and again every time they change, until the client leaves."""
+    await websocket.accept()
+    last: list[dict[str, object]] | None = None
+    try:
+        while True:
+            current = _snapshot()
+            if current != last:
+                await websocket.send_json({"traces": current})
+                last = current
+            try:  # waiting for the client also notices when it disconnects
+                await asyncio.wait_for(websocket.receive_text(), STREAM_CHECK_S)
+            except asyncio.TimeoutError:
+                continue
+    except WebSocketDisconnect:
+        return

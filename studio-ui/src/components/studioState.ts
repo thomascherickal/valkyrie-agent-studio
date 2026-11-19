@@ -85,6 +85,10 @@ export const customBlueprint = (a: SavedAgent): AgentBlueprint => ({
 export const restoreCustomAgents = (roles: RoleCatalog[], saved: SavedAgent[]) =>
   saved.reduce((acc, a) => addCustomAgent(acc, customBlueprint(a)), roles);
 
+/** Removes an agent from "Custom Agents", and the role itself when it is empty. */
+export const removeCustomAgent = (roles: RoleCatalog[], id: string) =>
+  roles.map((r) => (r.id === CUSTOM_ROLE.id ? { ...r, agents: r.agents.filter((a) => a.id !== id) } : r)).filter((r) => r.agents.length > 0);
+
 /** Adds (or replaces, by id) an agent in the "Custom Agents" role, creating the role on first use. */
 export function addCustomAgent(roles: RoleCatalog[], agent: AgentBlueprint): RoleCatalog[] {
   const existing = roles.find((r) => r.id === CUSTOM_ROLE.id)?.agents ?? [];

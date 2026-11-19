@@ -4,6 +4,7 @@ import "./styles/tokens.css";
 import "./styles/layout.css";
 import "./styles/controls.css";
 import "./styles/panels.css";
+import "./styles/about-deploy.css";
 import { App } from "./App";
 import { ThemeProvider } from "./theme/ThemeProvider";
 

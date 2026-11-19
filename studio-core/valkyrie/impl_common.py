@@ -102,10 +102,25 @@ def fill(line: str, values: dict[str, str]) -> list[str]:
     return [line]
 
 
+def extract(text: str, field: dict[str, str]) -> str:
+    """Find "Label: value", "label = value" or a "| label | value |" table row in pasted text. Empty if absent."""
+    for name in (field["label"].split(" (")[0], field["key"].replace("_", " "), field["key"]):
+        found = re.search(re.escape(name) + r"\s*[:=|]\s*([^\n;|]+)", text, re.IGNORECASE)
+        if found:
+            value = found.group(1).strip()
+            if field["kind"] != "number":
+                return value
+            number = re.search(r"-?[$]?\d[\d,]*\.?\d*%?", value)
+            if number:
+                return number.group(0)
+    return ""
+
+
 def collect(payload: dict[str, Any]) -> dict[str, str]:
+    """Your data, field by field. A field you left blank is read from the main input when it says "Label: value"."""
     values = {"input": str(payload.get(SPEC["input_key"], "")).strip()}
     for f in SPEC["fields"]:
-        values[f["key"]] = str(payload.get(f["key"], "")).strip()
+        values[f["key"]] = str(payload.get(f["key"], "")).strip() or extract(values["input"], f)
     return values
 
 

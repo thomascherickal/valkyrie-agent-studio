@@ -8,15 +8,16 @@ replace an original.
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 import re
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from valkyrie.agent_impls import REPO, VARIANTS, AgentSpec, explanation, load_spec, playbook_for, render
+from valkyrie.agent_explanation import explanation
+from valkyrie.agent_impls import REPO, VARIANTS, AgentSpec, load_spec, playbook_for, render
 from valkyrie.python_runner import run_custom_python, validate_python_source
+from valkyrie.storage import edits_dir
 
 router = APIRouter(prefix="/api/agents/{role_id}/{agent_id}", tags=["agent-implementations"])
 
@@ -34,11 +35,6 @@ class NewImplementation(CodeBody):
     """A new implementation to save next to the built-in ones."""
 
     name: str = Field(max_length=60)
-
-
-def edits_dir() -> Path:
-    """Where edits and saved implementations go. Set VALKYRIE_EDITS_DIR to move it."""
-    return Path(os.environ.get("VALKYRIE_EDITS_DIR") or REPO / "agent-edits")
 
 
 def _spec(role_id: str, agent_id: str) -> AgentSpec:

@@ -38,17 +38,31 @@ def parse_env(text: str) -> dict[str, str]:
     return pairs
 
 
-def load_env_file(path: Path | None = None) -> list[str]:
-    """Set the file's variables that are not already set. A real environment variable always wins.
+_FROM_FILE: set[str] = set()  # names this module set from the file, so a reload may change them
 
-    Returns the names that were set, never the values.
+
+def load_env_file(path: Path | None = None) -> list[str]:
+    """Set the file's variables. A variable from your real environment always wins and is never changed.
+
+    Calling it again picks up edits: a changed value replaces the one loaded earlier and a blanked or removed
+    one is unset. Returns the names that changed, never the values.
     """
     path = path or env_file_path()
-    if not path.is_file():
-        return []
-    loaded: list[str] = []
-    for key, value in parse_env(path.read_text(encoding="utf-8")).items():
-        if value and key not in os.environ:
+    pairs = parse_env(path.read_text(encoding="utf-8")) if path.is_file() else {}
+    changed: list[str] = []
+    for key in sorted(_FROM_FILE - pairs.keys()):  # removed from the file
+        _FROM_FILE.discard(key)
+        os.environ.pop(key, None)
+        changed.append(key)
+    for key, value in pairs.items():
+        if key in os.environ and key not in _FROM_FILE:
+            continue
+        if value and os.environ.get(key) != value:
             os.environ[key] = value
-            loaded.append(key)
-    return loaded
+            _FROM_FILE.add(key)
+            changed.append(key)
+        elif not value and key in _FROM_FILE:
+            _FROM_FILE.discard(key)
+            os.environ.pop(key, None)
+            changed.append(key)
+    return changed

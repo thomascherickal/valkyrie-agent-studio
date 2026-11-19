@@ -11,19 +11,19 @@ The finished deliverable, optionally written by a model, always checked against 
   4. fallback  until `call_model` returns text, the draft is the answer and `model_used` is False.
   5. review    check the answer keeps every section title and every calculated figure.
 
-The sandbox has no network, so `call_model` returns None here. To use a real model, implement it in your own runtime
-(for example Gemini 4 Hydrogen with thinking level low, key from your .env), keep the prompt, and keep `review` so an
-answer that drops a section or changes a number is caught.
+The sandbox has no network of its own. `model(prompt)` is a helper the studio provides: the API calls your provider
+(Gemini 4 Hydrogen by default, key from your .env) and hands back the text. It returns None when there is no key or the
+call fails, so the draft is used. Keep `review` so an answer that drops a section or changes a number is caught.
 
-TODO(you): implement call_model, tune the prompt in build_prompt, and add your own checks in review.
+TODO(you): tune the prompt in build_prompt, and add your own checks in review.
 """
 '''
 
 BODY = r'''
 
 def call_model(prompt: str) -> str | None:
-    """TODO(you): send `prompt` to your model and return its text. Return None to use the drafted report."""
-    return None
+    """Ask the studio's model helper. None (no key, or the call failed) means: use the drafted report."""
+    return model(prompt)
 
 
 def build_prompt(values: dict[str, str], draft: str) -> str:

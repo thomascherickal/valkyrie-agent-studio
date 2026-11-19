@@ -18,6 +18,7 @@ describe("DeployDialog", () => {
     expect(dialog.open).toBe(true);
     expect(screen.getByText("Deployed to Rust: crate-x")).toBeTruthy();
     expect(screen.getByText("Benchmark: 10x")).toBeTruthy();
+    expect(screen.getByText(/does not include Python you wrote or edited/)).toBeTruthy();
     expect(screen.getByLabelText("main.rs").textContent).toBe("fn main(){}");
     fireEvent.click(screen.getByText("Close"));
     fireEvent(dialog, new Event("cancel"));

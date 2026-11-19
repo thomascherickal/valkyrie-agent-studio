@@ -29,9 +29,12 @@ export function RunPanel({ agent, roleId, ir, draft, onChange, report }: RunPane
   const setField = (i: number, patch: Partial<DataField>) =>
     onChange((d) => ({ fields: d.fields.map((f, j) => (j === i ? { ...f, ...patch } : f)) }));
 
+  // `code` is what is in the editor, to run it without saving. Left out, the saved version runs.
+  const start = (code?: string) =>
+    run(ir, promptOf(fields), payloadOf(fields), usingImpl ? { roleId, agentId: agent.id, impl: runWith, code } : null);
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    run(ir, promptOf(fields), payloadOf(fields), usingImpl ? { roleId, agentId: agent.id, impl: runWith } : null);
+    start();
   };
 
   return (
@@ -79,7 +82,12 @@ export function RunPanel({ agent, roleId, ir, draft, onChange, report }: RunPane
         <button type="submit" className="primary" disabled={state.kind === "loading"}>
           Run agent
         </button>
-        {unsaved && <span className="hint">You have unsaved edits to this version. Run uses the saved one.</span>}
+        {unsaved && (
+          <button type="button" onClick={() => start(draft.texts[runWith])} disabled={state.kind === "loading"}>
+            Run with my unsaved edits
+          </button>
+        )}
+        {unsaved && <span className="hint">You have unsaved edits to this version. Run agent uses the saved one.</span>}
       </div>
       <AsyncNotice state={state} working="Running…" />
       {state.kind === "done" && <RunReadout result={state.data} />}

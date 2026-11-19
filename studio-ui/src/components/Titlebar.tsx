@@ -11,6 +11,9 @@ interface TitlebarProps {
   mode: ExperienceMode;
   onMode: (mode: ExperienceMode) => void;
   onDeploy: () => void;
+  /** True once the studio stopped retrying the API. Shows a button that starts over. */
+  gaveUp?: boolean;
+  onRetry?: () => void;
 }
 
 function statusText(health: AsyncState<Health>) {
@@ -19,13 +22,18 @@ function statusText(health: AsyncState<Health>) {
   return "Connecting to API…";
 }
 
-export function Titlebar({ health, theme, onTheme, mode, onMode, onDeploy }: TitlebarProps) {
+export function Titlebar({ health, theme, onTheme, mode, onMode, onDeploy, gaveUp, onRetry }: TitlebarProps) {
   return (
     <header className="titlebar">
       <h1>Valkyrie Studio</h1>
       <p className="api-status" data-state={health.kind} role="status">
         {statusText(health)}
       </p>
+      {gaveUp && (
+        <button type="button" onClick={onRetry}>
+          Retry connection
+        </button>
+      )}
       <label>
         Experience
         <select aria-label="Experience Mode" value={mode} onChange={(e) => onMode(e.target.value as ExperienceMode)}>
