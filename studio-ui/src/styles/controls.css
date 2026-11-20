@@ -17,6 +17,7 @@ textarea,
 button {
   font: inherit;
   color: inherit;
+  color-scheme: inherit;
 }
 
 input,
@@ -26,6 +27,17 @@ textarea {
   background: var(--bg);
   border: 1px solid var(--line);
   border-radius: var(--radius);
+}
+
+select {
+  background-color: var(--surface);
+  color: var(--ink);
+}
+
+select option,
+select optgroup {
+  background-color: var(--surface);
+  color: var(--ink);
 }
 
 textarea {

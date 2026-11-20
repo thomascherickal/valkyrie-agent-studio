@@ -1,5 +1,6 @@
 /* Palette: basalt and bone with one blue accent. The theme follows <meta name="color-scheme">. */
 :root {
+  color-scheme: light dark;
   /* Fallbacks for engines without light-dark(): the light palette. */
   --bg: #f2f4f5;
   --surface: #ffffff;
@@ -16,6 +17,15 @@
   --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
   --radius: 6px;
   --gap: 1rem;
+  accent-color: var(--accent);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 @supports (color: light-dark(#000, #fff)) {

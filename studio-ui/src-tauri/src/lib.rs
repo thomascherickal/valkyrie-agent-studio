@@ -35,6 +35,68 @@ pub mod commands {
         let agent = MockGeminiAgent::new(&agent_id);
         agent.execute(&prompt)
     }
+
+    /// Synchronize native window and GTK widget theme (including `<select>` popups on Linux)
+    /// with the Studio's selected theme mode (`"light"`, `"dark"`, or `"system"`).
+    #[tauri::command]
+    pub fn set_window_theme(window: tauri::WebviewWindow, mode: String) {
+        let theme = match mode.as_str() {
+            "light" => Some(tauri::Theme::Light),
+            "dark" => Some(tauri::Theme::Dark),
+            _ => None,
+        };
+        let _ = window.set_theme(theme);
+
+        #[cfg(target_os = "linux")]
+        {
+            use gtk::prelude::*;
+            let mode_clone = mode.clone();
+            let _ = window.run_on_main_thread(move || {
+                if let Some(settings) = gtk::Settings::default() {
+                    let current = settings
+                        .gtk_theme_name()
+                        .map(|s| s.to_string())
+                        .unwrap_or_default();
+                    match mode_clone.as_str() {
+                        "light" => {
+                            settings.set_gtk_application_prefer_dark_theme(false);
+                            let light_theme = if let Some(base) = current.strip_suffix("-Dark") {
+                                format!("{base}-Light")
+                            } else if let Some(base) = current.strip_suffix("-dark") {
+                                base.to_string()
+                            } else {
+                                current.clone()
+                            };
+                            if !light_theme.is_empty() && light_theme != current {
+                                settings.set_gtk_theme_name(Some(&light_theme));
+                            }
+                        }
+                        "dark" => {
+                            settings.set_gtk_application_prefer_dark_theme(true);
+                            let dark_theme = if let Some(base) = current.strip_suffix("-Light") {
+                                format!("{base}-Dark")
+                            } else if !current.is_empty()
+                                && !current.ends_with("-Dark")
+                                && !current.ends_with("-dark")
+                                && std::path::Path::new(&format!("/usr/share/themes/{current}-dark")).exists()
+                            {
+                                format!("{current}-dark")
+                            } else {
+                                current.clone()
+                            };
+                            if !dark_theme.is_empty() && dark_theme != current {
+                                settings.set_gtk_theme_name(Some(&dark_theme));
+                            }
+                        }
+                        _ => {
+                            settings.reset_property("gtk-application-prefer-dark-theme");
+                            settings.reset_property("gtk-theme-name");
+                        }
+                    }
+                }
+            });
+        }
+    }
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -45,7 +107,8 @@ pub fn run() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             commands::get_runtime_info,
-            commands::run_rust_agent
+            commands::run_rust_agent,
+            commands::set_window_theme
         ])
         .build(tauri::generate_context!())
         .expect("error while building Valkyrie Tauri desktop shell")

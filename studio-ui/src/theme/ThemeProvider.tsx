@@ -15,10 +15,17 @@ function applyColorSchemeMeta(mode: ThemeMode) {
   if (meta) {
     meta.setAttribute("content", content);
   }
+  document.documentElement.style.colorScheme = content;
   if (mode === "system") {
+    document.documentElement.removeAttribute("data-theme");
     localStorage.removeItem("color-scheme");
   } else {
+    document.documentElement.setAttribute("data-theme", mode);
     localStorage.setItem("color-scheme", mode);
+  }
+  const tauri = (window as unknown as { __TAURI_INTERNALS__?: { invoke?: (cmd: string, args?: Record<string, unknown>) => Promise<unknown> } }).__TAURI_INTERNALS__;
+  if (tauri?.invoke) {
+    tauri.invoke("set_window_theme", { mode }).catch(() => {});
   }
 }
 
