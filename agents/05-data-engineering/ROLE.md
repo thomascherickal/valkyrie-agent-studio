@@ -1,6 +1,6 @@
 # Data Engineering
 
-Data Engineering suite of 20 focused autonomous agents in Valkyrie AI Agent Studio.
+Data Engineering suite of 20 focused autonomous agents in Valkyrie Agent Studio.
 
 ## Engine Policy
 - **Default:** `gemini-4-hydrogen` (`thinking_level: low`, `high` optional per agent)

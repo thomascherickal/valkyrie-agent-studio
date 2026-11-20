@@ -6,8 +6,8 @@ import type { Health } from "../api/types";
 import { health } from "./helpers";
 
 const setup = (state: AsyncState<Health>) => {
-  const p = { onTheme: vi.fn(), onMode: vi.fn(), onDeploy: vi.fn() };
-  render(<Titlebar health={state} theme="system" mode="beginner" {...p} />);
+  const p = { onTheme: vi.fn(), onDeploy: vi.fn() };
+  render(<Titlebar health={state} theme="system" {...p} />);
   return p;
 };
 
@@ -21,12 +21,11 @@ describe("Titlebar", () => {
     setup(state);
     expect(screen.getByRole("status").textContent).toBe(text);
   });
-  it("fires callbacks", () => {
+  it("fires callbacks and omits Experience Mode selector", () => {
     const p = setup({ kind: "idle" });
-    fireEvent.change(screen.getByLabelText("Experience Mode"), { target: { value: "advanced" } });
+    expect(screen.queryByLabelText("Experience Mode")).toBeNull();
     fireEvent.change(screen.getByLabelText("Theme Mode"), { target: { value: "dark" } });
     fireEvent.click(screen.getByText("Deploy to Rust"));
-    expect(p.onMode).toHaveBeenCalledWith("advanced");
     expect(p.onTheme).toHaveBeenCalledWith("dark");
     expect(p.onDeploy).toHaveBeenCalled();
   });

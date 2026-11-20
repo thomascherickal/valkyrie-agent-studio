@@ -1,6 +1,6 @@
 # Valkyrie Architecture
 
-Valkyrie AI Agent Studio is organized as a modular monorepo where every source and test file stays under 200 lines.
+Valkyrie Agent Studio is organized as a modular monorepo where every source and test file stays under 200 lines.
 
 ## Layers
 1. **Standalone Tauri Rust Desktop Shell (`studio-ui/`):**

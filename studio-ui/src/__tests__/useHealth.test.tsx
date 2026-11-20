@@ -11,7 +11,7 @@ afterEach(() => {
 
 function Probe() {
   const { state, gaveUp, retry } = useHealth();
-  return <Titlebar health={state} theme="system" onTheme={() => {}} mode="beginner" onMode={() => {}} onDeploy={() => {}} gaveUp={gaveUp} onRetry={retry} />;
+  return <Titlebar health={state} theme="system" onTheme={() => {}} onDeploy={() => {}} gaveUp={gaveUp} onRetry={retry} />;
 }
 
 describe("health retry", () => {

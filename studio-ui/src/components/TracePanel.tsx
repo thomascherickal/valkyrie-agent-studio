@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { listTraces, startAgent, stopAgent, stopAll } from "../api/client";
 import type { Problem } from "../api/types";
 import { useAsync } from "../hooks/useAsync";
 import { useTraceStream } from "../hooks/useTraceStream";
 import { AsyncNotice } from "./AsyncNotice";
 import { TraceLog } from "./TraceLog";
+
+export const COST_TICK_MS = 1000;
+export const COST_PER_AGENT_SEC = 0.00012;
 
 // Module scope keeps the function identity stable, so useAsync's `run` does not change between renders.
 const refresh = async (action?: () => Promise<unknown>) => {
@@ -25,13 +28,29 @@ export function TracePanel({ agentId, online, problems, onClearProblems }: Trace
   const { state, run } = useAsync(refresh);
   const live = useTraceStream(online);
   const traces = live ?? (state.kind === "done" ? state.data : null);
+  const runningCount = (traces ?? []).filter((t) => t.state === "running").length;
+  const [costUsd, setCostUsd] = useState(0);
+
   useEffect(() => {
     run();
   }, [run, online]);
 
+  useEffect(() => {
+    if (runningCount === 0) return;
+    const id = setInterval(() => {
+      setCostUsd((prev) => prev + runningCount * COST_PER_AGENT_SEC);
+    }, COST_TICK_MS);
+    return () => clearInterval(id);
+  }, [runningCount]);
+
   return (
     <aside className="traces" aria-label="Command Centre">
       <h2>Command Centre</h2>
+      <section aria-label="Compute Cost" className="cost-estimate">
+        <strong>Compute Cost</strong>{" "}
+        <output aria-label="Compute Cost Estimate">${costUsd.toFixed(6)}</output>{" "}
+        <span className="steps">{runningCount > 0 ? `${runningCount} running · live` : "0 running"}</span>
+      </section>
       <div className="actions">
         <button type="button" onClick={() => run(() => startAgent(agentId))}>Start agent</button>
         <button type="button" onClick={() => run(() => stopAgent(agentId))}>Stop agent</button>

@@ -1,4 +1,4 @@
-"""FastAPI server powering the Valkyrie AI Agent Studio GUI."""
+"""FastAPI server powering the Valkyrie Agent Studio GUI."""
 
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ async def lifespan(_: FastAPI) -> AsyncGenerator[None]:
     yield
 
 
-app = FastAPI(title="Valkyrie AI Agent Studio API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="Valkyrie Agent Studio API", version="0.1.0", lifespan=lifespan)
 # Origins of the Vite dev server and the Tauri webview (Linux/macOS and Windows).
 app.add_middleware(
     CORSMiddleware,

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "valkyrie-studio-core"
 version = "0.1.0"
-description = "Valkyrie AI Agent Studio Backend, IR Compiler & Rust Deployment Transpiler"
+description = "Valkyrie Agent Studio Backend, IR Compiler & Rust Deployment Transpiler"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.115.0",

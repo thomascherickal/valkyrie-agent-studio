@@ -17,8 +17,8 @@
 - **Native Modal (`RustDeployModal.tsx`):**
   - Uses native `<dialog>` controlled via `showModal()` and `close()`, with `overscroll-behavior: contain` on `dialog:modal` and `dialog::backdrop`.
 
-## Experience Modes
-- **Beginner Mode:** Visual Agent Builder, 240-Agent Role Tree, Focused Tool & Demo Preview, Subscription Switcher, and Sandbox Console.
+## Studio Tabs
+All tabs are available by default (`Run`, `About this agent`, `Create agent`, `Design`, `Python`, and `Secrets`) without a mode selector.
 - **Advanced Mode:** Unlocks the **Design** and **Python** tabs (bespoke `run_agent(payload)` logic) and adds the **Secrets** tab: a masked key field, model and effort drop downs and a Test Key button for Gemini, OpenRouter and OpenCode, the default provider, the fallback order, and Reload .env.
 
 ## Deploy to Rust

@@ -2,14 +2,11 @@ import React from "react";
 import type { Health } from "../api/types";
 import type { AsyncState } from "../hooks/useAsync";
 import type { ThemeMode } from "../theme/ThemeProvider";
-import type { ExperienceMode } from "./modes";
 
 interface TitlebarProps {
   health: AsyncState<Health>;
   theme: ThemeMode;
   onTheme: (mode: ThemeMode) => void;
-  mode: ExperienceMode;
-  onMode: (mode: ExperienceMode) => void;
   onDeploy: () => void;
   /** True once the studio stopped retrying the API. Shows a button that starts over. */
   gaveUp?: boolean;
@@ -22,7 +19,7 @@ function statusText(health: AsyncState<Health>) {
   return "Connecting to API…";
 }
 
-export function Titlebar({ health, theme, onTheme, mode, onMode, onDeploy, gaveUp, onRetry }: TitlebarProps) {
+export function Titlebar({ health, theme, onTheme, onDeploy, gaveUp, onRetry }: TitlebarProps) {
   return (
     <header className="titlebar">
       <h1>Valkyrie Studio</h1>
@@ -34,13 +31,6 @@ export function Titlebar({ health, theme, onTheme, mode, onMode, onDeploy, gaveU
           Retry connection
         </button>
       )}
-      <label>
-        Experience
-        <select aria-label="Experience Mode" value={mode} onChange={(e) => onMode(e.target.value as ExperienceMode)}>
-          <option value="beginner">Beginner</option>
-          <option value="advanced">Advanced</option>
-        </select>
-      </label>
       <label>
         Theme
         <select aria-label="Theme Mode" value={theme} onChange={(e) => onTheme(e.target.value as ThemeMode)}>

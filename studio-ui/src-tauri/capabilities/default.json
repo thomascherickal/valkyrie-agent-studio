@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Default capability for Valkyrie AI Agent Studio desktop window",
+  "description": "Default capability for Valkyrie Agent Studio desktop window",
   "windows": ["main"],
   "permissions": ["core:default"]
 }

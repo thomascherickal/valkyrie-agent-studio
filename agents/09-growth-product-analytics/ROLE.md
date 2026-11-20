@@ -1,6 +1,6 @@
 # Growth & Product Analytics
 
-Growth & Product Analytics suite of 20 focused autonomous agents in Valkyrie AI Agent Studio.
+Growth & Product Analytics suite of 20 focused autonomous agents in Valkyrie Agent Studio.
 
 ## Engine Policy
 - **Default:** `gemini-4-hydrogen` (`thinking_level: low`, `high` optional per agent)

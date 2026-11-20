@@ -1,6 +1,6 @@
 # Quick Start Guide (Beginners)
 
-Welcome to **Valkyrie AI Agent Studio**! Follow these steps to build, test, and run the standalone desktop GUI and backend locally.
+Welcome to **Valkyrie Agent Studio**! Follow these steps to build, test, and run the standalone desktop GUI and backend locally.
 
 ## 1. Prerequisites
 - **Python 3.12+** (with virtual environment in `studio-core/.venv`)

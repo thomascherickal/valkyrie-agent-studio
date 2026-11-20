@@ -15,10 +15,9 @@ const tab = (name: string) => fireEvent.click(screen.getByText(name, { selector:
 const edit = (v: string) => fireEvent.change(source(), { target: { value: v } });
 const runWith = () => screen.getByLabelText("Run with") as HTMLSelectElement;
 
-function mount(routes: typeof appRoutes = appRoutes, level = "advanced") {
+function mount(routes: typeof appRoutes = appRoutes) {
   const f = stubFetch(routes);
   render(<ThemeProvider><App /></ThemeProvider>);
-  fireEvent.change(screen.getByLabelText("Experience Mode"), { target: { value: level } });
   return f;
 }
 
@@ -89,7 +88,7 @@ describe("App running with an implementation", () => {
 
 describe("App About tab", () => {
   it("shows the explanation for the agent, and reloads for another", async () => {
-    const f = mount(appRoutes, "beginner");
+    const f = mount(appRoutes);
     tab("About this agent");
     expect(await screen.findByRole("heading", { name: "What it does" })).toBeTruthy();
     expect(screen.getByText("Lists risks")).toBeTruthy();

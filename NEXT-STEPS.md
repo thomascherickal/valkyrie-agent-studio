@@ -1,4 +1,4 @@
-# Next Steps for Valkyrie AI Agent Studio
+# Next Steps for Valkyrie Agent Studio
 
 Keep this file current. Tick what is done, add what you find, then pick up the next open step that does not need the user (see "Autonomous Delivery" in `CLAUDE.md`).
 

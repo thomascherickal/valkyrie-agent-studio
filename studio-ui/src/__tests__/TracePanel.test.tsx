@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Problem } from "../api/types";
-import { TracePanel } from "../components/TracePanel";
+import { COST_TICK_MS, TracePanel } from "../components/TracePanel";
 import { fail, ok, silentSocket, stubTraces } from "./helpers";
 
 beforeEach(silentSocket);
@@ -44,6 +44,19 @@ describe("TracePanel", () => {
     stubTraces(() => fail(500));
     render(<TracePanel {...props} online />);
     await screen.findByRole("alert");
+  });
+  it("initializes compute cost to zero and updates live while an agent is running", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      stubTraces(() => ok({ traces: [{ agent_id: "ag", state: "running", steps: ["x"] }] }));
+      render(<TracePanel {...props} online />);
+      expect(screen.getByLabelText("Compute Cost Estimate").textContent).toBe("$0.000000");
+      await screen.findByText("1 running · live");
+      await vi.advanceTimersByTimeAsync(COST_TICK_MS * 2 + 50);
+      expect(screen.getByLabelText("Compute Cost Estimate").textContent).toBe("$0.000240");
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
 

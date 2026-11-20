@@ -9,7 +9,7 @@ import { CreatePanel } from "./components/CreatePanel";
 import { DeployDialog } from "./components/DeployDialog";
 import { DesignPanel } from "./components/DesignPanel";
 import { SecretsPanel } from "./components/SecretsPanel";
-import { MODE_TABS, type ExperienceMode, type TabId } from "./components/modes";
+import { ALL_TABS, type TabId } from "./components/modes";
 import { RunPanel } from "./components/RunPanel";
 import { addCustomAgent, customBlueprint, draftFor, findAgent, MODEL, removeCustomAgent, restoreCustomAgents, type Draft, type Patch } from "./components/studioState";
 import { Tabs } from "./components/Tabs";
@@ -22,14 +22,11 @@ import { useHealth } from "./hooks/useHealth";
 import type { Report } from "./hooks/useReported";
 import { useTheme } from "./theme/ThemeProvider";
 
-export type { ExperienceMode } from "./components/modes";
-
 export { HEALTH_RETRY_MS } from "./hooks/useHealth";
 
 export function App() {
   const { theme, setThemeMode } = useTheme();
   const [roles, setRoles] = useState(AGENT_CATALOG);
-  const [mode, setMode] = useState<ExperienceMode>("beginner");
   const [tab, setTab] = useState<TabId>("run");
   const [selection, setSelection] = useState({ roleId: AGENT_CATALOG[0].id, agentId: AGENT_CATALOG[0].agents[0].id });
   const { role, agent } = findAgent(roles, selection.roleId, selection.agentId);
@@ -46,8 +43,6 @@ export function App() {
     if (online) saved.run().then((res) => res && setRoles((prev) => restoreCustomAgents(prev, res.agents)));
   }, [online, saved.run]);
 
-  const tabs = MODE_TABS[mode];
-  const active = tabs.includes(tab) ? tab : "run";
   const patchDraft = (patch: Patch) => setDraft((prev) => ({ ...prev, ...(typeof patch === "function" ? patch(prev) : patch) }));
 
   // Errors from checking, saving and running show in the trace pane. Newest first, at most 50.
@@ -97,23 +92,21 @@ export function App() {
         onRetry={health.retry}
         theme={theme}
         onTheme={setThemeMode}
-        mode={mode}
-        onMode={setMode}
         onDeploy={() => setVerifying(true)}
       />
       <AgentBrowser roles={roles} selectedAgentId={agent.id} onSelect={select} />
       <main className="workspace">
         <AgentSummary roleName={role.name} agent={agent} onDelete={selection.roleId === "custom-agents" ? onDelete : undefined} />
-        <Tabs tabs={tabs} active={active} onChange={setTab} />
-        <div role="tabpanel" id="panel" aria-labelledby={`tab-${active}`} className="panel">
-          {active === "run" && (
+        <Tabs tabs={ALL_TABS} active={tab} onChange={setTab} />
+        <div role="tabpanel" id="panel" aria-labelledby={`tab-${tab}`} className="panel">
+          {tab === "run" && (
             <RunPanel key={agent.id} agent={agent} roleId={selection.roleId} ir={ir} draft={draft} onChange={patchDraft} report={report} />
           )}
-          {active === "about" && <AboutPanel key={agent.id} roleId={selection.roleId} agentId={agent.id} />}
-          {active === "secrets" && <SecretsPanel />}
-          {active === "create" && <CreatePanel onCreated={onCreated} />}
-          {active === "design" && <DesignPanel draft={draft} onChange={patchDraft} />}
-          {active === "code" && (
+          {tab === "about" && <AboutPanel key={agent.id} roleId={selection.roleId} agentId={agent.id} />}
+          {tab === "secrets" && <SecretsPanel />}
+          {tab === "create" && <CreatePanel onCreated={onCreated} />}
+          {tab === "design" && <DesignPanel draft={draft} onChange={patchDraft} />}
+          {tab === "code" && (
             <CodePanel
               key={agent.id}
               roleId={selection.roleId}

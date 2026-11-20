@@ -2,7 +2,7 @@
 name = "valkyrie-studio-tauri"
 version = "0.2.0"
 edition = "2021"
-description = "Valkyrie AI Agent Studio — Tauri Rust Desktop Shell"
+description = "Valkyrie Agent Studio — Tauri Rust Desktop Shell"
 
 [lib]
 name = "valkyrie_studio_tauri_lib"

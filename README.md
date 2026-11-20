@@ -1,6 +1,6 @@
-<p align="center"><img src="assets/valkyrie-studio-icon.png" alt="Valkyrie AI Agent Studio icon" width="120" /></p>
+<p align="center"><img src="assets/valkyrie-studio-icon.png" alt="Valkyrie Agent Studio icon" width="120" /></p>
 
-# Valkyrie AI Agent Studio
+# Valkyrie Agent Studio
 
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 ![Agents](https://img.shields.io/badge/agents-240-blue)
@@ -16,10 +16,10 @@
 ![Optimization](https://img.shields.io/badge/Optimization-pymoo%20GA-f59e0b)
 ![TDD](https://img.shields.io/badge/TDD-100%25%20Enforced-success)
 
-**Valkyrie AI Agent Studio** is a standalone desktop platform (**Tauri Rust Shell + TypeScript + React + FastAPI + Cargo Workspace**) for designing, testing, optimizing, and compiling autonomous AI agents across **12 core tech company roles** (**20 focused agents per role, 240 agents total**).
+**Valkyrie Agent Studio** is a standalone desktop platform (**Tauri Rust Shell + TypeScript + React + FastAPI + Cargo Workspace**) for designing, testing, optimizing, and compiling autonomous AI agents across **12 core tech company roles** (**20 focused agents per role, 240 agents total**).
 
 ## Key Capabilities
-- **Standalone Tauri Rust Desktop GUI (`studio-ui/src-tauri/` + `studio-ui/src/`):** Native Rust Tauri v2 shell (`get_runtime_info`, `run_rust_agent` calling `valkyrie-rust-runtime`) paired with a modern CSS Grid + Container Query + `light-dark()` TypeScript UI supporting **System / Light / Dark** themes and **Beginner / Advanced** experience modes.
+- **Standalone Tauri Rust Desktop GUI (`studio-ui/src-tauri/` + `studio-ui/src/`):** Native Rust Tauri v2 shell (`get_runtime_info`, `run_rust_agent` calling `valkyrie-rust-runtime`) paired with a modern CSS Grid + Container Query + `light-dark()` TypeScript UI supporting **System / Light / Dark** themes and full studio tabs (`Run`, `About`, `Create`, `Design`, `Python`, `Secrets`).
 - **240 Focused Agents (`agents/` & `studio-ui/src/data/roles/`):** Every agent has a dedicated tool, typed input/output contract (`agent.ir.yaml`), deterministic Python handler (`agent.py`), `sample_data.json`, visual `demo.svg` preview, `AGENT.md`, `test_agent.py`, and standalone Rust crate (`rust/`).
 - **Free-First LLM Routing (`studio-core/valkyrie/subscription_manager.py`):** Defaults to `gemini-4-hydrogen` (`thinking_level: "low"`), prioritizes free providers (`gemini_free`, `opencode_free`, `openrouter_free`, local `ollama` `qwen3.5:latest`), and falls back to subscriptions with explicit user notification on rate limits.
 - **Local Metaheuristic Optimization (`studio-core/valkyrie/metaheuristic_optimizer.py`):** Runs a `pymoo` Genetic Algorithm (`GA`) locally every 3rd agent run to tune `temperature` and `max_tokens_scale`.

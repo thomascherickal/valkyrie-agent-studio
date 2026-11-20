@@ -68,11 +68,9 @@ describe("deleting a created agent in the app", () => {
     await screen.findByText("No custom agent gen-1");
     expect(screen.getByRole("heading", { name: "Gen Agent" })).toBeTruthy();
   });
-  it("shows the Secrets tab only at Advanced", () => {
+  it("shows the Secrets tab directly", () => {
     stubFetch(appRoutes);
     mount();
-    expect(screen.queryByRole("tab", { name: "Secrets" })).toBeNull();
-    fireEvent.change(screen.getByLabelText("Experience Mode"), { target: { value: "advanced" } });
     fireEvent.click(screen.getByRole("tab", { name: "Secrets" }));
     expect(screen.getByRole("button", { name: "Reload .env" })).toBeTruthy();
   });

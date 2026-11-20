@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Valkyrie AI Agent Studio",
+  "productName": "Valkyrie Agent Studio",
   "version": "0.2.0",
   "identifier": "ai.valkyrie.studio",
   "build": {
@@ -10,7 +10,7 @@
   "app": {
     "windows": [
       {
-        "title": "Valkyrie AI Agent Studio",
+        "title": "Valkyrie Agent Studio",
         "width": 1440,
         "height": 920,
         "minWidth": 1024,
